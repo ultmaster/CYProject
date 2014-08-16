@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">成语接龙</string>
+    <string name="standard_mode_name">成语接龙——标准模式</string>
+    <string name="query_mode_name">成语接龙——查询词典</string>
+    <string name="challenge_mode_name">成语接龙——挑战模式</string>
+    <string name="high_record_name">成语接龙——高分记录</string>
+    <string name="personal_settings_name">成语接龙——个性设置</string>
+    <string name="help_activity_name">成语接龙——请求帮助</string>
+    <string name="about_us_name">成语接龙——关于我们</string>
+    <string name="developer_info">UlTech © 2014 China</string>
+    <string name="contact_info">scottyugochang@hotmail.com</string>
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
+
+    <string-array name="time_or_life_entires">
+        <item>时间优先</item>
+        <item>生命值优先</item>
+    </string-array>
+    <string-array name="time_or_life_value_entires">
+        <item>time</item>
+        <item>life</item>
+    </string-array>
+
+</resources>

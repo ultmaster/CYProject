@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="标准模式" >
+        <net.ultech.cyproject.NumberPickerPreference
+            android:dialogTitle="请选择难度"
+            android:key="level_picker"
+            android:title="难度" />
+        <Preference android:key="empty_log" android:title="清空日志"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="挑战模式" >
+
+        <EditTextPreference
+            android:dialogMessage="请输入默认用户名（将在挑战模式用户名为空时显示）"
+            android:dialogTitle="默认用户名"
+            android:key="text_username"
+            android:negativeButtonText="@string/cancel"
+            android:positiveButtonText="@string/ok"
+            android:title="默认用户名" />
+        <ListPreference android:dialogTitle="时间/生命值优先" android:entries="@array/time_or_life_entires" android:key="list_timelife" android:title="时间/生命值优先" android:entryValues="@array/time_or_life_value_entires"/>
+        <Preference android:key="empty_record" android:title="清空记录"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
