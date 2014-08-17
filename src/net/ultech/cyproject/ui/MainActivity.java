@@ -57,6 +57,7 @@ public class MainActivity extends AbsActivity {
 										int which) {
 									Editor editor = sp.edit();
 									editor.putBoolean("firstUsed", false);
+									editor.commit();
 								}
 							}).show();
 		}
