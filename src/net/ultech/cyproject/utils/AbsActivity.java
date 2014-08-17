@@ -12,9 +12,9 @@ public class AbsActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		/*if (item.getItemId() == android.R.id.home) {
+		if (item.getItemId() == android.R.id.home) {
 			this.finish();
-		}*/
+		}
 		return super.onContextItemSelected(item);
 	}
 
@@ -24,7 +24,7 @@ public class AbsActivity extends Activity {
 		sp = getApplicationContext().getSharedPreferences("setting",
 				Context.MODE_PRIVATE);
 		getActionBar().setDisplayShowHomeEnabled(true);
-		//getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 }
