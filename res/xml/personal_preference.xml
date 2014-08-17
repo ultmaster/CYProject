@@ -30,7 +30,7 @@
             android:key="empty_record"
             android:title="清空记录" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="          " >
+    <PreferenceCategory android:title=" " >
     </PreferenceCategory>
 
 </PreferenceScreen>
