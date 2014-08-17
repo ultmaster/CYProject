@@ -2,6 +2,8 @@ package net.ultech.cyproject;
 
 import java.io.File;
 
+import net.ultech.cyproject.uiutils.MyEditTextPreference;
+import net.ultech.cyproject.uiutils.NumberPickerPreference;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,6 +15,9 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
+import android.preference.PreferenceGroup;
+import android.preference.PreferenceScreen;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -25,7 +30,7 @@ public class PersonalSettings extends PreferenceActivity implements
 	private String mTimeOrLife;
 	// 每一个preference都做一个类变量，记得类变量加上m前缀，是个命名规范
 	private SharedPreferences mSharedPref;
-	private EditTextPreference mPrefUsername;
+	private MyEditTextPreference mPrefUsername;
 	private NumberPickerPreference mPrefLevel;
 	private ListPreference mPrefTimeOrLife;
 	private Preference mPrefEmptyLog;
@@ -45,9 +50,11 @@ public class PersonalSettings extends PreferenceActivity implements
 		 * 每一个选项都这样做就可以了 一定要做个常量类把你用到的菜单key啊，sharedPreference的名字都存起来
 		 * 要不然那里错了都看不出来 记得一定要setOnPreferenceChangeListener，我之前蛋疼了好久
 		 */
-		mPrefUsername = (EditTextPreference) findPreference("text_username");
+		mPrefUsername = (MyEditTextPreference) findPreference("text_username");
 		mPrefUsername.setOnPreferenceChangeListener(this);
 		mUsername = mSharedPref.getString("ch_defaultUsername", "无名氏");
+		mPrefUsername.setNowText(mUsername);
+		mPrefUsername.setHint("请输入默认用户名：（不能为空，不能含有$字符）");
 		mPrefUsername.setSummary("目前：" + mUsername);
 
 		mLevel = mSharedPref.getInt("st_savedLevel", 1);
@@ -64,9 +71,37 @@ public class PersonalSettings extends PreferenceActivity implements
 
 		mPrefEmptyLog = (Preference) findPreference("empty_log");
 		mPrefEmptyLog.setOnPreferenceClickListener(this);
-		
+
 		mPrefEmptyRecord = (Preference) findPreference("empty_record");
 		mPrefEmptyRecord.setOnPreferenceClickListener(this);
+
+		PreferenceScreen ps = getPreferenceScreen();
+		setLayoutResource(ps);
+	}
+
+	private void setLayoutResource(Preference preference) {
+		if (preference instanceof PreferenceScreen) {
+			preference.setLayoutResource(R.layout.pref_screen);
+			int cnt = ((PreferenceGroup) preference).getPreferenceCount();
+			for (int i = 0; i < cnt; ++i) {
+				Preference p = ((PreferenceScreen) preference).getPreference(i);
+				setLayoutResource(p);
+			}
+		} else if (preference instanceof PreferenceCategory) {
+			preference.setLayoutResource(R.layout.pref_category);
+			int cnt = ((PreferenceCategory) preference).getPreferenceCount();
+			for (int i = 0; i < cnt; ++i) {
+				Preference p = ((PreferenceCategory) preference)
+						.getPreference(i);
+				setLayoutResource(p);
+			}
+		} else {
+			if (preference.getKey().contains("empty")) {
+				preference.setLayoutResource(R.layout.pref_item_highlight);
+			} else {
+				preference.setLayoutResource(R.layout.pref_item);
+			}
+		}
 	}
 
 	@Override

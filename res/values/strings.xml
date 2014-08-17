@@ -23,4 +23,6 @@
         <item>life</item>
     </string-array>
 
+    <color name="color_red">#e33c3c</color>
+
 </resources>
