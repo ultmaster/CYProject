@@ -3,6 +3,7 @@ package net.ultech.cyproject.ui;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,23 +13,28 @@ import net.ultech.cyproject.R.id;
 import net.ultech.cyproject.R.layout;
 import net.ultech.cyproject.utils.AbsActivity;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class HelpActivity extends AbsActivity {
+public class HelpActivity extends Fragment {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.help_layout, null);
 		try {
-			File file = new File(getFilesDir(), "help");
+			File file = new File(getActivity().getFilesDir(), "help");
 			FileInputStream fis = new FileInputStream(file);
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-			setContentView(R.layout.help_layout);
-			LinearLayout llRoot = (LinearLayout) findViewById(R.id.hp_ll_root);
+			LinearLayout llRoot = (LinearLayout) view
+					.findViewById(R.id.hp_ll_root);
 			List<TitleAndText> list = new ArrayList<HelpActivity.TitleAndText>();
 
 			String str1, str2;
@@ -43,25 +49,29 @@ public class HelpActivity extends AbsActivity {
 			fis.close();
 
 			for (TitleAndText item : list) {
-				View view = View.inflate(this, R.layout.help_text_view, null);
-				TextView title = (TextView) view.findViewById(R.id.hp_tv_title);
-				TextView text = (TextView) view.findViewById(R.id.hp_tv_text);
+				View tempView = View.inflate(getActivity(),
+						R.layout.help_text_view, null);
+				TextView title = (TextView) tempView.findViewById(R.id.hp_tv_title);
+				TextView text = (TextView) tempView.findViewById(R.id.hp_tv_text);
 				title.setText(item.getTitle());
 				text.setText(item.getText());
 				llRoot.addView(view);
 			}
-		} catch (Exception e) {
-			new AlertDialog.Builder(this)
+			return view;
+		} catch (IOException e) {
+			new AlertDialog.Builder(getActivity())
 					.setMessage("帮助文档打开失败。")
 					.setPositiveButton("返回",
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
-									HelpActivity.this.finish();
+									getFragmentManager().beginTransaction()
+											.remove(HelpActivity.this).commit();
 								}
 							}).show();
 			e.printStackTrace();
+			return view;
 		}
 	}
 

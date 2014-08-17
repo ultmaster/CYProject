@@ -22,6 +22,7 @@ import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -42,8 +43,12 @@ public class MainActivity extends AbsActivity implements
 	private String databaseName;
 	private String helpPath;
 	private String helpName;
+	private DrawerLayout dLayout;
 	private SharedPreferences sp;
 	private StandardMode standardMode;
+	private QueryMode queryMode;
+	private HighRecord highRecord;
+	private HelpActivity helpActivity;
 	private AboutUs aboutUs;
 
 	@Override
@@ -97,6 +102,7 @@ public class MainActivity extends AbsActivity implements
 		textList.add("请求帮助");
 		textList.add("关于我们");
 
+		dLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
 		lView = (ListView) findViewById(R.id.lv_main);
 		lView.setAdapter(new myListAdapter());
 		lView.setOnItemClickListener(new OnItemClickListener() {
@@ -111,31 +117,29 @@ public class MainActivity extends AbsActivity implements
 					ft.replace(R.id.main_content_frame, standardMode);
 					ft.commit();
 				} else if (textList.get(position).equals("查询词典")) {
-					Intent intent_dict = new Intent(MainActivity.this,
-							QueryMode.class);
-					startActivity(intent_dict);
+					queryMode = new QueryMode();
+					fm.beginTransaction().replace(R.id.main_content_frame, queryMode).commit();
 				} else if (textList.get(position).equals("挑战模式")) {
 					Intent intent_challenge = new Intent(MainActivity.this,
 							ChallengeMode.class);
 					startActivity(intent_challenge);
 				} else if (textList.get(position).equals("高分记录")) {
-					Intent intent_record = new Intent(MainActivity.this,
-							HighRecord.class);
-					startActivity(intent_record);
+					highRecord = new HighRecord();
+					fm.beginTransaction().replace(R.id.main_content_frame, highRecord).commit();
 				} else if (textList.get(position).equals("个性设置")) {
 					Intent intent_setting = new Intent(MainActivity.this,
 							PersonalSettings.class);
 					startActivity(intent_setting);
 				} else if (textList.get(position).equals("请求帮助")) {
-					Intent intent_help = new Intent(MainActivity.this,
-							HelpActivity.class);
-					startActivity(intent_help);
+					helpActivity = new HelpActivity();
+					fm.beginTransaction().replace(R.id.main_content_frame, helpActivity).commit();
 				} else if (textList.get(position).equals("关于我们")) {
 					aboutUs = new AboutUs();
 					ft = fm.beginTransaction();
 					ft.replace(R.id.main_content_frame, aboutUs);
 					ft.commit();
 				}
+				dLayout.closeDrawers();
 			}
 		});
 	}

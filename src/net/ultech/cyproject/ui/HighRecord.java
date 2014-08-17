@@ -14,9 +14,11 @@ import net.ultech.cyproject.R.id;
 import net.ultech.cyproject.R.layout;
 import net.ultech.cyproject.bean.RecordInfo;
 import net.ultech.cyproject.utils.AbsActivity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -28,7 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class HighRecord extends AbsActivity implements OnItemClickListener,
+public class HighRecord extends Fragment implements OnItemClickListener,
 		OnClickListener {
 
 	private ListView lvRecord;
@@ -46,13 +48,13 @@ public class HighRecord extends AbsActivity implements OnItemClickListener,
 	private String[] result;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.record_layout);
-		lvRecord = (ListView) findViewById(R.id.lv_record);
-		btEdit = (Button) findViewById(R.id.re_bt_edit);
-		btExpand = (Button) findViewById(R.id.re_bt_expand);
-		file = new File(getFilesDir(), "ch.record");
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.record_layout, null);
+		lvRecord = (ListView) view.findViewById(R.id.lv_record);
+		btEdit = (Button) view.findViewById(R.id.re_bt_edit);
+		btExpand = (Button) view.findViewById(R.id.re_bt_expand);
+		file = new File(getActivity().getFilesDir(), "ch.record");
 
 		try {
 			recordList = new ArrayList<RecordInfo>();
@@ -73,9 +75,10 @@ public class HighRecord extends AbsActivity implements OnItemClickListener,
 			lvRecord.setAdapter(listAdapter);
 			lvRecord.setOnItemClickListener(this);
 		} catch (IOException e) {
-			Toast.makeText(this, "读取记录异常，记录是否为空？", 1).show();
+			Toast.makeText(getActivity(), "读取记录异常，记录是否为空？", 1).show();
 			e.printStackTrace();
 		}
+		return view;
 	}
 
 	public void updateList() throws IOException {
@@ -133,8 +136,8 @@ public class HighRecord extends AbsActivity implements OnItemClickListener,
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View view = View.inflate(HighRecord.this,
-					R.layout.record_list_view, null);
+			View view = View.inflate(getActivity(), R.layout.record_list_view,
+					null);
 			TextView tvRank = (TextView) view.findViewById(R.id.re_tv_rank);
 			TextView tvUsername = (TextView) view
 					.findViewById(R.id.re_tv_username);
@@ -176,7 +179,7 @@ public class HighRecord extends AbsActivity implements OnItemClickListener,
 				try {
 					updateFile();
 				} catch (IOException e) {
-					Toast.makeText(this, "修改记录失败。", 1).show();
+					Toast.makeText(getActivity(), "修改记录失败。", 1).show();
 					e.printStackTrace();
 				}
 				maxDisplaySize = recordList.size();
