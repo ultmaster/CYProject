@@ -1,4 +1,4 @@
-package net.ultech.cyproject.recorddomain;
+package net.ultech.cyproject.bean;
 
 public class RecordInfo {
 	public RecordInfo(String username, int score, int rank) {

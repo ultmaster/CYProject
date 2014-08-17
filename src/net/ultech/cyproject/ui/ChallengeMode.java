@@ -1,4 +1,4 @@
-package net.ultech.cyproject;
+package net.ultech.cyproject.ui;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,10 +11,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import net.ultech.cyproject.db.CYDbOpenHelper;
-import net.ultech.cyproject.db.dao.CYDbDAO;
-import net.ultech.cyproject.worddomain.WordInfoSpecial;
-import android.app.Activity;
+import net.ultech.cyproject.R;
+import net.ultech.cyproject.R.id;
+import net.ultech.cyproject.R.layout;
+import net.ultech.cyproject.bean.WordInfoSpecial;
+import net.ultech.cyproject.dao.CYDbDAO;
+import net.ultech.cyproject.dao.CYDbOpenHelper;
+import net.ultech.cyproject.utils.AbsActivity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,7 +39,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ChallengeMode extends Activity implements OnClickListener {
+public class ChallengeMode extends AbsActivity implements OnClickListener {
 
 	private CYDbOpenHelper helper;
 	private SQLiteDatabase db;

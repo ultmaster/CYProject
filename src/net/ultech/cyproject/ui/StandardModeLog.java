@@ -1,4 +1,4 @@
-package net.ultech.cyproject;
+package net.ultech.cyproject.ui;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,7 +8,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
+import net.ultech.cyproject.R;
+import net.ultech.cyproject.R.id;
+import net.ultech.cyproject.R.layout;
+import net.ultech.cyproject.utils.AbsActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
@@ -19,7 +22,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class StandardModeLog extends Activity {
+public class StandardModeLog extends AbsActivity {
 
 	private String rawResult;
 	private List<Word> wordList;

@@ -1,4 +1,4 @@
-package net.ultech.cyproject;
+package net.ultech.cyproject.ui;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7,7 +7,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
+import net.ultech.cyproject.R;
+import net.ultech.cyproject.R.id;
+import net.ultech.cyproject.R.layout;
+import net.ultech.cyproject.R.raw;
+import net.ultech.cyproject.utils.AbsActivity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,7 +29,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AbsActivity {
 
 	private ListView lView;
 	List<String> textList;

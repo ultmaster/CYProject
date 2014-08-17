@@ -1,4 +1,4 @@
-package net.ultech.cyproject.uiutils;
+package net.ultech.cyproject.ui.preference;
 
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.R.id;

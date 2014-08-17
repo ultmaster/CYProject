@@ -1,4 +1,4 @@
-package net.ultech.cyproject.worddomain;
+package net.ultech.cyproject.bean;
 
 public class WordInfo {
 	public WordInfo(String name, String first, int count) {

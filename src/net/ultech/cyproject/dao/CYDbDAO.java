@@ -1,10 +1,10 @@
-package net.ultech.cyproject.db.dao;
+package net.ultech.cyproject.dao;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.ultech.cyproject.worddomain.WordInfoComplete;
-import net.ultech.cyproject.worddomain.WordInfoSpecial;
+import net.ultech.cyproject.bean.WordInfoComplete;
+import net.ultech.cyproject.bean.WordInfoSpecial;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 

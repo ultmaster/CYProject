@@ -1,17 +1,19 @@
-package net.ultech.cyproject;
+package net.ultech.cyproject.ui;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import net.ultech.cyproject.db.CYDbOpenHelper;
-import net.ultech.cyproject.db.dao.CYDbDAO;
-import net.ultech.cyproject.worddomain.WordInfoSpecial;
-import android.app.Activity;
+import net.ultech.cyproject.R;
+import net.ultech.cyproject.R.id;
+import net.ultech.cyproject.R.layout;
+import net.ultech.cyproject.bean.WordInfoSpecial;
+import net.ultech.cyproject.dao.CYDbDAO;
+import net.ultech.cyproject.dao.CYDbOpenHelper;
+import net.ultech.cyproject.utils.AbsActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,7 +30,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class StandardMode extends Activity implements OnClickListener {
+public class StandardMode extends AbsActivity implements OnClickListener {
 
 	private final int db_size = 31851;
 

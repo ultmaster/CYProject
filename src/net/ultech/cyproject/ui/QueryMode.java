@@ -1,9 +1,12 @@
-package net.ultech.cyproject;
+package net.ultech.cyproject.ui;
 
-import net.ultech.cyproject.db.CYDbOpenHelper;
-import net.ultech.cyproject.db.dao.CYDbDAO;
-import net.ultech.cyproject.worddomain.WordInfoComplete;
-import android.app.Activity;
+import net.ultech.cyproject.R;
+import net.ultech.cyproject.R.id;
+import net.ultech.cyproject.R.layout;
+import net.ultech.cyproject.bean.WordInfoComplete;
+import net.ultech.cyproject.dao.CYDbDAO;
+import net.ultech.cyproject.dao.CYDbOpenHelper;
+import net.ultech.cyproject.utils.AbsActivity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,7 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class QueryMode extends Activity implements OnClickListener {
+public class QueryMode extends AbsActivity implements OnClickListener {
 
 	private EditText etWord;
 	private Button btOK;

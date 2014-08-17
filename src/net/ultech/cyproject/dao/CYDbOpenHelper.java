@@ -1,4 +1,4 @@
-package net.ultech.cyproject.db;
+package net.ultech.cyproject.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

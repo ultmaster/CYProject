@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="net.ultech.cyproject.ui.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -24,47 +24,47 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.ultech.cyproject.StandardMode"
+            android:name="net.ultech.cyproject.ui.StandardMode"
             android:label="@string/standard_mode_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="net.ultech.cyproject.QueryMode"
+            android:name="net.ultech.cyproject.ui.QueryModeultech"
             android:label="@string/query_mode_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="net.ultech.cyproject.ChallengeMode"
+            android:name="net.ultech.cyproject.ui.ChallengeMode"
             android:label="@string/challenge_mode_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="net.ultech.cyproject.HighRecord"
+            android:name="net.ultech.cyproject.ui.HighRecord"
             android:label="@string/high_record_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="net.ultech.cyproject.StandardModeHint"
+            android:name="net.ultech.cyproject.ui.StandardModeHint"
             android:label="@string/standard_mode_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="net.ultech.cyproject.StandardModeLog"
+            android:name="net.ultech.cyproject.ui.StandardModeLog"
             android:label="@string/standard_mode_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="net.ultech.cyproject.PersonalSettings"
+            android:name="net.ultech.cyproject.ui.PersonalSettings"
             android:label="@string/personal_settings_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="net.ultech.cyproject.HelpActivity"
+            android:name="net.ultech.cyproject.ui.HelpActivity"
             android:label="@string/help_activity_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="net.ultech.cyproject.AboutUs"
+            android:name="net.ultech.cyproject.ui.AboutUs"
             android:label="@string/about_us_name"
             android:screenOrientation="portrait" >
         </activity>

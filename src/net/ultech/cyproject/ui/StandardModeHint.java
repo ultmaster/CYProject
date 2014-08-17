@@ -1,11 +1,15 @@
-package net.ultech.cyproject;
+package net.ultech.cyproject.ui;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.ultech.cyproject.db.CYDbOpenHelper;
-import net.ultech.cyproject.db.dao.CYDbDAO;
-import net.ultech.cyproject.worddomain.WordInfoSpecial;
+import net.ultech.cyproject.R;
+import net.ultech.cyproject.R.id;
+import net.ultech.cyproject.R.layout;
+import net.ultech.cyproject.bean.WordInfoSpecial;
+import net.ultech.cyproject.dao.CYDbDAO;
+import net.ultech.cyproject.dao.CYDbOpenHelper;
+import net.ultech.cyproject.utils.AbsActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -22,7 +26,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class StandardModeHint extends Activity implements OnClickListener {
+public class StandardModeHint extends AbsActivity implements OnClickListener {
 
 	private SQLiteDatabase db;
 	private CYDbOpenHelper helper;

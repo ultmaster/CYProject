@@ -1,9 +1,12 @@
-package net.ultech.cyproject;
+package net.ultech.cyproject.ui;
 
 import java.io.File;
 
-import net.ultech.cyproject.uiutils.MyEditTextPreference;
-import net.ultech.cyproject.uiutils.NumberPickerPreference;
+import net.ultech.cyproject.R;
+import net.ultech.cyproject.R.layout;
+import net.ultech.cyproject.R.xml;
+import net.ultech.cyproject.ui.preference.MyEditTextPreference;
+import net.ultech.cyproject.ui.preference.NumberPickerPreference;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -20,6 +23,7 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 public class PersonalSettings extends PreferenceActivity implements
@@ -41,6 +45,8 @@ public class PersonalSettings extends PreferenceActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().setDisplayShowHomeEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 		addPreferencesFromResource(R.xml.personal_preference);
 		mSharedPref = getApplicationContext().getSharedPreferences("setting",
 				Context.MODE_PRIVATE);
@@ -201,4 +207,12 @@ public class PersonalSettings extends PreferenceActivity implements
 		}
 		return true;
 	}
+	
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            this.finish();
+        }
+        return super.onContextItemSelected(item);
+    }
 }
