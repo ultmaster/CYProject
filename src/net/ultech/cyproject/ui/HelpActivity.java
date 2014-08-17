@@ -55,7 +55,7 @@ public class HelpActivity extends Fragment {
 				TextView text = (TextView) tempView.findViewById(R.id.hp_tv_text);
 				title.setText(item.getTitle());
 				text.setText(item.getText());
-				llRoot.addView(view);
+				llRoot.addView(tempView);
 			}
 			return view;
 		} catch (IOException e) {

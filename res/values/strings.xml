@@ -22,6 +22,16 @@
         <item>time</item>
         <item>life</item>
     </string-array>
+    
+    <string-array name="drawer_items">
+        <item>标准模式</item>
+        <item>挑战模式</item>
+        <item>查询字典</item>
+        <item>高分记录</item>
+        <item>个性设置</item>
+        <item>请求帮助</item>
+        <item>关于我们</item>
+    </string-array>
 
     <color name="color_red">#e33c3c</color>
 
