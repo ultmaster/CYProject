@@ -23,6 +23,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,7 +33,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends AbsActivity implements
-		StandardMode.standardModeListener, StandardModeHint.standardModeHintListener {
+		StandardMode.standardModeListener,
+		StandardModeHint.standardModeHintListener {
 
 	private ListView lView;
 	List<String> textList;
@@ -138,6 +140,19 @@ public class MainActivity extends AbsActivity implements
 		});
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			FragmentManager fm = getFragmentManager();
+			if (fm.getBackStackEntryCount() > 1)
+				fm.popBackStack();
+			else {
+				this.finish();
+			}
+		}
+		return true;
+	}
+
 	private class myListAdapter extends BaseAdapter {
 
 		@Override
@@ -226,17 +241,36 @@ public class MainActivity extends AbsActivity implements
 	}
 
 	@Override
-	public void firstText(String first, Fragment frag) {
-		if (frag != null) {
-			StandardModeHint smh = (StandardModeHint) frag;
+	public void firstText(String first, Fragment fragReceiver,
+			Fragment fragSender) {
+		if (fragReceiver != null) {
+			StandardModeHint smh = (StandardModeHint) fragReceiver;
 			smh.setFirst(first);
+			smh.setCaller(fragSender);
 		} else {
 			Log.e("CALLBACK ERROR", "fragment is null");
 		}
 	}
 
 	@Override
-	public void confirmText(String text, Fragment frag) {
-		
+	public void confirmText(String text, Fragment fragReceiver,
+			Fragment fragSender) {
+		if (fragReceiver != null) {
+			StandardMode sMode = (StandardMode) fragReceiver;
+			sMode.setConfirmText(text);
+		} else {
+			Log.e("CALLBACK ERROR", "fragment is null");
+		}
+	}
+
+	public void queryText(String text, Fragment fragReceiver,
+			Fragment fragSender) {
+		if (fragReceiver != null) {
+			QueryMode queryMode = (QueryMode) fragReceiver;
+			queryMode.setCaller(fragSender);
+			queryMode.setText(text);
+		} else {
+			Log.e("CALLBACK ERROR", "fragment is null");
+		}
 	}
 }

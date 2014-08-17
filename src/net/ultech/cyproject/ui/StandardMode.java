@@ -51,7 +51,7 @@ public class StandardMode extends Fragment implements OnClickListener {
 	private Button btLog;
 	private SharedPreferences sp;
 	private boolean locked;
-	
+
 	private standardModeListener mCallback;
 
 	private final int random_size = 12;
@@ -60,6 +60,10 @@ public class StandardMode extends Fragment implements OnClickListener {
 	private int level; // 从1到12
 	File file;
 	FileOutputStream fos;
+
+	public void setConfirmText(String text) {
+		textHuman = text;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,7 +99,8 @@ public class StandardMode extends Fragment implements OnClickListener {
 		});
 		sp = getActivity()
 				.getSharedPreferences("setting", Context.MODE_PRIVATE);
-		textHuman = sp.getString("st_savedTextHuman", "");
+		if (textHuman == null)
+			textHuman = sp.getString("st_savedTextHuman", "");
 		textRobot = sp.getString("st_savedTextRobot", "坐井观天");
 		level = sp.getInt("st_savedLevel", 1);
 		etHuman.setText(textHuman);
@@ -126,15 +131,6 @@ public class StandardMode extends Fragment implements OnClickListener {
 		super.onAttach(activity);
 		mCallback = (standardModeListener) activity;
 	}
-
-//	@Override
-//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//		if (resultCode == 200) {
-//			textHuman = data.getStringExtra("hint");
-//			etHuman.setText(textHuman);
-//		}
-//		super.onActivityResult(requestCode, resultCode, data);
-//	}
 
 	@Override
 	public void onClick(View v) {
@@ -196,9 +192,9 @@ public class StandardMode extends Fragment implements OnClickListener {
 			}
 			break;
 		case R.id.st_bt_figure:
-//			Intent intent_query = new Intent(this, QueryMode.class);
-//			intent_query.putExtra("word", tvRobot.getText().toString());
-//			startActivity(intent_query);
+			// Intent intent_query = new Intent(this, QueryMode.class);
+			// intent_query.putExtra("word", tvRobot.getText().toString());
+			// startActivity(intent_query);
 			break;
 		case R.id.st_bt_restart:
 			restart();
@@ -208,8 +204,10 @@ public class StandardMode extends Fragment implements OnClickListener {
 				Toast.makeText(getActivity(), "所给词汇尚为空，请点击重新开始", 1).show();
 			}
 			StandardModeHint standardModeHint = new StandardModeHint();
-			mCallback.firstText(new String(new char[] { textRobot.charAt(textRobot
-					.length() - 1) }), standardModeHint);
+			mCallback
+					.firstText(
+							new String(new char[] { textRobot.charAt(textRobot
+									.length() - 1) }), standardModeHint, this);
 			FragmentManager fManager = getFragmentManager();
 			fManager.beginTransaction()
 					.add(R.id.main_content_frame, standardModeHint).commit();
@@ -273,6 +271,7 @@ public class StandardMode extends Fragment implements OnClickListener {
 	}
 
 	public interface standardModeListener {
-		public void firstText(String first, Fragment frag);
+		public void firstText(String first, Fragment fragReceiver,
+				Fragment fragSender);
 	}
 }

@@ -41,9 +41,14 @@ public class StandardModeHint extends Fragment implements OnClickListener {
 	private myAdapter adapter;
 	private String first;
 	private standardModeHintListener mCallback;
+	private StandardMode mCaller;
 
 	public void setFirst(String mFirst) {
 		first = mFirst;
+	}
+
+	public void setCaller(Fragment caller) {
+		mCaller = (StandardMode) caller;
 	}
 
 	@Override
@@ -93,7 +98,7 @@ public class StandardModeHint extends Fragment implements OnClickListener {
 		}
 		return view;
 	}
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -149,12 +154,12 @@ public class StandardModeHint extends Fragment implements OnClickListener {
 									}
 								}).show();
 			} else {
-				
-				//TODO:
-				//mCallback.confirmText("", frag);
+				mCallback.confirmText(candidate.get(shadowPosition).getName(),
+						mCaller, this);
+				getFragmentManager().beginTransaction().remove(this).commit();
 			}
 			break;
-		case R.id.st_hint_bt_figure:/*
+		case R.id.st_hint_bt_figure:
 			if (shadowPosition == -1) {
 				new AlertDialog.Builder(getActivity())
 						.setMessage("没有选择成语。")
@@ -167,16 +172,21 @@ public class StandardModeHint extends Fragment implements OnClickListener {
 									}
 								}).show();
 			} else {
-				Intent intent_query = new Intent(this, QueryMode.class);
-				intent_query.putExtra("word", candidate.get(shadowPosition)
-						.getName());
-				startActivity(intent_query);
-			}*/
+				QueryMode queryMode = new QueryMode();
+				mCallback.queryText(candidate.get(shadowPosition).getName(),
+						queryMode, this);
+				getFragmentManager().beginTransaction()
+						.add(R.id.main_content_frame, queryMode).commit();
+			}
 			break;
 		}
 	}
 
 	public interface standardModeHintListener {
-		public void confirmText(String text, Fragment frag);
+		public void confirmText(String text, Fragment fragReceiver,
+				Fragment fragSender);
+
+		public void queryText(String text, Fragment fragReceiver,
+				Fragment fragSender);
 	}
 }
