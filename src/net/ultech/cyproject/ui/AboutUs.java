@@ -3,14 +3,18 @@ package net.ultech.cyproject.ui;
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.R.layout;
 import net.ultech.cyproject.utils.AbsActivity;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-public class AboutUs extends AbsActivity {
+public class AboutUs extends Fragment {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.aboutus_layout);
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.aboutus_layout, null);
+	}
 
 }

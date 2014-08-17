@@ -9,13 +9,16 @@ import net.ultech.cyproject.R.layout;
 import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
+import net.ultech.cyproject.ui.StandardMode.standardModeListener;
 import net.ultech.cyproject.utils.AbsActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -26,7 +29,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class StandardModeHint extends AbsActivity implements OnClickListener {
+public class StandardModeHint extends Fragment implements OnClickListener {
 
 	private SQLiteDatabase db;
 	private CYDbOpenHelper helper;
@@ -36,22 +39,26 @@ public class StandardModeHint extends AbsActivity implements OnClickListener {
 	private List<WordInfoSpecial> candidate;
 	private int shadowPosition;
 	private myAdapter adapter;
+	private String first;
+	private standardModeHintListener mCallback;
+
+	public void setFirst(String mFirst) {
+		first = mFirst;
+	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.standard_hint_layout);
-		helper = new CYDbOpenHelper(this);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.standard_hint_layout, null);
+		helper = new CYDbOpenHelper(getActivity());
 		db = helper.getReadableDatabase();
-		Intent intent = getIntent();
-		String first = intent.getStringExtra("first");
 		if (first != null) {
 			candidate = CYDbDAO.findByFirst(first, db);
 		} else {
 			candidate = new ArrayList<WordInfoSpecial>();
 		}
 		if (candidate.isEmpty()) {
-			new AlertDialog.Builder(this)
+			new AlertDialog.Builder(getActivity())
 					.setMessage("无法找到匹配，点击确定返回标准模式。")
 					.setPositiveButton("确定",
 							new DialogInterface.OnClickListener() {
@@ -59,13 +66,15 @@ public class StandardModeHint extends AbsActivity implements OnClickListener {
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
-									StandardModeHint.this.finish();
+									getFragmentManager().beginTransaction()
+											.remove(StandardModeHint.this)
+											.commit();
 								}
 							}).show();
 		} else {
-			lv = (ListView) findViewById(R.id.st_hint_lv);
-			btSelect = (Button) findViewById(R.id.st_hint_bt_select);
-			btFigure = (Button) findViewById(R.id.st_hint_bt_figure);
+			lv = (ListView) view.findViewById(R.id.st_hint_lv);
+			btSelect = (Button) view.findViewById(R.id.st_hint_bt_select);
+			btFigure = (Button) view.findViewById(R.id.st_hint_bt_figure);
 			btSelect.setOnClickListener(this);
 			btFigure.setOnClickListener(this);
 			adapter = new myAdapter();
@@ -82,6 +91,13 @@ public class StandardModeHint extends AbsActivity implements OnClickListener {
 			});
 
 		}
+		return view;
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mCallback = (standardModeHintListener) activity;
 	}
 
 	private class myAdapter extends BaseAdapter {
@@ -103,7 +119,7 @@ public class StandardModeHint extends AbsActivity implements OnClickListener {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View view = View.inflate(StandardModeHint.this,
+			View view = View.inflate(getActivity(),
 					R.layout.standard_hint_list_view, null);
 			TextView tv = (TextView) view.findViewById(R.id.st_hint_tv);
 			tv.setText(candidate.get(position).getName());
@@ -122,7 +138,7 @@ public class StandardModeHint extends AbsActivity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.st_hint_bt_select:
 			if (shadowPosition == -1) {
-				new AlertDialog.Builder(this)
+				new AlertDialog.Builder(getActivity())
 						.setMessage("没有选择成语。")
 						.setPositiveButton("确定",
 								new DialogInterface.OnClickListener() {
@@ -133,15 +149,14 @@ public class StandardModeHint extends AbsActivity implements OnClickListener {
 									}
 								}).show();
 			} else {
-				Intent data = new Intent();
-				data.putExtra("hint", candidate.get(shadowPosition).getName());
-				setResult(200, data);
-				finish();
+				
+				//TODO:
+				//mCallback.confirmText("", frag);
 			}
 			break;
-		case R.id.st_hint_bt_figure:
+		case R.id.st_hint_bt_figure:/*
 			if (shadowPosition == -1) {
-				new AlertDialog.Builder(this)
+				new AlertDialog.Builder(getActivity())
 						.setMessage("没有选择成语。")
 						.setPositiveButton("确定",
 								new DialogInterface.OnClickListener() {
@@ -156,8 +171,12 @@ public class StandardModeHint extends AbsActivity implements OnClickListener {
 				intent_query.putExtra("word", candidate.get(shadowPosition)
 						.getName());
 				startActivity(intent_query);
-			}
+			}*/
 			break;
 		}
+	}
+
+	public interface standardModeHintListener {
+		public void confirmText(String text, Fragment frag);
 	}
 }

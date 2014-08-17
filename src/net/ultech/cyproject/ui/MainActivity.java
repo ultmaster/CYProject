@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.ultech.cyproject.R;
-import net.ultech.cyproject.R.id;
-import net.ultech.cyproject.R.layout;
-import net.ultech.cyproject.R.raw;
+import net.ultech.cyproject.ui.StandardMode.standardModeListener;
 import net.ultech.cyproject.utils.AbsActivity;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,7 +31,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends AbsActivity {
+public class MainActivity extends AbsActivity implements
+		StandardMode.standardModeListener, StandardModeHint.standardModeHintListener {
 
 	private ListView lView;
 	List<String> textList;
@@ -38,6 +41,8 @@ public class MainActivity extends AbsActivity {
 	private String helpPath;
 	private String helpName;
 	private SharedPreferences sp;
+	private StandardMode standardMode;
+	private AboutUs aboutUs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,10 +101,13 @@ public class MainActivity extends AbsActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				FragmentManager fm = getFragmentManager();
+				FragmentTransaction ft;
 				if (textList.get(position).equals("标准模式")) {
-					Intent intent_standard = new Intent(MainActivity.this,
-							StandardMode.class);
-					startActivity(intent_standard);
+					standardMode = new StandardMode();
+					ft = fm.beginTransaction();
+					ft.replace(R.id.main_content_frame, standardMode);
+					ft.commit();
 				} else if (textList.get(position).equals("查询词典")) {
 					Intent intent_dict = new Intent(MainActivity.this,
 							QueryMode.class);
@@ -121,13 +129,13 @@ public class MainActivity extends AbsActivity {
 							HelpActivity.class);
 					startActivity(intent_help);
 				} else if (textList.get(position).equals("关于我们")) {
-					Intent intent_aboutus = new Intent(MainActivity.this,
-							AboutUs.class);
-					startActivity(intent_aboutus);
+					aboutUs = new AboutUs();
+					ft = fm.beginTransaction();
+					ft.replace(R.id.main_content_frame, aboutUs);
+					ft.commit();
 				}
 			}
 		});
-
 	}
 
 	private class myListAdapter extends BaseAdapter {
@@ -215,5 +223,20 @@ public class MainActivity extends AbsActivity {
 		}
 		is.close();
 		fos.close();
+	}
+
+	@Override
+	public void firstText(String first, Fragment frag) {
+		if (frag != null) {
+			StandardModeHint smh = (StandardModeHint) frag;
+			smh.setFirst(first);
+		} else {
+			Log.e("CALLBACK ERROR", "fragment is null");
+		}
+	}
+
+	@Override
+	public void confirmText(String text, Fragment frag) {
+		
 	}
 }

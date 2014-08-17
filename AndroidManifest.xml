@@ -63,11 +63,6 @@
             android:label="@string/help_activity_name"
             android:screenOrientation="portrait" >
         </activity>
-        <activity
-            android:name="net.ultech.cyproject.ui.AboutUs"
-            android:label="@string/about_us_name"
-            android:screenOrientation="portrait" >
-        </activity>
     </application>
 
 </manifest>

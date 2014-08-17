@@ -14,6 +14,9 @@ import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
 import net.ultech.cyproject.utils.AbsActivity;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,16 +24,19 @@ import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class StandardMode extends AbsActivity implements OnClickListener {
+public class StandardMode extends Fragment implements OnClickListener {
 
 	private final int db_size = 31851;
 
@@ -45,6 +51,8 @@ public class StandardMode extends AbsActivity implements OnClickListener {
 	private Button btLog;
 	private SharedPreferences sp;
 	private boolean locked;
+	
+	private standardModeListener mCallback;
 
 	private final int random_size = 12;
 	private String textHuman;
@@ -54,18 +62,19 @@ public class StandardMode extends AbsActivity implements OnClickListener {
 	FileOutputStream fos;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.standard_layout);
-		helper = new CYDbOpenHelper(this);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		Log.d("StandardMode", "onCreateView");
+		View view = inflater.inflate(R.layout.standard_layout, null);
+		helper = new CYDbOpenHelper(getActivity());
 		db = helper.getReadableDatabase();
-		etHuman = (EditText) findViewById(R.id.st_et_human);
-		tvRobot = (TextView) findViewById(R.id.st_tv_robot);
-		btOK = (Button) findViewById(R.id.st_bt_ok);
-		btRestart = (Button) findViewById(R.id.st_bt_restart);
-		btFigure = (Button) findViewById(R.id.st_bt_figure);
-		btHint = (Button) findViewById(R.id.st_bt_hint);
-		btLog = (Button) findViewById(R.id.st_bt_log);
+		etHuman = (EditText) view.findViewById(R.id.st_et_human);
+		tvRobot = (TextView) view.findViewById(R.id.st_tv_robot);
+		btOK = (Button) view.findViewById(R.id.st_bt_ok);
+		btRestart = (Button) view.findViewById(R.id.st_bt_restart);
+		btFigure = (Button) view.findViewById(R.id.st_bt_figure);
+		btHint = (Button) view.findViewById(R.id.st_bt_hint);
+		btLog = (Button) view.findViewById(R.id.st_bt_log);
 
 		locked = false;
 		btOK.setOnClickListener(this);
@@ -84,17 +93,20 @@ public class StandardMode extends AbsActivity implements OnClickListener {
 				return false;
 			}
 		});
-		sp = getSharedPreferences("setting", Context.MODE_PRIVATE);
+		sp = getActivity()
+				.getSharedPreferences("setting", Context.MODE_PRIVATE);
 		textHuman = sp.getString("st_savedTextHuman", "");
 		textRobot = sp.getString("st_savedTextRobot", "坐井观天");
 		level = sp.getInt("st_savedLevel", 1);
 		etHuman.setText(textHuman);
 		tvRobot.setText(textRobot);
 		openFile();
+		return view;
 	}
 
 	@Override
-	protected void onDestroy() {
+	public void onStop() {
+		Log.d("StandardMode", "onStop");
 		if (locked) {
 			restart();
 			locked = false;
@@ -106,17 +118,23 @@ public class StandardMode extends AbsActivity implements OnClickListener {
 		editor.commit();
 		closeFile();
 		db.close();
-		super.onDestroy();
+		super.onStop();
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == 200) {
-			textHuman = data.getStringExtra("hint");
-			etHuman.setText(textHuman);
-		}
-		super.onActivityResult(requestCode, resultCode, data);
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mCallback = (standardModeListener) activity;
 	}
+
+//	@Override
+//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		if (resultCode == 200) {
+//			textHuman = data.getStringExtra("hint");
+//			etHuman.setText(textHuman);
+//		}
+//		super.onActivityResult(requestCode, resultCode, data);
+//	}
 
 	@Override
 	public void onClick(View v) {
@@ -125,16 +143,16 @@ public class StandardMode extends AbsActivity implements OnClickListener {
 			textHuman = etHuman.getText().toString().trim();
 			textRobot = tvRobot.getText().toString().trim();
 			if (TextUtils.isEmpty(textHuman)) {
-				Toast.makeText(this, "请输入成语", 1).show();
+				Toast.makeText(getActivity(), "请输入成语", 1).show();
 			} else {
 				if (textRobot != null
 						&& !TextUtils.isEmpty(textRobot)
 						&& textHuman.charAt(0) != textRobot.charAt(textRobot
 								.length() - 1)) {
-					Toast.makeText(this, "输入的首字必须和所给词的末字相同", 1).show();
+					Toast.makeText(getActivity(), "输入的首字必须和所给词的末字相同", 1).show();
 				} else if (textRobot.charAt(0) == textHuman.charAt(textHuman
 						.length() - 1)) {
-					Toast.makeText(this, "输入的末字不能与所给词的首字相同", 1).show();
+					Toast.makeText(getActivity(), "输入的末字不能与所给词的首字相同", 1).show();
 				} else if (CYDbDAO.find(textHuman, db)) {
 					writeFile("$" + "h" + "$" + textHuman + "$");
 					String first = new String(
@@ -158,7 +176,8 @@ public class StandardMode extends AbsActivity implements OnClickListener {
 						}
 						if (candidate2.isEmpty()) {
 							locked = true;
-							Toast.makeText(this, "机器人已死，点重新开始拯救它", 1).show();
+							Toast.makeText(getActivity(), "机器人已死，点重新开始拯救它", 1)
+									.show();
 						} else {
 							sortByCountOfLastChar(candidate2);
 							WordInfoSpecial chosen = candidate2.get(level - 1);
@@ -168,36 +187,34 @@ public class StandardMode extends AbsActivity implements OnClickListener {
 						}
 					} else {
 						locked = true;
-						Toast.makeText(this, "机器人已死，点重新开始拯救它", 1).show();
+						Toast.makeText(getActivity(), "机器人已死，点重新开始拯救它", 1)
+								.show();
 					}
 				} else {
-					Toast.makeText(this, "该成语不在词典中", 1).show();
+					Toast.makeText(getActivity(), "该成语不在词典中", 1).show();
 				}
 			}
 			break;
 		case R.id.st_bt_figure:
-			Intent intent_query = new Intent(this, QueryMode.class);
-			intent_query.putExtra("word", tvRobot.getText().toString());
-			startActivity(intent_query);
+//			Intent intent_query = new Intent(this, QueryMode.class);
+//			intent_query.putExtra("word", tvRobot.getText().toString());
+//			startActivity(intent_query);
 			break;
 		case R.id.st_bt_restart:
 			restart();
 			break;
 		case R.id.st_bt_hint:
 			if (textRobot == null && TextUtils.isEmpty(textRobot)) {
-				Toast.makeText(this, "所给词汇尚为空，请点击重新开始", 1).show();
+				Toast.makeText(getActivity(), "所给词汇尚为空，请点击重新开始", 1).show();
 			}
-			Intent intent_hint = new Intent(this, StandardModeHint.class);
-			intent_hint
-					.putExtra(
-							"first",
-							new String(new char[] { textRobot.charAt(textRobot
-									.length() - 1) }));
-			startActivityForResult(intent_hint, 0);
+			StandardModeHint standardModeHint = new StandardModeHint();
+			mCallback.firstText(new String(new char[] { textRobot.charAt(textRobot
+					.length() - 1) }), standardModeHint);
+			FragmentManager fManager = getFragmentManager();
+			fManager.beginTransaction()
+					.add(R.id.main_content_frame, standardModeHint).commit();
 			break;
 		case R.id.st_bt_log:
-			Intent intent_log = new Intent(this, StandardModeLog.class);
-			startActivity(intent_log);
 			break;
 		}
 	}
@@ -231,10 +248,10 @@ public class StandardMode extends AbsActivity implements OnClickListener {
 
 	public void openFile() {
 		try {
-			file = new File(this.getFilesDir(), "st.log");
+			file = new File(getActivity().getFilesDir(), "st.log");
 			fos = new FileOutputStream(file, true);
 		} catch (Exception e) {
-			Toast.makeText(this, "日志读写失败", 1).show();
+			Toast.makeText(getActivity(), "日志读写失败", 1).show();
 			e.printStackTrace();
 		}
 	}
@@ -253,5 +270,9 @@ public class StandardMode extends AbsActivity implements OnClickListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public interface standardModeListener {
+		public void firstText(String first, Fragment frag);
 	}
 }
