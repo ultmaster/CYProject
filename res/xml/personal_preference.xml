@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory android:title="标准模式" >
-        <net.ultech.cyproject.uiutils.NumberPickerPreference
+        <net.ultech.cyproject.ui.preference.NumberPickerPreference
             android:dialogTitle="请选择难度"
             android:key="level_picker"
             android:title="难度" />
@@ -12,7 +12,7 @@
             android:title="清空日志" />
     </PreferenceCategory>
     <PreferenceCategory android:title="挑战模式" >
-        <net.ultech.cyproject.uiutils.MyEditTextPreference
+        <net.ultech.cyproject.ui.preference.MyEditTextPreference
             android:dialogTitle="默认用户名"
             android:key="text_username"
             android:negativeButtonText="@string/cancel"

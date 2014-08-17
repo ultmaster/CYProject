@@ -209,9 +209,9 @@ public class PersonalSettings extends PreferenceActivity implements
 	}
 	
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            this.finish();
+            this.finish();     
         }
         return super.onContextItemSelected(item);
     }

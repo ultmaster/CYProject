@@ -7,7 +7,7 @@ import android.view.MenuItem;
 public class AbsActivity extends Activity {
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             this.finish();
         }
