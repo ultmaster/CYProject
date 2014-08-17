@@ -24,12 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.ultech.cyproject.ui.StandardMode"
-            android:label="@string/standard_mode_name"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="net.ultech.cyproject.ui.QueryModeultech"
+            android:name="net.ultech.cyproject.ui.QueryMode"
             android:label="@string/query_mode_name"
             android:screenOrientation="portrait" >
         </activity>
