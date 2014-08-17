@@ -2,13 +2,13 @@
 <resources>
 
     <string name="app_name">成语接龙</string>
-    <string name="standard_mode_name">成语接龙——标准模式</string>
-    <string name="query_mode_name">成语接龙——查询词典</string>
-    <string name="challenge_mode_name">成语接龙——挑战模式</string>
-    <string name="high_record_name">成语接龙——高分记录</string>
-    <string name="personal_settings_name">成语接龙——个性设置</string>
-    <string name="help_activity_name">成语接龙——请求帮助</string>
-    <string name="about_us_name">成语接龙——关于我们</string>
+    <string name="standard_mode_name">标准模式</string>
+    <string name="query_mode_name">查询词典</string>
+    <string name="challenge_mode_name">挑战模式</string>
+    <string name="high_record_name">高分记录</string>
+    <string name="personal_settings_name">个性设置</string>
+    <string name="help_activity_name">请求帮助</string>
+    <string name="about_us_name">关于我们</string>
     <string name="developer_info">UlTech © 2014 China</string>
     <string name="contact_info">scottyugochang@hotmail.com</string>
     <string name="cancel">取消</string>
