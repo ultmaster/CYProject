@@ -101,14 +101,6 @@ public class MainActivity extends AbsActivity implements
 		mFragments[FragmentList.HIGH_RECORD] = new HighRecord();
 		mFragments[FragmentList.HELP_ACTIVITY] = new Help();
 		mFragments[FragmentList.ABOUT_US] = new AboutUs();
-		mTransaction = mManager.beginTransaction();
-		for (Fragment f : mFragments) {
-			if (f != null) {
-				mTransaction.add(R.id.main_content_frame, f);
-				mTransaction.hide(f);
-			}
-		}
-		mTransaction.commit();
 		mActivityStack.pushStack(null, FragmentList.ABOUT_US, -1);
 		updateFragment();
 		// 你应该做个主界面
@@ -174,16 +166,7 @@ public class MainActivity extends AbsActivity implements
 		mTransaction.setCustomAnimations(android.R.animator.fade_in,
 				android.R.animator.fade_out, android.R.animator.fade_in,
 				android.R.animator.fade_out);
-		for (int i = 0; i < mFragments.length; i++) {
-			Fragment f = mFragments[i];
-			if (f != null) {
-				if (i != id) {
-					mTransaction.hide(f);
-				} else {
-					mTransaction.show(f);
-				}
-			}
-		}
+		mTransaction.replace(R.id.main_content_frame, mFragments[id]);
 		mTransaction.commit();
 	}
 
