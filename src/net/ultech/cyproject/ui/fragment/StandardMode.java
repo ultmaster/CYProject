@@ -13,7 +13,6 @@ import net.ultech.cyproject.R.layout;
 import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
-import net.ultech.cyproject.ui.StandardModeHint;
 import net.ultech.cyproject.utils.AbsActivity;
 import net.ultech.cyproject.utils.DatabaseHolder;
 import android.app.Activity;

@@ -1,4 +1,4 @@
-package net.ultech.cyproject.ui;
+package net.ultech.cyproject.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,6 @@ import net.ultech.cyproject.R;
 import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
-import net.ultech.cyproject.ui.fragment.QueryMode;
-import net.ultech.cyproject.ui.fragment.StandardMode;
 import net.ultech.cyproject.utils.DatabaseHolder;
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -11,6 +11,7 @@ import net.ultech.cyproject.ui.fragment.Help;
 import net.ultech.cyproject.ui.fragment.HighRecord;
 import net.ultech.cyproject.ui.fragment.QueryMode;
 import net.ultech.cyproject.ui.fragment.StandardMode;
+import net.ultech.cyproject.ui.fragment.StandardModeHint;
 import net.ultech.cyproject.utils.AbsActivity;
 import net.ultech.cyproject.utils.Constants;
 import net.ultech.cyproject.utils.Constants.FragmentList;
