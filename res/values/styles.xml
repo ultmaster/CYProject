@@ -20,7 +20,12 @@
     </style>
     
     <!-- DefaultTheme -->
-    <style name="DefaultTheme" parent="AppBaseTheme">
+    <style name="DefaultTheme" parent="DefaultTheme">
+        
+        
+    </style>
+    
+    <style name="WhiteTheme" parent="DefaultTheme">
         <item name="colorBlue">#e33c3c</item>
         <item name="colorRed">#00d2ff</item>
         

@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Message;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -39,11 +40,13 @@ public class PersonalSettings extends PreferenceFragment implements
 	private int mLevel;
 	private String mUsername;
 	private String mTimeOrLife;
+	private String mAppearance;
 
 	private SharedPreferences mSharedPref;
 	private MyEditTextPreference mPrefUsername;
 	private NumberPickerPreference mPrefLevel;
 	private ListPreference mPrefTimeOrLife;
+	private ListPreference mPrefAppearance;
 	private Preference mPrefEmptyLog;
 	private Preference mPrefEmptyRecord;
 	private MainActivity mActivity;
@@ -61,12 +64,14 @@ public class PersonalSettings extends PreferenceFragment implements
 				.getString(R.string.pref_key_text_username));
 		mPrefUsername.setOnPreferenceChangeListener(this);
 		mUsername = mSharedPref.getString(
-				PreferenceName.STRING_DEFAULT_USERNAME, mActivity
-						.getString(R.string.null_username));
+				PreferenceName.STRING_DEFAULT_USERNAME,
+				mActivity.getString(R.string.null_username));
 		mPrefUsername.setNowText(mUsername);
-		mPrefUsername.setHint(mActivity.getString(
-				R.string.pref_username_dialog_hint));
-		mPrefUsername.setSummary(getResources().getString(R.string.pref_at_present) + mUsername);
+		mPrefUsername.setHint(mActivity
+				.getString(R.string.pref_username_dialog_hint));
+		mPrefUsername.setSummary(getResources().getString(
+				R.string.pref_at_present)
+				+ mUsername);
 		Log.d("Settings", "username成功加载");
 
 		mLevel = mSharedPref.getInt(PreferenceName.INT_LEVEL, 1);
@@ -74,7 +79,9 @@ public class PersonalSettings extends PreferenceFragment implements
 				.getString(R.string.pref_key_level_picker));
 		mPrefLevel.setNowLevel(mLevel);
 		mPrefLevel.setOnPreferenceChangeListener(this);
-		mPrefLevel.setSummary(getResources().getString(R.string.pref_at_present) + Integer.toString(mLevel)
+		mPrefLevel.setSummary(getResources()
+				.getString(R.string.pref_at_present)
+				+ Integer.toString(mLevel)
 				+ getResources().getString(R.string.pref_level_unit));
 		Log.d("Settings", "level成功加载");
 
@@ -87,13 +94,20 @@ public class PersonalSettings extends PreferenceFragment implements
 		mPrefTimeOrLife.setDefaultValue(mTimeOrLife);
 		Log.d("Settings", "timeorlife成功加载");
 
-		mPrefEmptyLog = (Preference) findPreference(mActivity.getString(
-				R.string.pref_key_empty_log));
+		mAppearance = mSharedPref.getString(PreferenceName.STRING_APPEARANCE,
+				"white");
+		mPrefAppearance = (ListPreference) findPreference("list_change_appearance");
+		mPrefAppearance.setOnPreferenceChangeListener(this);
+		mPrefAppearance.setSummary(convertAppearance(mAppearance));
+		Log.d("Settings", "appearance成功加载");
+
+		mPrefEmptyLog = (Preference) findPreference(mActivity
+				.getString(R.string.pref_key_empty_log));
 		mPrefEmptyLog.setOnPreferenceClickListener(this);
 		Log.d("Settings", "emptylog成功加载");
 
-		mPrefEmptyRecord = (Preference) findPreference(mActivity.getString(
-				R.string.pref_key_empty_record));
+		mPrefEmptyRecord = (Preference) findPreference(mActivity
+				.getString(R.string.pref_key_empty_record));
 		mPrefEmptyRecord.setOnPreferenceClickListener(this);
 		Log.d("Settings", "emptyrecord成功加载");
 
@@ -139,7 +153,9 @@ public class PersonalSettings extends PreferenceFragment implements
 							.edit()
 							.putString(PreferenceName.STRING_DEFAULT_USERNAME,
 									mUsername).commit();
-					preference.setSummary(getResources().getString(R.string.pref_at_present) + mUsername);
+					preference.setSummary(getResources().getString(
+							R.string.pref_at_present)
+							+ mUsername);
 				} else
 					Toast.makeText(mActivity, R.string.illegal_input, 1).show();
 			}
@@ -148,7 +164,9 @@ public class PersonalSettings extends PreferenceFragment implements
 				mLevel = (Integer) newValue;
 				mSharedPref.edit().putInt(PreferenceName.INT_LEVEL, mLevel)
 						.commit();
-				preference.setSummary(getResources().getString(R.string.pref_at_present) + mLevel
+				preference.setSummary(getResources().getString(
+						R.string.pref_at_present)
+						+ mLevel
 						+ getResources().getString(R.string.pref_level_unit));
 			}
 		} else if (preference == mPrefTimeOrLife) {
@@ -158,15 +176,48 @@ public class PersonalSettings extends PreferenceFragment implements
 					.putString(PreferenceName.STRING_TIME_OR_LIFE, mTimeOrLife)
 					.commit();
 			preference.setSummary(convertTimeOrLife(mTimeOrLife));
+		} else if (preference == mPrefAppearance) {
+			mAppearance = (String) newValue;
+			System.out.println(mAppearance);
+			mSharedPref.edit()
+					.putString(PreferenceName.STRING_APPEARANCE, mAppearance)
+					.commit();
+			preference.setSummary(convertAppearance(mAppearance));
+			Toast.makeText(mActivity,
+					mActivity.getString(R.string.is_going_to_restart), 1)
+					.show();
+			new Thread() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(3000);
+						Message msg = new Message();
+						msg.what = MainActivity.RECREATE_MSG;
+						mActivity.handler.sendMessage(msg);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}.start();
 		}
 		return true;
 	}
 
 	private String convertTimeOrLife(String str) {
 		if (str.equals(getResources().getString(R.string.time))) {
-			return (mActivity.getString(R.string.pref_at_present) + getResources().getString(R.string.time_first));
+			return (mActivity.getString(R.string.pref_at_present) + getResources()
+					.getString(R.string.time_first));
 		} else
-			return (mActivity.getString(R.string.pref_at_present) + getResources().getString(R.string.life_first));
+			return (mActivity.getString(R.string.pref_at_present) + getResources()
+					.getString(R.string.life_first));
+	}
+
+	private String convertAppearance(String str) {
+		if (str.equals("white")) {
+			return (mActivity.getString(R.string.pref_at_present) + mActivity
+					.getString(R.string.white_skin));
+		}
+		throw new RuntimeException("Skin not found");
 	}
 
 	@Override
@@ -181,10 +232,12 @@ public class PersonalSettings extends PreferenceFragment implements
 								public void onClick(DialogInterface dialog,
 										int which) {
 									File file = new File(mActivity
-											.getFilesDir(), Constants.LOG_FILE_NAME);
+											.getFilesDir(),
+											Constants.LOG_FILE_NAME);
 									if (file.exists()) {
 										file.delete();
-										Toast.makeText(mActivity, R.string.delete_successfully, 1)
+										Toast.makeText(mActivity,
+												R.string.delete_successfully, 1)
 												.show();
 									}
 								}
@@ -207,10 +260,12 @@ public class PersonalSettings extends PreferenceFragment implements
 								public void onClick(DialogInterface dialog,
 										int which) {
 									File file = new File(mActivity
-											.getFilesDir(), Constants.RECORD_FILE_NAME);
+											.getFilesDir(),
+											Constants.RECORD_FILE_NAME);
 									if (file.exists()) {
 										file.delete();
-										Toast.makeText(mActivity, R.string.delete_successfully, 1)
+										Toast.makeText(mActivity,
+												R.string.delete_successfully, 1)
 												.show();
 									}
 								}

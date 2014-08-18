@@ -28,9 +28,12 @@ public class AbsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		sp = getApplicationContext().getSharedPreferences(
 				Constants.PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
-		setTheme(R.style.DefaultTheme);
+
+		String theme = sp.getString("appearance", "white");
+		if (theme.equals("white"))
+			setTheme(R.style.WhiteTheme);
+
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 	}
 }

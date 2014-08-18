@@ -3,6 +3,8 @@
 
     <string name="app_name">成语接龙</string>
     <string name="challenge_mode_name">挑战模式</string>
+    <string name="mode_standard">标准模式</string>
+    <string name="mode_challenge">挑战模式</string>
     <string name="developer_info">UlTech © 2014 China</string>
     <string name="contact_info">scottyugochang@hotmail.com</string>
     <string name="e_mail_pointer">E-mail:</string>
@@ -20,12 +22,20 @@
         <item>@string/life_first</item>
     </string-array>
     <string-array name="time_or_life_value_entires">
-        <item>time</item>
-        <item>life</item>
+        <item>@string/time</item>
+        <item>@string/life</item>
     </string-array>
+    
+    <string-array name="appearance_entires">
+        <item>@string/white_skin</item>
+    </string-array>
+    <string-array name="appearance_value_entires">
+        <item>white</item>
+    </string-array>
+    
     <string-array name="drawer_items">
-        <item>标准模式</item>
-        <item>挑战模式</item>
+        <item>@string/mode_standard</item>
+        <item>@string/mode_challenge</item>
         <item>查询字典</item>
         <item>高分记录</item>
         <item>个性设置</item>
@@ -33,6 +43,10 @@
         <item>关于我们</item>
     </string-array>
 
+    <string name="white_skin">白色</string>
+    
+    
+    
     <string name="st_hint_name">标准模式提示</string>
     <string name="st_log_name">标准模式日志</string>
     <string name="first_use_welcome_text">您好，欢迎使用成语接龙1.0测试版。希望您能使用愉快，并提出宝贵意见。联系方式请参见“关于我们”。谢谢。</string>
@@ -41,9 +55,8 @@
     <!-- By red and blue, I don't really mean red and blue ^_^ -->
     <color name="color_red">#e33c3c</color>
     <color name="color_blue">#00d2ff</color>
-	<!-- By grey, I don't really mean grey ^_^ -->
-	
-    
+    <!-- By grey, I don't really mean grey ^_^ -->
+
     <string name="null_username">无名氏</string>
     <string name="pref_username_dialog_hint">请输入默认用户名：（不能为空，不能含有$字符）</string>
     <string name="pref_at_present">目前：</string>
@@ -110,5 +123,9 @@
     <string name="robot_pointer">机器人：</string>
     <string name="hint">提示</string>
     <string name="log">日志</string>
+    <string name="empty_log">清空日志</string>
+    <string name="empty_record">清空记录</string>
+    <string name="appearance">外观</string>
+    <string name="is_going_to_restart">应用程序即将重启……</string>
 
 </resources>

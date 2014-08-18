@@ -31,6 +31,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,6 +85,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d("ChallengeMode", "onCreate");
 		mDatabase = DatabaseHolder.getDatabase();
 		LayoutInflater inflater = LayoutInflater.from(this);
 		final View view = inflater.inflate(R.layout.challenge_layout_dialog1,
@@ -166,6 +168,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 
 	@Override
 	protected void onDestroy() {
+		Log.d("ChallengeMode", "onDestroy");
 		if (alreadyIn) {
 			saveScore();
 			timerOn = false;

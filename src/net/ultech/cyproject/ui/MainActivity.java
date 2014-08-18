@@ -32,6 +32,7 @@ import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceFragment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -49,6 +50,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AbsActivity {
 
+	public static int RECREATE_MSG = 0;
+
 	private ListView mListView;
 	private String[] mDrawerItemNames;
 	private String mTitle;
@@ -59,6 +62,13 @@ public class MainActivity extends AbsActivity {
 	private ActionBarDrawerToggle mDrawerToggle;
 	public Fragment[] mFragments;
 	public MainActivityStack mActivityStack;
+
+	public Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			if (msg.what == 0)
+				recreate();
+		};
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
