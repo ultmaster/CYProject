@@ -1,4 +1,4 @@
-package net.ultech.cyproject.ui;
+package net.ultech.cyproject.ui.fragment;
 
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.R.layout;

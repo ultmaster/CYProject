@@ -1,4 +1,4 @@
-package net.ultech.cyproject.ui;
+package net.ultech.cyproject.ui.fragment;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,4 +1,4 @@
-package net.ultech.cyproject.ui;
+package net.ultech.cyproject.ui.fragment;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class HelpActivity extends Fragment {
+public class Help extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +35,7 @@ public class HelpActivity extends Fragment {
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 			LinearLayout llRoot = (LinearLayout) view
 					.findViewById(R.id.hp_ll_root);
-			List<TitleAndText> list = new ArrayList<HelpActivity.TitleAndText>();
+			List<TitleAndText> list = new ArrayList<Help.TitleAndText>();
 
 			String str1, str2;
 			while (true) {
@@ -67,7 +67,7 @@ public class HelpActivity extends Fragment {
 								public void onClick(DialogInterface dialog,
 										int which) {
 									getFragmentManager().beginTransaction()
-											.remove(HelpActivity.this).commit();
+											.remove(Help.this).commit();
 								}
 							}).show();
 			e.printStackTrace();

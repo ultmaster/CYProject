@@ -5,8 +5,9 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="14"
         android:targetSdkVersion="21" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -24,18 +25,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.ultech.cyproject.ui.QueryMode"
+            android:name="net.ultech.cyproject.ui.fragment.QueryMode"
             android:label="@string/query_mode_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="net.ultech.cyproject.ui.ChallengeMode"
             android:label="@string/challenge_mode_name"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="net.ultech.cyproject.ui.HighRecord"
-            android:label="@string/high_record_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -51,11 +47,6 @@
         <activity
             android:name="net.ultech.cyproject.ui.PersonalSettings"
             android:label="@string/personal_settings_name"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="net.ultech.cyproject.ui.HelpActivity"
-            android:label="@string/help_activity_name"
             android:screenOrientation="portrait" >
         </activity>
     </application>

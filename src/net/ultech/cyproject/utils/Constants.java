@@ -13,8 +13,14 @@ public final class Constants {
     }
 
     public final static String PREFERENCE_FILE_NAME = "setting";
+    public final static String DATABASE_FILE_NAME = "cydb.db";
 
     public final class PreferenceName {
         public static final String BOOL_FIRSTUSE = "firstUse";
     }
+
+    public static enum DatabaseLocation {
+        INTERNAL, EXTERNAL, BOTH
+    }
+
 }

@@ -18,6 +18,7 @@ import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
 import net.ultech.cyproject.utils.AbsActivity;
+import net.ultech.cyproject.utils.DatabaseHolder;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,8 +42,7 @@ import android.widget.Toast;
 
 public class ChallengeMode extends AbsActivity implements OnClickListener {
 
-	private CYDbOpenHelper helper;
-	private SQLiteDatabase db;
+	private SQLiteDatabase mDatabase;
 	private SharedPreferences sp;
 
 	private EditText etHuman;
@@ -82,7 +82,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		mDatabase=DatabaseHolder.getDatabase();
 		LayoutInflater inflater = LayoutInflater.from(this);
 		final View view = inflater.inflate(R.layout.challenge_layout_dialog1,
 				null);
@@ -124,8 +124,6 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 		builder1.create().show();
 
 		setContentView(R.layout.challenge_layout);
-		helper = new CYDbOpenHelper(this);
-		db = helper.getReadableDatabase();
 		etHuman = (EditText) findViewById(R.id.ch_et_human);
 		tvRobot = (TextView) findViewById(R.id.ch_tv_robot);
 		btOK = (Button) findViewById(R.id.ch_bt_ok);
@@ -179,7 +177,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 				} else if (textRobot.charAt(0) == textHuman.charAt(textHuman
 						.length() - 1)) {
 					Toast.makeText(this, "输入的末字不能与所给词的首字相同", 1).show();
-				} else if (CYDbDAO.find(textHuman, db)) {
+				} else if (CYDbDAO.find(textHuman, mDatabase)) {
 					++scoreHuman;
 					++successAnswer;
 					Toast.makeText(this, "+1", 0).show();
@@ -190,7 +188,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 					String first = new String(
 							new char[] { textHuman.charAt(textHuman.length() - 1) });
 					List<WordInfoSpecial> candidate = CYDbDAO.findByFirst(
-							first, db);
+							first, mDatabase);
 					if (candidate.size() != 0) {
 						List<WordInfoSpecial> candidate2 = new ArrayList<WordInfoSpecial>();
 						Random random = new Random();
@@ -294,7 +292,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 		List<WordInfoSpecial> wordlist = new ArrayList<WordInfoSpecial>();
 		for (int i = 0; i < random_size; ++i) {
 			WordInfoSpecial word = CYDbDAO.findById(
-					random.nextInt(db_size) + 1, db);
+					random.nextInt(db_size) + 1, mDatabase);
 			if (word.getCountOfLast() != 0)
 				wordlist.add(word);
 			else
