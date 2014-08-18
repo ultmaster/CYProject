@@ -2,4 +2,7 @@
 <resources>
     <attr name="colorBlue" format="color" />
     <attr name="colorRed" format="color" />
+    <attr name="btnColorDefault" format="color" />
+    <attr name="btnColorPressed" format="color" />
+    <attr name="btnColorBorder" format="color" />
 </resources>

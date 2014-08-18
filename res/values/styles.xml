@@ -26,9 +26,11 @@
     </style>
     
     <style name="WhiteTheme" parent="DefaultTheme">
-        <item name="colorBlue">#e33c3c</item>
-        <item name="colorRed">#00d2ff</item>
-        
+        <item name="colorBlue">#00d2ff</item>
+        <item name="colorRed">#e33c3c</item>
+        <item name="btnColorPressed">#038eac</item>
+        <item name="btnColorDefault">#12aed0</item>
+        <item name="btnColorBorder">#29c5e7</item>
     </style>
     
     
