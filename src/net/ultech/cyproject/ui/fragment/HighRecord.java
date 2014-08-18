@@ -14,6 +14,7 @@ import net.ultech.cyproject.R.id;
 import net.ultech.cyproject.R.layout;
 import net.ultech.cyproject.bean.RecordInfo;
 import net.ultech.cyproject.utils.AbsActivity;
+import net.ultech.cyproject.utils.Constants;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Html;
@@ -54,7 +55,7 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 		lvRecord = (ListView) view.findViewById(R.id.lv_record);
 		btEdit = (Button) view.findViewById(R.id.re_bt_edit);
 		btExpand = (Button) view.findViewById(R.id.re_bt_expand);
-		file = new File(getActivity().getFilesDir(), "ch.record");
+		file = new File(getActivity().getFilesDir(), Constants.RECORD_FILE_NAME);
 
 		try {
 			recordList = new ArrayList<RecordInfo>();
@@ -75,7 +76,7 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 			lvRecord.setAdapter(listAdapter);
 			lvRecord.setOnItemClickListener(this);
 		} catch (IOException e) {
-			Toast.makeText(getActivity(), "读取记录异常，记录是否为空？", 1).show();
+			Toast.makeText(getActivity(), R.string.empty_record_reminder, 1).show();
 			e.printStackTrace();
 		}
 		return view;
@@ -143,9 +144,9 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 					.findViewById(R.id.re_tv_username);
 			TextView tvScore = (TextView) view.findViewById(R.id.re_tv_score);
 			tvRank.setText(Integer.toString(recordList.get(position).getRank()));
-			tvUsername.setText(Html.fromHtml("<b>用户名：</b>"
+			tvUsername.setText(Html.fromHtml("<b>"+getString(R.string.user_info)+"：</b>"
 					+ recordList.get(position).getUsername()));
-			tvScore.setText(Html.fromHtml("<b>得分：</b>"
+			tvScore.setText(Html.fromHtml("<b>"+getString(R.string.score)+"：</b>"
 					+ Integer.toString(recordList.get(position).getScore())));
 			if (!editState) {
 				tvRank.setTextColor(0xff000000);
@@ -179,7 +180,7 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 				try {
 					updateFile();
 				} catch (IOException e) {
-					Toast.makeText(getActivity(), "修改记录失败。", 1).show();
+					Toast.makeText(getActivity(), R.string.modify_record_failure, 1).show();
 					e.printStackTrace();
 				}
 				maxDisplaySize = recordList.size();
@@ -187,11 +188,11 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 					DisplaySize = maxDisplaySize;
 				for (boolean b : deleteSelection)
 					b = false;
-				btEdit.setText("编辑");
+				btEdit.setText(R.string.edit);
 				listAdapter.notifyDataSetChanged();
 			} else {
 				editState = true;
-				btEdit.setText("删除选中");
+				btEdit.setText(R.string.delete_selection);
 			}
 			break;
 		case R.id.re_bt_expand:

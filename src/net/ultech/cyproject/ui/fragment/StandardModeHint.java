@@ -38,16 +38,7 @@ public class StandardModeHint extends Fragment implements OnClickListener {
     private int shadowPosition;
     private myAdapter adapter;
     private String first;
-    private StandardMode mCaller;
     private MainActivity mActivity;
-
-    public void setFirst(String mFirst) {
-        first = mFirst;
-    }
-
-    public void setCaller(Fragment caller) {
-        mCaller = (StandardMode) caller;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,8 +55,8 @@ public class StandardModeHint extends Fragment implements OnClickListener {
         }
         if (candidate.isEmpty()) {
             new AlertDialog.Builder(mActivity)
-                    .setMessage("无法找到匹配，点击确定返回标准模式。")
-                    .setPositiveButton("确定",
+                    .setMessage(R.string.hint_no_match_found)
+                    .setPositiveButton(R.string.ok,
                             new DialogInterface.OnClickListener() {
 
                                 @Override
@@ -138,8 +129,8 @@ public class StandardModeHint extends Fragment implements OnClickListener {
         case R.id.st_hint_bt_select:
             if (shadowPosition == -1) {
                 new AlertDialog.Builder(mActivity)
-                        .setMessage("没有选择成语。")
-                        .setPositiveButton("确定",
+                        .setMessage(R.string.no_word_chosen)
+                        .setPositiveButton(R.string.ok,
                                 new DialogInterface.OnClickListener() {
 
                                     @Override
@@ -158,8 +149,8 @@ public class StandardModeHint extends Fragment implements OnClickListener {
         case R.id.st_hint_bt_figure:
             if (shadowPosition == -1) {
                 new AlertDialog.Builder(mActivity)
-                        .setMessage("没有选择成语。")
-                        .setPositiveButton("确定",
+                        .setMessage(R.string.no_word_chosen)
+                        .setPositiveButton(R.string.ok,
                                 new DialogInterface.OnClickListener() {
 
                                     @Override

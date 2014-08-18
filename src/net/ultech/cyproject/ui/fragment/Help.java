@@ -61,8 +61,8 @@ public class Help extends Fragment {
 			
 		} catch (IOException e) {
 			new AlertDialog.Builder(getActivity())
-					.setMessage("帮助文档打开失败。")
-					.setPositiveButton("返回",
+					.setMessage(R.string.helpfile_open_failure)
+					.setPositiveButton(R.string.back,
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog,

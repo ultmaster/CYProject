@@ -1,5 +1,7 @@
 package net.ultech.cyproject.bean;
 
+import net.ultech.cyproject.R;
+
 public class WordInfoSpecial implements Comparable<WordInfoSpecial> {
 
 	public WordInfoSpecial(String name, int countOfLast) {

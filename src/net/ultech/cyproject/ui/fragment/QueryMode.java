@@ -4,7 +4,9 @@ import net.ultech.cyproject.R;
 import net.ultech.cyproject.bean.WordInfoComplete;
 import net.ultech.cyproject.dao.CYDbDAO;
 import net.ultech.cyproject.ui.MainActivity;
+import net.ultech.cyproject.utils.Constants;
 import net.ultech.cyproject.utils.DatabaseHolder;
+import net.ultech.cyproject.utils.Constants.PreferenceName;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -35,8 +37,9 @@ public class QueryMode extends Fragment implements OnClickListener {
 		tvResult = (TextView) view.findViewById(R.id.qu_tv_result);
 		btOK.setOnClickListener(this);
 		mActivity = (MainActivity) getActivity();
-		text = mActivity.getSharedPreferences("setting", Context.MODE_PRIVATE)
-				.getString("last_query", "");
+		text = mActivity.getSharedPreferences(Constants.PREFERENCE_FILE_NAME,
+				Context.MODE_PRIVATE).getString(
+				PreferenceName.STRING_LAST_QUERY, "");
 		Bundle backBundle = mActivity.mActivityStack.getBackBundle();
 		String newQueryWord = null;
 		if (backBundle != null)
@@ -53,8 +56,10 @@ public class QueryMode extends Fragment implements OnClickListener {
 
 	@Override
 	public void onStop() {
-		mActivity.getSharedPreferences("setting", Context.MODE_PRIVATE).edit()
-				.putString("last_query", text).commit();
+		mActivity
+				.getSharedPreferences(Constants.PREFERENCE_FILE_NAME,
+						Context.MODE_PRIVATE).edit()
+				.putString(PreferenceName.STRING_LAST_QUERY, text).commit();
 		super.onStop();
 	}
 
@@ -64,21 +69,36 @@ public class QueryMode extends Fragment implements OnClickListener {
 		case R.id.qu_bt_ok:
 			String text = etWord.getText().toString().trim();
 			if (TextUtils.isEmpty(text))
-				tvResult.setText("当前查询内容为空");
+				tvResult.setText(R.string.empty_query_reminder);
 			WordInfoComplete word = CYDbDAO.findComplete(text,
 					DatabaseHolder.getDatabase());
 			if (word != null) {
-				String source = "<b>【成语】</b>" + word.getName()
-						+ "<br><b>【读音】</b>" + word.getSpell();
+				String source = "<b>"
+						+ getActivity().getString(R.string.query_result_title)
+						+ "</b>" + word.getName() + "<br><b>"
+						+ getActivity().getString(R.string.query_result_spell)
+						+ "</b>" + word.getSpell();
 				if (!TextUtils.isEmpty(word.getContent()))
-					source = source + "<br><b>【解释】</b>" + word.getContent();
+					source = source
+							+ "<br><b>"
+							+ getActivity().getString(
+									R.string.query_result_content) + "</b>"
+							+ word.getContent();
 				if (!TextUtils.isEmpty(word.getDerivation()))
-					source = source + "<br><b>【出处】</b>" + word.getDerivation();
+					source = source
+							+ "<br><b>"
+							+ getActivity().getString(
+									R.string.query_result_derivation) + "</b>"
+							+ word.getDerivation();
 				if (!TextUtils.isEmpty(word.getSamples()))
-					source = source + "<br><b>【例句】</b>" + word.getSamples();
+					source = source
+							+ "<br><b>"
+							+ getActivity().getString(
+									R.string.query_result_samples) + "</b>"
+							+ word.getSamples();
 				tvResult.setText(Html.fromHtml(source));
 			} else {
-				tvResult.setText("很抱歉，查询失败。请检查拼写是否正确。");
+				tvResult.setText(R.string.query_failure);
 			}
 			break;
 		}

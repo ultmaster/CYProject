@@ -15,7 +15,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:alpha="0.9"
-        android:text="挑战模式限制时间，且不可暂停。结果将被统计入高分记录。请输入用户名（可为空）："
+        android:text="@string/challenge_start_dialog"
         android:textSize="18dp" />
 
     <EditText

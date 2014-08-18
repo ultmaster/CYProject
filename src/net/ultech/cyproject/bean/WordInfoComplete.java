@@ -1,5 +1,7 @@
 package net.ultech.cyproject.bean;
 
+import net.ultech.cyproject.R;
+
 public class WordInfoComplete extends WordInfo {
 
 	public WordInfoComplete(String name, String first, int count, String spell,

@@ -3,15 +3,14 @@
 
     <string name="app_name">成语接龙</string>
     <string name="challenge_mode_name">挑战模式</string>
-    <string name="personal_settings_name">个性设置</string>
     <string name="developer_info">UlTech © 2014 China</string>
     <string name="contact_info">scottyugochang@hotmail.com</string>
     <string name="cancel">取消</string>
     <string name="ok">确定</string>
 
     <string-array name="time_or_life_entires">
-        <item>时间优先</item>
-        <item>生命值优先</item>
+        <item>@string/time_first</item>
+        <item>@string/life_first</item>
     </string-array>
     <string-array name="time_or_life_value_entires">
         <item>time</item>
@@ -29,10 +28,80 @@
 
     <string name="st_hint_name">标准模式提示</string>
     <string name="st_log_name">标准模式日志</string>
-    
     <string name="first_use_welcome_text">您好，欢迎使用成语接龙1.0测试版。希望您能使用愉快，并提出宝贵意见。联系方式请参见“关于我们”。谢谢。</string>
     <string name="first_use_accepted_welcome_text">好的，立即开始！</string>
 
+    <!-- By red and blue, I don't really mean red and blue ^_^ -->
     <color name="color_red">#e33c3c</color>
+    <color name="color_blue">#00d2ff</color>
+	<!-- By grey, I don't really mean grey ^_^ -->
+	
+    
+    <string name="null_username">无名氏</string>
+    <string name="pref_username_dialog_hint">请输入默认用户名：（不能为空，不能含有$字符）</string>
+    <string name="pref_at_present">目前：</string>
+    <string name="pref_level_unit">级</string>
+    <string name="pref_key_text_username">text_username</string>
+    <string name="pref_key_level_picker">level_picker</string>
+    <string name="pref_key_list_timelife">list_timelife</string>
+    <string name="pref_key_empty_log">empty_log</string>
+    <string name="pref_key_empty_record">empty_record</string>
+    <string name="illegal_input">输入不合法</string>
+    <string name="life">life</string>
+    <string name="time">time</string>
+    <string name="time_first">时间优先</string>
+    <string name="life_first">生命值优先</string>
+    <string name="unrecoverable_reminder_log">此操作不可恢复。确定要删除日志？</string>
+    <string name="unrecoverable_reminder_record">此操作不可恢复。确定要删除记录？</string>
+    <string name="delete_successfully">删除成功</string>
+    <string name="reminder_info_title">提示信息</string>
+    <string name="start">开始</string>
+    <string name="user_info">用户信息：</string>
+    <string name="back">返回</string>
+    <string name="please_type_in_the_word">请输入成语</string>
+    <string name="first_equal_last_error">输入的首字必须和所给词的末字相同</string>
+    <string name="last_diff_first_error">输入的末字不能与所给词的首字相同</string>
+    <string name="plus_one">+1</string>
+    <string name="plus_five">+5</string>
+    <string name="next_round">下一回合</string>
+    <string name="next_round_reminder">您赢了，点下一回合</string>
+    <string name="illegal_word_error">该成语不在词典中</string>
+    <string name="restart">重新开始</string>
+    <string name="challenge_restart_reminder">您的成绩将被存档。是否真的要重新开始挑战模式？</string>
+    <string name="round">回合</string>
+    <string name="score">得分</string>
+    <string name="level">难度</string>
+    <string name="challenge_quit_reminder">您的成绩将被存档。是否真的要退出？</string>
+    <string name="round_lose_proceed_reminder">抱歉，您输了，点击下一回合继续</string>
+    <string name="your_score_is">你的得分为</string>
+    <string name="challenge_game_over_reminder">，此成绩将被存档。点击重新开始开始新的一轮，点击返回返回主界面。</string>
+    <string name="save_failure">存储失败</string>
+    <string name="hint_no_match_found">无法找到匹配，点击确定返回标准模式。</string>
+    <string name="no_word_chosen">没有选择成语。</string>
+    <string name="helpfile_open_failure">帮助文档打开失败。</string>
+    <string name="empty_record_reminder">记录为空</string>
+    <string name="modify_record_failure">修改记录失败。</string>
+    <string name="edit">编辑</string>
+    <string name="delete_selection">删除选中</string>
+    <string name="empty_query_reminder">当前查询内容为空</string>
+    <string name="query_failure">很抱歉，查询失败。请检查拼写是否正确。</string>
+    <string name="help">帮助</string>
+    <string name="query_result_title">【成语】</string>
+    <string name="query_result_spell">【读音】</string>
+    <string name="query_result_content">【解释】</string>
+    <string name="query_result_derivation">【出处】</string>
+    <string name="query_result_samples">【例句】</string>
+    <string name="first_word">坐井观天</string>
+    <string name="robot_query_failure">机器人已死，点重新开始拯救它</string>
+    <string name="empty_robot_given">所给词汇尚为空，请点击重新开始</string>
+    <string name="log_io_failure">日志读写失败</string>
+    <string name="challenge_start_dialog">挑战模式限制时间，且不可暂停。结果将被统计入高分记录。请输入用户名（可为空）：</string>
+    <string name="expand">全部展开</string>
+    <string name="select">选择</string>
+    <string name="query">查询</string>
+    <string name="me_pointer">我：</string>
+    <string name="robot_pointer">机器人：</string>
+    <string name="hint">提示</string>
+    <string name="log">日志</string>
 
 </resources>

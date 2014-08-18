@@ -73,7 +73,7 @@ public class StandardModeLog extends Fragment {
 		} catch (StringIndexOutOfBoundsException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			Toast.makeText(mActivity, "日志读写失败。是否为空？", 1).show();
+			Toast.makeText(mActivity, getActivity().getString(R.string.log_io_failure), 1).show();
 			e.printStackTrace();
 		}
 		return view;

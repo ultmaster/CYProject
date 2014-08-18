@@ -1,6 +1,7 @@
 package net.ultech.cyproject.utils;
 
 import android.database.sqlite.SQLiteDatabase;
+import net.ultech.cyproject.R;
 
 public class DatabaseHolder {
     private static SQLiteDatabase mDatabase;

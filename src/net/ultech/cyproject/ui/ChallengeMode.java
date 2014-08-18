@@ -18,7 +18,9 @@ import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
 import net.ultech.cyproject.utils.AbsActivity;
+import net.ultech.cyproject.utils.Constants;
 import net.ultech.cyproject.utils.DatabaseHolder;
+import net.ultech.cyproject.utils.Constants.PreferenceName;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -82,45 +84,55 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mDatabase=DatabaseHolder.getDatabase();
+		mDatabase = DatabaseHolder.getDatabase();
 		LayoutInflater inflater = LayoutInflater.from(this);
 		final View view = inflater.inflate(R.layout.challenge_layout_dialog1,
 				null);
 		AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-		builder1.setTitle("提示信息");
+		builder1.setTitle(R.string.reminder_info_title);
 		builder1.setIcon(android.R.drawable.ic_dialog_info);
 		builder1.setView(view);
-		builder1.setPositiveButton("开始", new DialogInterface.OnClickListener() {
+		builder1.setPositiveButton(R.string.start,
+				new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				EditText etDialogUsername = (EditText) view
-						.findViewById(R.id.ch_et_dialog1_username);
-				username = etDialogUsername.getText().toString();
-				sp = getSharedPreferences("setting", Context.MODE_PRIVATE);
-				if (sp.getString("ch_savedPrimary", "life").equals("time")) {
-					System.out.println("时间优先");
-					time_limit = 60;
-					full_charged = 4;
-				}
-				if (TextUtils.isEmpty(username))
-					username = sp.getString("ch_defaultUsername", "无名氏");
-				if (username != null && !TextUtils.isEmpty(username))
-					tvUsername.setText(Html.fromHtml("<b>用户信息：</b>" + username));
-				else {
-					tvUsername.setText(Html.fromHtml("<b>用户信息：</b>"));
-				}
-				alreadyIn = true;
-				completeRestart();
-			}
-		});
-		builder1.setNegativeButton("返回", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						EditText etDialogUsername = (EditText) view
+								.findViewById(R.id.ch_et_dialog1_username);
+						username = etDialogUsername.getText().toString();
+						sp = getSharedPreferences(
+								Constants.PREFERENCE_FILE_NAME,
+								Context.MODE_PRIVATE);
+						if (sp.getString(PreferenceName.STRING_TIME_OR_LIFE,
+								getString(R.string.life)).equals(R.string.time)) {
+							System.out.println(R.string.time_first);
+							time_limit = 60;
+							full_charged = 4;
+						}
+						if (TextUtils.isEmpty(username))
+							username = sp.getString(
+									PreferenceName.STRING_DEFAULT_USERNAME,
+									getString(R.string.null_username));
+						if (username != null && !TextUtils.isEmpty(username))
+							tvUsername.setText(Html.fromHtml("<b>"
+									+ getString(R.string.user_info) + "</b>"
+									+ username));
+						else {
+							tvUsername.setText(Html.fromHtml("<b>"
+									+ getString(R.string.user_info) + "</b>"));
+						}
+						alreadyIn = true;
+						completeRestart();
+					}
+				});
+		builder1.setNegativeButton(R.string.back,
+				new DialogInterface.OnClickListener() {
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				finish();
-			}
-		});
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						finish();
+					}
+				});
 		builder1.create().show();
 
 		setContentView(R.layout.challenge_layout);
@@ -169,21 +181,24 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			textHuman = etHuman.getText().toString().trim();
 			textRobot = tvRobot.getText().toString().trim();
 			if (TextUtils.isEmpty(textHuman)) {
-				Toast.makeText(this, "请输入成语", 1).show();
+				Toast.makeText(this, R.string.please_type_in_the_word, 1)
+						.show();
 			} else {
 				if (textHuman.charAt(0) != textRobot
 						.charAt(textRobot.length() - 1)) {
-					Toast.makeText(this, "输入的首字必须和所给词的末字相同", 1).show();
+					Toast.makeText(this, R.string.first_equal_last_error, 1)
+							.show();
 				} else if (textRobot.charAt(0) == textHuman.charAt(textHuman
 						.length() - 1)) {
-					Toast.makeText(this, "输入的末字不能与所给词的首字相同", 1).show();
+					Toast.makeText(this, R.string.last_diff_first_error, 1)
+							.show();
 				} else if (CYDbDAO.find(textHuman, mDatabase)) {
 					++scoreHuman;
 					++successAnswer;
-					Toast.makeText(this, "+1", 0).show();
+					Toast.makeText(this, R.string.plus_one, 0).show();
 					if (score_update[level] <= successAnswer) {
 						++level;
-						Toast.makeText(this, "+5", 0).show();
+						Toast.makeText(this, R.string.plus_five, 0).show();
 					}
 					String first = new String(
 							new char[] { textHuman.charAt(textHuman.length() - 1) });
@@ -204,9 +219,10 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 								--i;
 						}
 						if (candidate2.isEmpty()) {
-							btRestart.setText("下一回合");
+							btRestart.setText(R.string.next_round);
 							Toast.makeText(this, "+" + success_plus, 0).show();
-							Toast.makeText(this, "你赢了，点下一回合", 1).show();
+							Toast.makeText(this, R.string.next_round_reminder,
+									1).show();
 							charged += success_charged;
 							if (charged > full_charged)
 								charged = full_charged;
@@ -229,9 +245,10 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 							setStatusAndLevel();
 						}
 					} else {
-						btRestart.setText("下一回合");
+						btRestart.setText(R.string.next_round);
 						Toast.makeText(this, "+" + success_plus, 0).show();
-						Toast.makeText(this, "您赢了，点下一回合", 1).show();
+						Toast.makeText(this, R.string.next_round_reminder, 1)
+								.show();
 						charged += success_charged;
 						if (charged > full_charged)
 							charged = full_charged;
@@ -243,15 +260,15 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 						updateProgressBar();
 					}
 				} else {
-					Toast.makeText(this, "该成语不在词典中", 1).show();
+					Toast.makeText(this, R.string.illegal_word_error, 1).show();
 				}
 			}
 			break;
 		case R.id.ch_bt_restart:
-			if (btRestart.getText().toString().equals("重新开始")) {
+			if (btRestart.getText().toString().equals(R.string.restart)) {
 				new AlertDialog.Builder(this)
-						.setMessage("您的成绩将被存档。是否真的要重新开始挑战模式？")
-						.setPositiveButton("确定",
+						.setMessage(R.string.challenge_restart_reminder)
+						.setPositiveButton(R.string.ok,
 								new DialogInterface.OnClickListener() {
 
 									@Override
@@ -261,7 +278,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 										completeRestart();
 									}
 								})
-						.setNegativeButton("返回",
+						.setNegativeButton(R.string.back,
 								new DialogInterface.OnClickListener() {
 
 									@Override
@@ -305,7 +322,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 		tvRobot.setText(textRobot);
 		etHuman.setText(textHuman);
 		setStatusAndLevel();
-		btRestart.setText("重新开始");
+		btRestart.setText(R.string.restart);
 		btOK.setClickable(true);
 		updateProgressBar();
 		timeRemain = time_limit;
@@ -332,11 +349,14 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 	}
 
 	public void setStatusAndLevel() {
-		tvStatus.setText(Html.fromHtml("<b>得分：</b>"
-				+ "<font color=\"#00d2ff\">" + Integer.toString(scoreHuman)
-				+ "</font>"));
-		tvLevel.setText(Html.fromHtml("<b>难度：</b>" + Integer.toString(level)
-				+ "级；第" + Integer.toString(round) + "回合"));
+		tvStatus.setText(Html.fromHtml("<b>" + getString(R.string.score)
+				+ "：</b>" + "<font color=\"#"
+				+ "e33c3c"
+				+ "\">" + Integer.toString(scoreHuman) + "</font>"));
+		tvLevel.setText(Html.fromHtml("<b>" + getString(R.string.level)
+				+ "：</b>" + Integer.toString(level)
+				+ getString(R.string.pref_level_unit) + "；"
+				+ getString(R.string.round) + Integer.toString(round)));
 	}
 
 	public void updateTimeAppearance() {
@@ -364,22 +384,27 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 	}
 
 	public void exitDialog() {
-		new AlertDialog.Builder(this).setMessage("您的成绩将被存档。是否真的要退出？")
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+		new AlertDialog.Builder(this)
+				.setMessage(R.string.challenge_quit_reminder)
+				.setPositiveButton(R.string.ok,
+						new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						ChallengeMode.this.finish();
-					}
-				})
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								ChallengeMode.this.finish();
+							}
+						})
 
-				.setNegativeButton("返回", new DialogInterface.OnClickListener() {
+				.setNegativeButton(R.string.back,
+						new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
 
-					}
-				}).show();
+							}
+						}).show();
 	}
 
 	private final Handler handler = new Handler() {
@@ -393,19 +418,19 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 					charged--;
 					btOK.setClickable(false);
 					if (charged != 0) {
-						btRestart.setText("下一回合");
-						Toast.makeText(ChallengeMode.this, "抱歉，您输了，点击下一回合继续", 1)
-								.show();
+						btRestart.setText(R.string.next_round);
+						Toast.makeText(ChallengeMode.this,
+								R.string.round_lose_proceed_reminder, 1).show();
 						updateProgressBar();
 					} else {
-						btRestart.setText("重新开始");
+						btRestart.setText(R.string.restart);
 						updateProgressBar();
 						new AlertDialog.Builder(ChallengeMode.this)
 								.setMessage(
-										"你的得分为"
+										R.string.your_score_is
 												+ Integer.toString(scoreHuman)
-												+ "，此成绩将被存档。点击重新开始开始新的一轮，点击返回返回主界面。")
-								.setPositiveButton("重新开始",
+												+ R.string.challenge_game_over_reminder)
+								.setPositiveButton(R.string.restart,
 										new DialogInterface.OnClickListener() {
 
 											@Override
@@ -416,7 +441,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 												completeRestart();
 											}
 										})
-								.setNegativeButton("返回",
+								.setNegativeButton(R.string.back,
 										new DialogInterface.OnClickListener() {
 
 											@Override
@@ -455,7 +480,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 
 	public void saveScore() {
 		try {
-			File file = new File(getFilesDir(), "ch.record");
+			File file = new File(getFilesDir(), Constants.RECORD_FILE_NAME);
 			String[] result;
 			if (file.exists()) {
 				FileInputStream fis = new FileInputStream(file);
@@ -494,7 +519,6 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 				}
 			}
 			result = null;
-			System.out.println("Calculate successfully.");
 
 			String doneResult = modifiedResult[0];
 			for (int i = 1; i < modifiedResult.length; ++i) {
@@ -506,7 +530,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			fos.write(doneResult.getBytes());
 			fos.close();
 		} catch (IOException e) {
-			Toast.makeText(this, "存储失败", 1).show();
+			Toast.makeText(this, R.string.save_failure, 1).show();
 			e.printStackTrace();
 		}
 	}

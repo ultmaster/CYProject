@@ -1,5 +1,7 @@
 package net.ultech.cyproject.bean;
 
+import net.ultech.cyproject.R;
+
 public class RecordInfo {
 	public RecordInfo(String username, int score, int rank) {
 		super();

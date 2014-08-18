@@ -235,6 +235,7 @@ public class MainActivity extends AbsActivity {
 		if (!getFilesDir().exists()) {
 			getFilesDir().mkdir();
 		}
+
 		try {
 			InputStream is = getAssets().open(Constants.DATABASE_FILE_NAME);
 			FileOutputStream fos = new FileOutputStream(getExternalFilesDir(

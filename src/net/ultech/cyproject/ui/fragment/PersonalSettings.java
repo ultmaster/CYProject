@@ -8,6 +8,8 @@ import net.ultech.cyproject.R.xml;
 import net.ultech.cyproject.ui.MainActivity;
 import net.ultech.cyproject.ui.preference.MyEditTextPreference;
 import net.ultech.cyproject.ui.preference.NumberPickerPreference;
+import net.ultech.cyproject.utils.Constants;
+import net.ultech.cyproject.utils.Constants.PreferenceName;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -37,7 +39,7 @@ public class PersonalSettings extends PreferenceFragment implements
 	private int mLevel;
 	private String mUsername;
 	private String mTimeOrLife;
-	// 每一个preference都做一个类变量，记得类变量加上m前缀，是个命名规范
+
 	private SharedPreferences mSharedPref;
 	private MyEditTextPreference mPrefUsername;
 	private NumberPickerPreference mPrefLevel;
@@ -51,33 +53,43 @@ public class PersonalSettings extends PreferenceFragment implements
 			Bundle savedInstanceState) {
 		mActivity = (MainActivity) getActivity();
 		addPreferencesFromResource(R.xml.personal_preference);
-		mSharedPref = mActivity.getSharedPreferences("setting",
-				Context.MODE_PRIVATE);
+		mSharedPref = mActivity.getSharedPreferences(
+				Constants.PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
 		Log.d("Settings", "菜单成功加载");
 
-		mPrefUsername = (MyEditTextPreference) findPreference("text_username");
+		mPrefUsername = (MyEditTextPreference) findPreference(getActivity()
+				.getString(R.string.pref_key_text_username));
 		mPrefUsername.setOnPreferenceChangeListener(this);
-		mUsername = mSharedPref.getString("ch_defaultUsername", "无名氏");
+		mUsername = mSharedPref.getString(
+				PreferenceName.STRING_DEFAULT_USERNAME, getActivity()
+						.getString(R.string.null_username));
 		mPrefUsername.setNowText(mUsername);
-		mPrefUsername.setHint("请输入默认用户名：（不能为空，不能含有$字符）");
-		mPrefUsername.setSummary("目前：" + mUsername);
+		mPrefUsername.setHint(getActivity().getString(
+				R.string.pref_username_dialog_hint));
+		mPrefUsername.setSummary(R.string.pref_at_present + mUsername);
 
-		mLevel = mSharedPref.getInt("st_savedLevel", 1);
-		mPrefLevel = (NumberPickerPreference) findPreference("level_picker");
+		mLevel = mSharedPref.getInt(PreferenceName.INT_LEVEL, 1);
+		mPrefLevel = (NumberPickerPreference) findPreference(getActivity()
+				.getString(R.string.pref_key_level_picker));
 		mPrefLevel.setNowLevel(mLevel);
 		mPrefLevel.setOnPreferenceChangeListener(this);
-		mPrefLevel.setSummary("目前：" + mLevel + "级");
+		mPrefLevel.setSummary(R.string.pref_at_present + mLevel
+				+ R.string.pref_level_unit);
 
-		mTimeOrLife = mSharedPref.getString("ch_savedPrimary", "life");
-		mPrefTimeOrLife = (ListPreference) findPreference("list_timelife");
+		mTimeOrLife = mSharedPref.getString(PreferenceName.STRING_TIME_OR_LIFE,
+				getActivity().getString(R.string.life));
+		mPrefTimeOrLife = (ListPreference) findPreference(getActivity()
+				.getString(R.string.pref_key_list_timelife));
 		mPrefTimeOrLife.setOnPreferenceChangeListener(this);
 		mPrefTimeOrLife.setSummary(convertTimeOrLife(mTimeOrLife));
 		mPrefTimeOrLife.setDefaultValue(mTimeOrLife);
 
-		mPrefEmptyLog = (Preference) findPreference("empty_log");
+		mPrefEmptyLog = (Preference) findPreference(getActivity().getString(
+				R.string.pref_key_empty_log));
 		mPrefEmptyLog.setOnPreferenceClickListener(this);
 
-		mPrefEmptyRecord = (Preference) findPreference("empty_record");
+		mPrefEmptyRecord = (Preference) findPreference(getActivity().getString(
+				R.string.pref_key_empty_record));
 		mPrefEmptyRecord.setOnPreferenceClickListener(this);
 
 		PreferenceScreen ps = getPreferenceScreen();
@@ -118,23 +130,27 @@ public class PersonalSettings extends PreferenceFragment implements
 				if (!TextUtils.isEmpty(tempUsername)
 						&& !tempUsername.contains("$")) {
 					mUsername = tempUsername;
-					mSharedPref.edit()
-							.putString("ch_defaultUsername", mUsername)
-							.commit();
-					preference.setSummary("目前：" + mUsername);
+					mSharedPref
+							.edit()
+							.putString(PreferenceName.STRING_DEFAULT_USERNAME,
+									mUsername).commit();
+					preference.setSummary(R.string.pref_at_present + mUsername);
 				} else
-					Toast.makeText(mActivity, "输入不合法", 1).show();
+					Toast.makeText(mActivity, R.string.illegal_input, 1).show();
 			}
 		} else if (preference == mPrefLevel) {
 			if (mLevel != (Integer) newValue) {
 				mLevel = (Integer) newValue;
-				mSharedPref.edit().putInt("st_savedLevel", mLevel).commit();
-				preference.setSummary("目前：" + mLevel + "级");
+				mSharedPref.edit().putInt(PreferenceName.INT_LEVEL, mLevel)
+						.commit();
+				preference.setSummary(R.string.pref_at_present + mLevel
+						+ R.string.pref_level_unit);
 			}
 		} else if (preference == mPrefTimeOrLife) {
 			mTimeOrLife = (String) newValue;
 			System.out.println(mTimeOrLife);
-			mSharedPref.edit().putString("ch_savedPrimary", mTimeOrLife)
+			mSharedPref.edit()
+					.putString(PreferenceName.STRING_TIME_OR_LIFE, mTimeOrLife)
 					.commit();
 			preference.setSummary(convertTimeOrLife(mTimeOrLife));
 		}
@@ -142,33 +158,33 @@ public class PersonalSettings extends PreferenceFragment implements
 	}
 
 	private String convertTimeOrLife(String str) {
-		if (str.equals("time")) {
-			return "目前：时间优先";
+		if (str.equals(R.string.time)) {
+			return (getActivity().getString(R.string.pref_at_present) + R.string.time_first);
 		} else
-			return "目前：生命值优先";
+			return (getActivity().getString(R.string.pref_at_present) + R.string.life_first);
 	}
 
 	@Override
 	public boolean onPreferenceClick(Preference preference) {
 		if (preference == mPrefEmptyLog) {
 			new AlertDialog.Builder(mActivity)
-					.setMessage("此操作不可恢复。确定要删除日志？")
-					.setPositiveButton("确定",
+					.setMessage(R.string.unrecoverable_reminder_log)
+					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {
 
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
 									File file = new File(mActivity
-											.getFilesDir(), "st.log");
+											.getFilesDir(), Constants.LOG_FILE_NAME);
 									if (file.exists()) {
 										file.delete();
-										Toast.makeText(mActivity, "删除成功", 1)
+										Toast.makeText(mActivity, R.string.delete_successfully, 1)
 												.show();
 									}
 								}
 							})
-					.setNegativeButton("取消",
+					.setNegativeButton(R.string.cancel,
 							new DialogInterface.OnClickListener() {
 
 								@Override
@@ -178,23 +194,23 @@ public class PersonalSettings extends PreferenceFragment implements
 							}).show();
 		} else if (preference == mPrefEmptyRecord) {
 			new AlertDialog.Builder(mActivity)
-					.setMessage("此操作不可恢复。确定要删除记录？")
-					.setPositiveButton("确定",
+					.setMessage(R.string.unrecoverable_reminder_record)
+					.setPositiveButton(R.string.ok,
 							new DialogInterface.OnClickListener() {
 
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
 									File file = new File(mActivity
-											.getFilesDir(), "ch.record");
+											.getFilesDir(), Constants.RECORD_FILE_NAME);
 									if (file.exists()) {
 										file.delete();
-										Toast.makeText(mActivity, "删除成功", 1)
+										Toast.makeText(mActivity, R.string.delete_successfully, 1)
 												.show();
 									}
 								}
 							})
-					.setNegativeButton("取消",
+					.setNegativeButton(R.string.cancel,
 							new DialogInterface.OnClickListener() {
 
 								@Override
@@ -205,12 +221,4 @@ public class PersonalSettings extends PreferenceFragment implements
 		}
 		return true;
 	}
-
-	// @Override
-	// public boolean onOptionsItemSelected(MenuItem item) {
-	// if (item.getItemId() == android.R.id.home) {
-	// this.finish();
-	// }
-	// return super.onContextItemSelected(item);
-	// }
 }

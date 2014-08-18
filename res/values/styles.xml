@@ -19,5 +19,13 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     
+    <!-- DefaultTheme -->
+    <style name="DefaultTheme" parent="AppBaseTheme">
+        <item name="colorBlue">#e33c3c</item>
+        <item name="colorRed">#00d2ff</item>
+        
+    </style>
+    
+    
 
 </resources>

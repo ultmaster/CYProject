@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我："
+            android:text="@string/me_pointer"
             android:textColor="#00d2ff"
             android:textSize="22dp" />
 
@@ -24,7 +24,7 @@
             android:id="@+id/ch_et_human"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入成语"
+            android:hint="@string/please_type_in_the_word"
             android:singleLine="true"
             android:textSize="22dp" />
     </LinearLayout>
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.5"
-            android:text="确定" />
+            android:text="@string/ok" />
 
         <TextView
             android:id="@+id/ch_tv_time"
@@ -64,7 +64,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="机器人："
+            android:text="@string/robot_pointer"
             android:textColor="#e33c3c"
             android:textSize="22dp" />
 
@@ -133,7 +133,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="重新开始"
+            android:text="@string/restart"
             android:textSize="18dp" />
 
         <Button

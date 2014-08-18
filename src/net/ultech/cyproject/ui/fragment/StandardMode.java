@@ -15,7 +15,9 @@ import net.ultech.cyproject.dao.CYDbDAO;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
 import net.ultech.cyproject.ui.MainActivity;
 import net.ultech.cyproject.utils.AbsActivity;
+import net.ultech.cyproject.utils.Constants;
 import net.ultech.cyproject.utils.Constants.FragmentList;
+import net.ultech.cyproject.utils.Constants.PreferenceName;
 import net.ultech.cyproject.utils.DatabaseHolder;
 import android.app.Activity;
 import android.app.Fragment;
@@ -98,12 +100,13 @@ public class StandardMode extends Fragment implements OnClickListener {
 				return false;
 			}
 		});
-		sp = getActivity()
-				.getSharedPreferences("setting", Context.MODE_PRIVATE);
+		sp = getActivity().getSharedPreferences(Constants.PREFERENCE_FILE_NAME,
+				Context.MODE_PRIVATE);
 		if (textHuman == null)
-			textHuman = sp.getString("st_savedTextHuman", "");
-		textRobot = sp.getString("st_savedTextRobot", "坐井观天");
-		level = sp.getInt("st_savedLevel", 1);
+			textHuman = sp.getString(PreferenceName.STRING_ST_TEXT_HUMAN, "");
+		textRobot = sp.getString(PreferenceName.STRING_ST_TEXT_ROBOT,
+				getActivity().getString(R.string.first_word));
+		level = sp.getInt(PreferenceName.INT_LEVEL, 1);
 		etHuman.setText(textHuman);
 		tvRobot.setText(textRobot);
 		openFile();
@@ -132,9 +135,9 @@ public class StandardMode extends Fragment implements OnClickListener {
 			locked = false;
 		}
 		Editor editor = sp.edit();
-		editor.putString("st_savedTextHuman", textHuman);
-		editor.putString("st_savedTextRobot", textRobot);
-		editor.putInt("st_savedLevel", level);
+		editor.putString(PreferenceName.STRING_ST_TEXT_HUMAN, textHuman);
+		editor.putString(PreferenceName.STRING_ST_TEXT_ROBOT, textRobot);
+		editor.putInt(PreferenceName.INT_LEVEL, level);
 		editor.commit();
 		closeFile();
 		super.onStop();
@@ -147,16 +150,19 @@ public class StandardMode extends Fragment implements OnClickListener {
 			textHuman = etHuman.getText().toString().trim();
 			textRobot = tvRobot.getText().toString().trim();
 			if (TextUtils.isEmpty(textHuman)) {
-				Toast.makeText(getActivity(), "请输入成语", 1).show();
+				Toast.makeText(getActivity(), R.string.please_type_in_the_word,
+						1).show();
 			} else {
 				if (textRobot != null
 						&& !TextUtils.isEmpty(textRobot)
 						&& textHuman.charAt(0) != textRobot.charAt(textRobot
 								.length() - 1)) {
-					Toast.makeText(getActivity(), "输入的首字必须和所给词的末字相同", 1).show();
+					Toast.makeText(getActivity(),
+							R.string.first_equal_last_error, 1).show();
 				} else if (textRobot.charAt(0) == textHuman.charAt(textHuman
 						.length() - 1)) {
-					Toast.makeText(getActivity(), "输入的末字不能与所给词的首字相同", 1).show();
+					Toast.makeText(getActivity(),
+							R.string.last_diff_first_error, 1).show();
 				} else if (CYDbDAO.find(textHuman, mDatabase)) {
 					writeFile("$" + "h" + "$" + textHuman + "$");
 					String first = new String(
@@ -180,7 +186,7 @@ public class StandardMode extends Fragment implements OnClickListener {
 						}
 						if (candidate2.isEmpty()) {
 							locked = true;
-							Toast.makeText(getActivity(), "机器人已死，点重新开始拯救它", 1)
+							Toast.makeText(getActivity(), R.string.robot_query_failure, 1)
 									.show();
 						} else {
 							sortByCountOfLastChar(candidate2);
@@ -191,26 +197,28 @@ public class StandardMode extends Fragment implements OnClickListener {
 						}
 					} else {
 						locked = true;
-						Toast.makeText(getActivity(), "机器人已死，点重新开始拯救它", 1)
+						Toast.makeText(getActivity(), R.string.robot_query_failure, 1)
 								.show();
 					}
 				} else {
-					Toast.makeText(getActivity(), "该成语不在词典中", 1).show();
+					Toast.makeText(getActivity(), R.string.illegal_word_error,
+							1).show();
 				}
 			}
 			break;
 		case R.id.st_bt_figure:
 			Bundle bundleForQuery = new Bundle();
-        	bundleForQuery.putString("word", tvRobot.getText().toString());
-        	mActivity.mActivityStack.pushStack(bundleForQuery, mActivity.mFragments[FragmentList.QUERY_MODE]);
-        	mActivity.updateFragment();
+			bundleForQuery.putString("word", tvRobot.getText().toString());
+			mActivity.mActivityStack.pushStack(bundleForQuery,
+					mActivity.mFragments[FragmentList.QUERY_MODE]);
+			mActivity.updateFragment();
 			break;
 		case R.id.st_bt_restart:
 			restart();
 			break;
 		case R.id.st_bt_hint:
 			if (textRobot == null && TextUtils.isEmpty(textRobot)) {
-				Toast.makeText(getActivity(), "所给词汇尚为空，请点击重新开始", 1).show();
+				Toast.makeText(getActivity(), R.string.empty_robot_given, 1).show();
 			} else {
 				Bundle bundleHint = new Bundle();
 				bundleHint.putString(
@@ -259,10 +267,10 @@ public class StandardMode extends Fragment implements OnClickListener {
 
 	public void openFile() {
 		try {
-			file = new File(getActivity().getFilesDir(), "st.log");
+			file = new File(getActivity().getFilesDir(), Constants.LOG_FILE_NAME);
 			fos = new FileOutputStream(file, true);
 		} catch (Exception e) {
-			Toast.makeText(getActivity(), "日志读写失败", 1).show();
+			Toast.makeText(getActivity(), R.string.log_io_failure, 1).show();
 			e.printStackTrace();
 		}
 	}

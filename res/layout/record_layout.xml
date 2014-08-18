@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="0.5"
-            android:text="编辑"
+            android:text="@string/edit"
             android:textSize="18dp" />
 
         <Button
@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="0.5"
-            android:text="全部展开"
+            android:text="@string/expand"
             android:textSize="18dp" />
     </LinearLayout>
 

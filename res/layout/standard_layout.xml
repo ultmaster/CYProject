@@ -22,14 +22,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.8"
-                android:text="我："
+                android:text="@string/me_pointer"
                 android:textSize="22dp" />
 
             <EditText
                 android:id="@+id/st_et_human"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="请输入成语"
+                android:hint="@string/please_type_in_the_word"
                 android:singleLine="true"
                 android:textSize="22dp" />
         </LinearLayout>
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:text="确定"
+            android:text="@string/ok"
             android:textSize="20dp" />
 
         <LinearLayout
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.8"
-                android:text="机器人："
+                android:text="@string/robot_pointer"
                 android:textSize="22dp" />
 
             <TextView
@@ -75,7 +75,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:text="重新开始"
+                android:text="@string/restart"
                 android:textSize="18dp" />
 
             <Button
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="0.5"
-                android:text="查询"
+                android:text="@string/query"
                 android:textSize="18dp" />
         </LinearLayout>
 
@@ -99,7 +99,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:text="提示"
+                android:text="@string/hint"
                 android:textSize="18dp" />
 
             <Button
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="0.5"
-                android:text="日志"
+                android:text="@string/log"
                 android:textSize="18dp" />
         </LinearLayout>
     </LinearLayout>

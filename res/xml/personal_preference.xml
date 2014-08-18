@@ -4,17 +4,17 @@
     <PreferenceCategory android:title="标准模式" >
         <net.ultech.cyproject.ui.preference.NumberPickerPreference
             android:dialogTitle="请选择难度"
-            android:key="level_picker"
+            android:key="@string/pref_key_level_picker"
             android:title="难度" />
 
         <Preference
-            android:key="empty_log"
+            android:key="@string/pref_key_empty_log"
             android:title="清空日志" />
     </PreferenceCategory>
     <PreferenceCategory android:title="挑战模式" >
         <net.ultech.cyproject.ui.preference.MyEditTextPreference
             android:dialogTitle="默认用户名"
-            android:key="text_username"
+            android:key="@string/pref_key_text_username"
             android:negativeButtonText="@string/cancel"
             android:positiveButtonText="@string/ok"
             android:title="默认用户名" />
@@ -23,11 +23,11 @@
             android:dialogTitle="时间/生命值优先"
             android:entries="@array/time_or_life_entires"
             android:entryValues="@array/time_or_life_value_entires"
-            android:key="list_timelife"
+            android:key="@string/pref_key_list_timelife"
             android:title="时间/生命值优先" />
 
         <Preference
-            android:key="empty_record"
+            android:key="@string/pref_key_empty_record"
             android:title="清空记录" />
     </PreferenceCategory>
     <PreferenceCategory android:title=" " >
