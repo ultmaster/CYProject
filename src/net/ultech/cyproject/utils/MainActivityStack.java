@@ -7,7 +7,6 @@ import android.os.Bundle;
 public class MainActivityStack {
 
 	public MainActivityStack() {
-		super();
 		this.mFragmentStack = new Stack<Integer>();
 		this.mBundleStack = new Stack<Bundle>();
 	}
@@ -38,6 +37,13 @@ public class MainActivityStack {
 		mFragmentStack.push(fragment);
 	}
 
+	/*
+	 * Automatically push Back
+	 */
+	public void pushStack(Bundle bundle, Integer fragment) {
+		pushStack(bundle, fragment, -1);
+	}
+
 	/**
 	 * Remember to update your UI related to the stack after call this method.
 	 * 
@@ -49,8 +55,12 @@ public class MainActivityStack {
 		return mBundleStack.pop();
 	}
 
-	public Bundle getBack() {
+	public Bundle getBackBundle() {
 		return mBundleStack.get(mBundleStack.size() - 1);
+	}
+
+	public Integer getBackFragmentId() {
+		return mFragmentStack.get(mFragmentStack.size() - 1);
 	}
 
 	public void setBack(Bundle bundle) {
