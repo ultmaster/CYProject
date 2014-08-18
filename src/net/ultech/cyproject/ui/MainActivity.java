@@ -9,9 +9,11 @@ import net.ultech.cyproject.dao.CYDbOpenHelper;
 import net.ultech.cyproject.ui.fragment.AboutUs;
 import net.ultech.cyproject.ui.fragment.Help;
 import net.ultech.cyproject.ui.fragment.HighRecord;
+import net.ultech.cyproject.ui.fragment.PersonalSettings;
 import net.ultech.cyproject.ui.fragment.QueryMode;
 import net.ultech.cyproject.ui.fragment.StandardMode;
 import net.ultech.cyproject.ui.fragment.StandardModeHint;
+import net.ultech.cyproject.ui.fragment.StandardModeLog;
 import net.ultech.cyproject.utils.AbsActivity;
 import net.ultech.cyproject.utils.Constants;
 import net.ultech.cyproject.utils.Constants.FragmentList;
@@ -30,6 +32,7 @@ import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -103,6 +106,7 @@ public class MainActivity extends AbsActivity {
 		mFragments[FragmentList.HIGH_RECORD] = new HighRecord();
 		mFragments[FragmentList.HELP] = new Help();
 		mFragments[FragmentList.ABOUT_US] = new AboutUs();
+		mFragments[FragmentList.PERSONAL_SETTINGS] = new PersonalSettings();
 		mActivityStack.pushStack(null, mFragments[FragmentList.ABOUT_US], -1);
 		updateFragment();
 		// 你应该做个主界面
@@ -121,6 +125,7 @@ public class MainActivity extends AbsActivity {
 				case FragmentList.HIGH_RECORD:
 				case FragmentList.HELP:
 				case FragmentList.ABOUT_US:
+				case FragmentList.PERSONAL_SETTINGS:
 					mActivityStack.pushStack(null, mFragments[position], 0);
 					updateFragment();
 					break;
@@ -129,11 +134,6 @@ public class MainActivity extends AbsActivity {
 							ChallengeMode.class);
 					startActivity(intent_challenge);
 					break;
-				case FragmentList.PERSONAL_SETTINGS:
-					Intent intent_setting = new Intent(MainActivity.this,
-							PersonalSettings.class);
-					startActivity(intent_setting);
-					break;
 				default:
 					throw new RuntimeException("你干了什么？");
 				}
@@ -141,25 +141,6 @@ public class MainActivity extends AbsActivity {
 			}
 		});
 	}
-
-	// private void switchToFragment(int id) {
-	// mTitle = mDrawerItemNames[id];
-	// mTransaction = mManager.beginTransaction();
-	// mTransaction.setCustomAnimations(android.R.animator.fade_in,
-	// android.R.animator.fade_out, android.R.animator.fade_in,
-	// android.R.animator.fade_out);
-	// for (int i = 0; i < mFragments.length; i++) {
-	// Fragment f = mFragments[i];
-	// if (f != null) {
-	// if (i != id) {
-	// mTransaction.hide(f);
-	// } else {
-	// mTransaction.show(f);
-	// }
-	// }
-	// }
-	// mTransaction.commit();
-	// }
 
 	public void updateFragment() {
 		Fragment fragment = mActivityStack.getBackFragment();
@@ -340,7 +321,8 @@ public class MainActivity extends AbsActivity {
 			return mDrawerItemNames[FragmentList.QUERY_MODE];
 		else if (fragment instanceof HighRecord)
 			return mDrawerItemNames[FragmentList.HIGH_RECORD];
-		// TODO: judge settings
+		else if (fragment instanceof PersonalSettings)
+			return mDrawerItemNames[FragmentList.PERSONAL_SETTINGS];
 		else if (fragment instanceof Help)
 			return mDrawerItemNames[FragmentList.HELP];
 		else if (fragment instanceof AboutUs)
@@ -348,7 +330,8 @@ public class MainActivity extends AbsActivity {
 		else {
 			if (fragment instanceof StandardModeHint)
 				return getResources().getString(R.string.st_hint_name);
-			// TODO: standardModeLog
+			if (fragment instanceof StandardModeLog)
+				return getResources().getString(R.string.st_log_name);
 		}
 		throw new RuntimeException("Type cannot be identified.");
 	}

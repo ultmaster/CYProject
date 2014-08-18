@@ -30,7 +30,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="net.ultech.cyproject.ui.PersonalSettings"
+            android:name="net.ultech.cyproject.ui.fragment.PersonalSettings"
             android:label="@string/personal_settings_name"
             android:screenOrientation="portrait" >
         </activity>

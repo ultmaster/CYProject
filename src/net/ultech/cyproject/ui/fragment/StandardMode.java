@@ -200,9 +200,10 @@ public class StandardMode extends Fragment implements OnClickListener {
 			}
 			break;
 		case R.id.st_bt_figure:
-			// Intent intent_query = new Intent(this, QueryMode.class);
-			// intent_query.putExtra("word", tvRobot.getText().toString());
-			// startActivity(intent_query);
+			Bundle bundleForQuery = new Bundle();
+        	bundleForQuery.putString("word", tvRobot.getText().toString());
+        	mActivity.mActivityStack.pushStack(bundleForQuery, mActivity.mFragments[FragmentList.QUERY_MODE]);
+        	mActivity.updateFragment();
 			break;
 		case R.id.st_bt_restart:
 			restart();
@@ -222,6 +223,9 @@ public class StandardMode extends Fragment implements OnClickListener {
 			}
 			break;
 		case R.id.st_bt_log:
+			StandardModeLog fragmentLog = new StandardModeLog();
+			mActivity.mActivityStack.pushStack(null, fragmentLog);
+			mActivity.updateFragment();
 			break;
 		}
 	}
