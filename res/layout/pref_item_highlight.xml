@@ -11,7 +11,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/color_red"
+        android:textColor="?attr/colorRed"
         android:alpha="0.9"
         android:textSize="24dp" />
 

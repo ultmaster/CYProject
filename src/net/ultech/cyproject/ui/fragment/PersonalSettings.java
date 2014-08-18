@@ -95,7 +95,7 @@ public class PersonalSettings extends PreferenceFragment implements
 		Log.d("Settings", "timeorlife成功加载");
 
 		mAppearance = mSharedPref.getString(PreferenceName.STRING_APPEARANCE,
-				"white");
+				"blueandgreen");
 		mPrefAppearance = (ListPreference) findPreference("list_change_appearance");
 		mPrefAppearance.setOnPreferenceChangeListener(this);
 		mPrefAppearance.setSummary(convertAppearance(mAppearance));
@@ -213,9 +213,9 @@ public class PersonalSettings extends PreferenceFragment implements
 	}
 
 	private String convertAppearance(String str) {
-		if (str.equals("white")) {
+		if (str.equals("blueandgreen")) {
 			return (mActivity.getString(R.string.pref_at_present) + mActivity
-					.getString(R.string.white_skin));
+					.getString(R.string.blue_and_green_skin));
 		}
 		throw new RuntimeException("Skin not found");
 	}

@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-        
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,9 +37,9 @@
 
         <Button
             android:id="@+id/ch_bt_ok"
+            style="?attr/bigButtonStyle1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_weight="0.5"
             android:text="@string/ok" />
 
@@ -80,8 +79,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="35dp" >
+        android:layout_marginTop="35dp"
+        android:orientation="horizontal" >
 
         <ProgressBar
             android:id="@+id/ch_pb_charged"
@@ -96,7 +95,6 @@
             android:layout_height="wrap_content"
             android:textColor="#00d2ff"
             android:textSize="15dp" />
-        
     </LinearLayout>
 
     <TextView

@@ -27,10 +27,10 @@
     </string-array>
     
     <string-array name="appearance_entires">
-        <item>@string/white_skin</item>
+        <item>@string/blue_and_green_skin</item>
     </string-array>
     <string-array name="appearance_value_entires">
-        <item>white</item>
+        <item>blueandgreen</item>
     </string-array>
     
     <string-array name="drawer_items">
@@ -43,7 +43,7 @@
         <item>关于我们</item>
     </string-array>
 
-    <string name="white_skin">白色</string>
+    <string name="blue_and_green_skin">蓝绿</string>
     
     
     
@@ -51,11 +51,6 @@
     <string name="st_log_name">标准模式日志</string>
     <string name="first_use_welcome_text">您好，欢迎使用成语接龙1.0测试版。希望您能使用愉快，并提出宝贵意见。联系方式请参见“关于我们”。谢谢。</string>
     <string name="first_use_accepted_welcome_text">好的，立即开始！</string>
-
-    <!-- By red and blue, I don't really mean red and blue ^_^ -->
-    <color name="color_red">#e33c3c</color>
-    <color name="color_blue">#00d2ff</color>
-    <!-- By grey, I don't really mean grey ^_^ -->
 
     <string name="null_username">无名氏</string>
     <string name="pref_username_dialog_hint">请输入默认用户名：（不能为空，不能含有$字符）</string>

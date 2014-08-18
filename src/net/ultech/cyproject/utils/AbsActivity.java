@@ -29,9 +29,9 @@ public class AbsActivity extends Activity {
 		sp = getApplicationContext().getSharedPreferences(
 				Constants.PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
 
-		String theme = sp.getString("appearance", "white");
-		if (theme.equals("white"))
-			setTheme(R.style.WhiteTheme);
+		String theme = sp.getString("appearance", "blueandgreen");
+		if (theme.equals("blueandgreen"))
+			setTheme(R.style.BlueAndGreenTheme);
 
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayHomeAsUpEnabled(true);

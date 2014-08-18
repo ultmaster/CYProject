@@ -82,6 +82,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 	private TimeThread timer;
 	private boolean alreadyIn = false;
 
+	// FIXME: 挑战模式按Item键退出的时候别忘了提醒
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
