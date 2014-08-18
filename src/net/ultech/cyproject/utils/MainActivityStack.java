@@ -1,9 +1,16 @@
 package net.ultech.cyproject.utils;
 
 import java.util.Stack;
+
 import android.os.Bundle;
 
-class MainActivityStack {
+public class MainActivityStack {
+
+	public MainActivityStack() {
+		super();
+		this.mFragmentStack = new Stack<Integer>();
+		this.mBundleStack = new Stack<Bundle>();
+	}
 
 	private Stack<Integer> mFragmentStack;
 	private Stack<Bundle> mBundleStack;

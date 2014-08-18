@@ -17,6 +17,7 @@ import net.ultech.cyproject.utils.Constants;
 import net.ultech.cyproject.utils.Constants.FragmentList;
 import net.ultech.cyproject.utils.Constants.PreferenceName;
 import net.ultech.cyproject.utils.DatabaseHolder;
+import net.ultech.cyproject.utils.MainActivityStack;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -55,6 +56,7 @@ public class MainActivity extends AbsActivity implements
     private FragmentTransaction mTransaction;
     private ActionBarDrawerToggle mDrawerToggle;
     private Fragment[] mFragments;
+    private MainActivityStack activityStack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class MainActivity extends AbsActivity implements
         setContentView(R.layout.activity_main);
         mManager = getFragmentManager();
         mTitle = getString(R.string.app_name);
+        activityStack = new MainActivityStack();
 
         sp = getSharedPreferences(Constants.PREFERENCE_FILE_NAME,
                 Context.MODE_PRIVATE);
@@ -286,6 +289,7 @@ public class MainActivity extends AbsActivity implements
             fos.close();  
             is.close(); 
             //这个动作可能相当慢，不能在主线程进行，不然可能会造成程序ANR
+            //TODO:加个进度条
         }
         catch(IOException e1){
             Log.e("Database","Copy to External Storage Error");
