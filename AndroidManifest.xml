@@ -25,23 +25,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.ultech.cyproject.ui.fragment.QueryMode"
-            android:label="@string/query_mode_name"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name="net.ultech.cyproject.ui.ChallengeMode"
             android:label="@string/challenge_mode_name"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="net.ultech.cyproject.ui.fragment.StandardModeHint"
-            android:label="@string/standard_mode_name"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="net.ultech.cyproject.ui.StandardModeLog"
-            android:label="@string/standard_mode_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity

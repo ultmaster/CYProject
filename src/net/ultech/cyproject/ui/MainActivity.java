@@ -34,6 +34,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +44,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends AbsActivity implements
-		StandardMode.standardModeListener,
-		StandardModeHint.standardModeHintListener {
+public class MainActivity extends AbsActivity {
 
 	private ListView mListView;
 	private String[] mDrawerItemNames;
@@ -55,8 +54,8 @@ public class MainActivity extends AbsActivity implements
 	private FragmentManager mManager;
 	private FragmentTransaction mTransaction;
 	private ActionBarDrawerToggle mDrawerToggle;
-	private Fragment[] mFragments;
-	private MainActivityStack mActivityStack;
+	public Fragment[] mFragments;
+	public MainActivityStack mActivityStack;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +72,11 @@ public class MainActivity extends AbsActivity implements
 			copyDatabase();
 			new AlertDialog.Builder(this)
 					.setMessage(
-							"您好，欢迎使用成语接龙1.0测试版。希望您能使用愉快，并提出宝贵意见。联系方式请参见“关于我们”。谢谢。")
-					.setPositiveButton("好的，立即开始！",
+							getResources().getString(
+									R.string.first_use_welcome_text))
+					.setPositiveButton(
+							getResources().getString(
+									R.string.first_use_accepted_welcome_text),
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog,
@@ -99,9 +101,9 @@ public class MainActivity extends AbsActivity implements
 		mFragments[FragmentList.STANDARD_MODE] = new StandardMode();
 		mFragments[FragmentList.QUERY_MODE] = new QueryMode();
 		mFragments[FragmentList.HIGH_RECORD] = new HighRecord();
-		mFragments[FragmentList.HELP_ACTIVITY] = new Help();
+		mFragments[FragmentList.HELP] = new Help();
 		mFragments[FragmentList.ABOUT_US] = new AboutUs();
-		mActivityStack.pushStack(null, FragmentList.ABOUT_US, -1);
+		mActivityStack.pushStack(null, mFragments[FragmentList.ABOUT_US], -1);
 		updateFragment();
 		// 你应该做个主界面
 
@@ -117,9 +119,9 @@ public class MainActivity extends AbsActivity implements
 				case FragmentList.STANDARD_MODE:
 				case FragmentList.QUERY_MODE:
 				case FragmentList.HIGH_RECORD:
-				case FragmentList.HELP_ACTIVITY:
+				case FragmentList.HELP:
 				case FragmentList.ABOUT_US:
-					mActivityStack.pushStack(null, position, 0);
+					mActivityStack.pushStack(null, mFragments[position], 0);
 					updateFragment();
 					break;
 				case FragmentList.CHALLENGE_MODE:
@@ -159,23 +161,29 @@ public class MainActivity extends AbsActivity implements
 	// mTransaction.commit();
 	// }
 
-	protected void updateFragment() {
-		int id = mActivityStack.getBackFragmentId();
-		mTitle = mDrawerItemNames[id];
+	public void updateFragment() {
+		Fragment fragment = mActivityStack.getBackFragment();
+		mTitle = getFragmentTitle(fragment);
 		mTransaction = mManager.beginTransaction();
 		mTransaction.setCustomAnimations(android.R.animator.fade_in,
 				android.R.animator.fade_out, android.R.animator.fade_in,
 				android.R.animator.fade_out);
-		mTransaction.replace(R.id.main_content_frame, mFragments[id]);
+		mTransaction.replace(R.id.main_content_frame, fragment);
 		mTransaction.commit();
 	}
 
-	/*
-	 * @Override public boolean onKeyDown(int keyCode, KeyEvent event) { if
-	 * (keyCode == KeyEvent.KEYCODE_BACK) { FragmentManager fm =
-	 * getFragmentManager(); if (fm.getBackStackEntryCount() > 1)
-	 * fm.popBackStack(); else { this.finish(); } } return true; }
-	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (mActivityStack.getCount() == 1)
+				finish();
+			else {
+				mActivityStack.popBack();
+				updateFragment();
+			}
+		}
+		return true;
+	}
 
 	private class myListAdapter extends BaseAdapter {
 
@@ -217,40 +225,6 @@ public class MainActivity extends AbsActivity implements
 			return true;
 		} else {
 			return false;
-		}
-	}
-
-	@Override
-	public void firstText(String first, Fragment fragReceiver,
-			Fragment fragSender) {
-		if (fragReceiver != null) {
-			StandardModeHint smh = (StandardModeHint) fragReceiver;
-			smh.setFirst(first);
-			smh.setCaller(fragSender);
-		} else {
-			Log.e("CALLBACK ERROR", "fragment is null");
-		}
-	}
-
-	@Override
-	public void confirmText(String text, Fragment fragReceiver,
-			Fragment fragSender) {
-		if (fragReceiver != null) {
-			StandardMode sMode = (StandardMode) fragReceiver;
-			sMode.setConfirmText(text);
-		} else {
-			Log.e("CALLBACK ERROR", "fragment is null");
-		}
-	}
-
-	public void queryText(String text, Fragment fragReceiver,
-			Fragment fragSender) {
-		if (fragReceiver != null) {
-			QueryMode queryMode = (QueryMode) fragReceiver;
-			queryMode.setCaller(fragSender);
-			queryMode.setText(text);
-		} else {
-			Log.e("CALLBACK ERROR", "fragment is null");
 		}
 	}
 
@@ -359,4 +333,23 @@ public class MainActivity extends AbsActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
+	public String getFragmentTitle(Fragment fragment) {
+		if (fragment instanceof StandardMode)
+			return mDrawerItemNames[FragmentList.STANDARD_MODE];
+		else if (fragment instanceof QueryMode)
+			return mDrawerItemNames[FragmentList.QUERY_MODE];
+		else if (fragment instanceof HighRecord)
+			return mDrawerItemNames[FragmentList.HIGH_RECORD];
+		// TODO: judge settings
+		else if (fragment instanceof Help)
+			return mDrawerItemNames[FragmentList.HELP];
+		else if (fragment instanceof AboutUs)
+			return mDrawerItemNames[FragmentList.ABOUT_US];
+		else {
+			if (fragment instanceof StandardModeHint)
+				return getResources().getString(R.string.st_hint_name);
+			// TODO: standardModeLog
+		}
+		throw new RuntimeException("Type cannot be identified.");
+	}
 }

@@ -8,7 +8,7 @@ public final class Constants {
         public static final int QUERY_MODE = 2;
         public static final int HIGH_RECORD = 3;
         public static final int PERSONAL_SETTINGS = 4;
-        public static final int HELP_ACTIVITY = 5;
+        public static final int HELP = 5;
         public static final int ABOUT_US = 6;
     }
 

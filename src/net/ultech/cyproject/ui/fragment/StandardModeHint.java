@@ -7,13 +7,15 @@ import net.ultech.cyproject.R;
 import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
+import net.ultech.cyproject.ui.MainActivity;
+import net.ultech.cyproject.utils.Constants.FragmentList;
 import net.ultech.cyproject.utils.DatabaseHolder;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,8 +38,8 @@ public class StandardModeHint extends Fragment implements OnClickListener {
     private int shadowPosition;
     private myAdapter adapter;
     private String first;
-    private standardModeHintListener mCallback;
     private StandardMode mCaller;
+    private MainActivity mActivity;
 
     public void setFirst(String mFirst) {
         first = mFirst;
@@ -52,13 +54,16 @@ public class StandardModeHint extends Fragment implements OnClickListener {
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.standard_hint_layout, null);
         db = DatabaseHolder.getDatabase();
+        mActivity = (MainActivity) getActivity();
+        Bundle bundle = mActivity.mActivityStack.getBackBundle();
+        first = bundle.getString("first");
         if (first != null) {
             candidate = CYDbDAO.findByFirst(first, db);
         } else {
             candidate = new ArrayList<WordInfoSpecial>();
         }
         if (candidate.isEmpty()) {
-            new AlertDialog.Builder(getActivity())
+            new AlertDialog.Builder(mActivity)
                     .setMessage("无法找到匹配，点击确定返回标准模式。")
                     .setPositiveButton("确定",
                             new DialogInterface.OnClickListener() {
@@ -94,13 +99,7 @@ public class StandardModeHint extends Fragment implements OnClickListener {
         return view;
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mCallback = (standardModeHintListener) activity;
-    }
-
-    private class myAdapter extends BaseAdapter {
+	private class myAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
@@ -119,7 +118,7 @@ public class StandardModeHint extends Fragment implements OnClickListener {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = View.inflate(getActivity(),
+            View view = View.inflate(mActivity,
                     R.layout.standard_hint_list_view, null);
             TextView tv = (TextView) view.findViewById(R.id.st_hint_tv);
             tv.setText(candidate.get(position).getName());
@@ -138,7 +137,7 @@ public class StandardModeHint extends Fragment implements OnClickListener {
         switch (v.getId()) {
         case R.id.st_hint_bt_select:
             if (shadowPosition == -1) {
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(mActivity)
                         .setMessage("没有选择成语。")
                         .setPositiveButton("确定",
                                 new DialogInterface.OnClickListener() {
@@ -149,14 +148,16 @@ public class StandardModeHint extends Fragment implements OnClickListener {
                                     }
                                 }).show();
             } else {
-                mCallback.confirmText(candidate.get(shadowPosition).getName(),
-                        mCaller, this);
-                getFragmentManager().beginTransaction().remove(this).commit();
+            	mActivity.mActivityStack.popBack();
+            	Bundle bundle = new Bundle();
+            	bundle.putString("textHuman", candidate.get(shadowPosition).getName());
+            	mActivity.mActivityStack.setBack(bundle);
+                mActivity.updateFragment();
             }
             break;
         case R.id.st_hint_bt_figure:
             if (shadowPosition == -1) {
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(mActivity)
                         .setMessage("没有选择成语。")
                         .setPositiveButton("确定",
                                 new DialogInterface.OnClickListener() {
@@ -167,22 +168,12 @@ public class StandardModeHint extends Fragment implements OnClickListener {
                                     }
                                 }).show();
             } else {
-                QueryMode queryMode = new QueryMode();
-                mCallback.queryText(candidate.get(shadowPosition).getName(),
-                        queryMode, this);
-                getFragmentManager().beginTransaction()
-                        .add(R.id.main_content_frame, queryMode).commit();
-                //这里应该弹出查询的Activity作为下一集，不要用替换的方法
+            	Bundle bundleForQuery = new Bundle();
+            	bundleForQuery.putString("word", candidate.get(shadowPosition).getName());
+            	mActivity.mActivityStack.pushStack(bundleForQuery, mActivity.mFragments[FragmentList.QUERY_MODE]);
+            	mActivity.updateFragment();
             }
             break;
         }
-    }
-
-    public interface standardModeHintListener {
-        public void confirmText(String text, Fragment fragReceiver,
-                Fragment fragSender);
-
-        public void queryText(String text, Fragment fragReceiver,
-                Fragment fragSender);
     }
 }

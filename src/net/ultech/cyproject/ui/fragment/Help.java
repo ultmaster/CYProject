@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +31,8 @@ public class Help extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.help_layout, null);
 		try {
-			File file = new File(getActivity().getFilesDir(), "help");
-			FileInputStream fis = new FileInputStream(file);
-			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+			InputStream is = getResources().openRawResource(R.raw.help);
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			LinearLayout llRoot = (LinearLayout) view
 					.findViewById(R.id.hp_ll_root);
 			List<TitleAndText> list = new ArrayList<Help.TitleAndText>();
@@ -46,7 +46,7 @@ public class Help extends Fragment {
 				list.add(new TitleAndText(str1, str2));
 			}
 			br.close();
-			fis.close();
+			is.close();
 
 			for (TitleAndText item : list) {
 				View tempView = View.inflate(getActivity(),
@@ -58,6 +58,7 @@ public class Help extends Fragment {
 				llRoot.addView(tempView);
 			}
 			return view;
+			
 		} catch (IOException e) {
 			new AlertDialog.Builder(getActivity())
 					.setMessage("帮助文档打开失败。")

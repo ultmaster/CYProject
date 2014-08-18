@@ -3,8 +3,10 @@ package net.ultech.cyproject.ui.fragment;
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.bean.WordInfoComplete;
 import net.ultech.cyproject.dao.CYDbDAO;
+import net.ultech.cyproject.ui.MainActivity;
 import net.ultech.cyproject.utils.DatabaseHolder;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
@@ -22,15 +24,7 @@ public class QueryMode extends Fragment implements OnClickListener {
 	private Button btOK;
 	private TextView tvResult;
 	private String text;
-	private Fragment mCaller;
-
-	public void setText(String str) {
-		text = str;
-	}
-	
-	public void setCaller(Fragment frag) {
-		mCaller = frag;
-	}
+	private MainActivity mActivity;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,7 +34,17 @@ public class QueryMode extends Fragment implements OnClickListener {
 		btOK = (Button) view.findViewById(R.id.qu_bt_ok);
 		tvResult = (TextView) view.findViewById(R.id.qu_tv_result);
 		btOK.setOnClickListener(this);
-		if (text != null && !TextUtils.isEmpty(text)) {
+		mActivity = (MainActivity) getActivity();
+		text = mActivity.getSharedPreferences("setting", Context.MODE_PRIVATE)
+				.getString("last_query", "");
+		Bundle backBundle = mActivity.mActivityStack.getBackBundle();
+		String newQueryWord = null;
+		if (backBundle != null)
+			newQueryWord = backBundle.getString("word", "");
+
+		if (newQueryWord != null && !TextUtils.isEmpty(newQueryWord))
+			text = newQueryWord;
+		if (!TextUtils.isEmpty(text)) {
 			etWord.setText(text);
 			btOK.performClick();
 		}
@@ -49,10 +53,10 @@ public class QueryMode extends Fragment implements OnClickListener {
 
 	@Override
 	public void onStop() {
+		mActivity.getSharedPreferences("setting", Context.MODE_PRIVATE).edit()
+				.putString("last_query", text).commit();
 		super.onStop();
 	}
-	
-	
 
 	@Override
 	public void onClick(View v) {
@@ -61,7 +65,8 @@ public class QueryMode extends Fragment implements OnClickListener {
 			String text = etWord.getText().toString().trim();
 			if (TextUtils.isEmpty(text))
 				tvResult.setText("当前查询内容为空");
-			WordInfoComplete word = CYDbDAO.findComplete(text, DatabaseHolder.getDatabase());
+			WordInfoComplete word = CYDbDAO.findComplete(text,
+					DatabaseHolder.getDatabase());
 			if (word != null) {
 				String source = "<b>【成语】</b>" + word.getName()
 						+ "<br><b>【读音】</b>" + word.getSpell();

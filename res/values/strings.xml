@@ -2,13 +2,8 @@
 <resources>
 
     <string name="app_name">成语接龙</string>
-    <string name="standard_mode_name">标准模式</string>
-    <string name="query_mode_name">查询词典</string>
     <string name="challenge_mode_name">挑战模式</string>
-    <string name="high_record_name">高分记录</string>
     <string name="personal_settings_name">个性设置</string>
-    <string name="help_activity_name">请求帮助</string>
-    <string name="about_us_name">关于我们</string>
     <string name="developer_info">UlTech © 2014 China</string>
     <string name="contact_info">scottyugochang@hotmail.com</string>
     <string name="cancel">取消</string>
@@ -22,7 +17,6 @@
         <item>time</item>
         <item>life</item>
     </string-array>
-    
     <string-array name="drawer_items">
         <item>标准模式</item>
         <item>挑战模式</item>
@@ -32,6 +26,12 @@
         <item>请求帮助</item>
         <item>关于我们</item>
     </string-array>
+
+    <string name="st_hint_name">标准模式提示</string>
+    <string name="st_log_name">标准模式日志</string>
+    
+    <string name="first_use_welcome_text">您好，欢迎使用成语接龙1.0测试版。希望您能使用愉快，并提出宝贵意见。联系方式请参见“关于我们”。谢谢。</string>
+    <string name="first_use_accepted_welcome_text">好的，立即开始！</string>
 
     <color name="color_red">#e33c3c</color>
 

@@ -2,16 +2,17 @@ package net.ultech.cyproject.utils;
 
 import java.util.Stack;
 
+import android.app.Fragment;
 import android.os.Bundle;
 
 public class MainActivityStack {
 
 	public MainActivityStack() {
-		this.mFragmentStack = new Stack<Integer>();
+		this.mFragmentStack = new Stack<Fragment>();
 		this.mBundleStack = new Stack<Bundle>();
 	}
 
-	private Stack<Integer> mFragmentStack;
+	private Stack<Fragment> mFragmentStack;
 	private Stack<Bundle> mBundleStack;
 
 	/**
@@ -26,7 +27,7 @@ public class MainActivityStack {
 	 *            pushback) Any fragment with priority after requestLevel
 	 *            (including requestLevel) will be deleted.
 	 */
-	public void pushStack(Bundle bundle, Integer fragment, int requestLevel) {
+	public void pushStack(Bundle bundle, Fragment fragment, int requestLevel) {
 		if (requestLevel != -1) {
 			while (mBundleStack.size() > requestLevel) {
 				mBundleStack.pop();
@@ -40,7 +41,7 @@ public class MainActivityStack {
 	/*
 	 * Automatically push Back
 	 */
-	public void pushStack(Bundle bundle, Integer fragment) {
+	public void pushStack(Bundle bundle, Fragment fragment) {
 		pushStack(bundle, fragment, -1);
 	}
 
@@ -59,12 +60,16 @@ public class MainActivityStack {
 		return mBundleStack.get(mBundleStack.size() - 1);
 	}
 
-	public Integer getBackFragmentId() {
+	public Fragment getBackFragment() {
 		return mFragmentStack.get(mFragmentStack.size() - 1);
 	}
 
 	public void setBack(Bundle bundle) {
 		mBundleStack.set(mBundleStack.size() - 1, bundle);
+	}
+	
+	public int getCount() {
+		return mFragmentStack.size();
 	}
 
 }
