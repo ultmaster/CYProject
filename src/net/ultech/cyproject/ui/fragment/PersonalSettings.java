@@ -57,40 +57,45 @@ public class PersonalSettings extends PreferenceFragment implements
 				Constants.PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
 		Log.d("Settings", "菜单成功加载");
 
-		mPrefUsername = (MyEditTextPreference) findPreference(getActivity()
+		mPrefUsername = (MyEditTextPreference) findPreference(mActivity
 				.getString(R.string.pref_key_text_username));
 		mPrefUsername.setOnPreferenceChangeListener(this);
 		mUsername = mSharedPref.getString(
-				PreferenceName.STRING_DEFAULT_USERNAME, getActivity()
+				PreferenceName.STRING_DEFAULT_USERNAME, mActivity
 						.getString(R.string.null_username));
 		mPrefUsername.setNowText(mUsername);
-		mPrefUsername.setHint(getActivity().getString(
+		mPrefUsername.setHint(mActivity.getString(
 				R.string.pref_username_dialog_hint));
-		mPrefUsername.setSummary(R.string.pref_at_present + mUsername);
+		mPrefUsername.setSummary(getResources().getString(R.string.pref_at_present) + mUsername);
+		Log.d("Settings", "username成功加载");
 
 		mLevel = mSharedPref.getInt(PreferenceName.INT_LEVEL, 1);
-		mPrefLevel = (NumberPickerPreference) findPreference(getActivity()
+		mPrefLevel = (NumberPickerPreference) findPreference(mActivity
 				.getString(R.string.pref_key_level_picker));
 		mPrefLevel.setNowLevel(mLevel);
 		mPrefLevel.setOnPreferenceChangeListener(this);
-		mPrefLevel.setSummary(R.string.pref_at_present + mLevel
-				+ R.string.pref_level_unit);
+		mPrefLevel.setSummary(getResources().getString(R.string.pref_at_present) + Integer.toString(mLevel)
+				+ getResources().getString(R.string.pref_level_unit));
+		Log.d("Settings", "level成功加载");
 
 		mTimeOrLife = mSharedPref.getString(PreferenceName.STRING_TIME_OR_LIFE,
-				getActivity().getString(R.string.life));
-		mPrefTimeOrLife = (ListPreference) findPreference(getActivity()
+				mActivity.getString(R.string.life));
+		mPrefTimeOrLife = (ListPreference) findPreference(mActivity
 				.getString(R.string.pref_key_list_timelife));
 		mPrefTimeOrLife.setOnPreferenceChangeListener(this);
 		mPrefTimeOrLife.setSummary(convertTimeOrLife(mTimeOrLife));
 		mPrefTimeOrLife.setDefaultValue(mTimeOrLife);
+		Log.d("Settings", "timeorlife成功加载");
 
-		mPrefEmptyLog = (Preference) findPreference(getActivity().getString(
+		mPrefEmptyLog = (Preference) findPreference(mActivity.getString(
 				R.string.pref_key_empty_log));
 		mPrefEmptyLog.setOnPreferenceClickListener(this);
+		Log.d("Settings", "emptylog成功加载");
 
-		mPrefEmptyRecord = (Preference) findPreference(getActivity().getString(
+		mPrefEmptyRecord = (Preference) findPreference(mActivity.getString(
 				R.string.pref_key_empty_record));
 		mPrefEmptyRecord.setOnPreferenceClickListener(this);
+		Log.d("Settings", "emptyrecord成功加载");
 
 		PreferenceScreen ps = getPreferenceScreen();
 		setLayoutResource(ps);
@@ -134,7 +139,7 @@ public class PersonalSettings extends PreferenceFragment implements
 							.edit()
 							.putString(PreferenceName.STRING_DEFAULT_USERNAME,
 									mUsername).commit();
-					preference.setSummary(R.string.pref_at_present + mUsername);
+					preference.setSummary(getResources().getString(R.string.pref_at_present) + mUsername);
 				} else
 					Toast.makeText(mActivity, R.string.illegal_input, 1).show();
 			}
@@ -143,8 +148,8 @@ public class PersonalSettings extends PreferenceFragment implements
 				mLevel = (Integer) newValue;
 				mSharedPref.edit().putInt(PreferenceName.INT_LEVEL, mLevel)
 						.commit();
-				preference.setSummary(R.string.pref_at_present + mLevel
-						+ R.string.pref_level_unit);
+				preference.setSummary(getResources().getString(R.string.pref_at_present) + mLevel
+						+ getResources().getString(R.string.pref_level_unit));
 			}
 		} else if (preference == mPrefTimeOrLife) {
 			mTimeOrLife = (String) newValue;
@@ -158,10 +163,10 @@ public class PersonalSettings extends PreferenceFragment implements
 	}
 
 	private String convertTimeOrLife(String str) {
-		if (str.equals(R.string.time)) {
-			return (getActivity().getString(R.string.pref_at_present) + R.string.time_first);
+		if (str.equals(getResources().getString(R.string.time))) {
+			return (mActivity.getString(R.string.pref_at_present) + getResources().getString(R.string.time_first));
 		} else
-			return (getActivity().getString(R.string.pref_at_present) + R.string.life_first);
+			return (mActivity.getString(R.string.pref_at_present) + getResources().getString(R.string.life_first));
 	}
 
 	@Override

@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="5dp"
-        android:text="E-mail:"
+        android:text="@string/e_mail_pointer"
         android:textSize="18dp" />
 
     <TextView
@@ -41,44 +41,44 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="3dp"
         android:layout_marginTop="5dp"
-        android:text="Development Info:"
+        android:text="@string/contact_developer"
         android:textSize="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        android:text="PackageName: net.ultech.cyproject"
+        android:text="@string/contact_package_name"
         android:textSize="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        android:text="BuildTarget: API 20"
+        android:text="@string/contact_build_target"
         android:textSize="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        android:text="minSDK: API 8"
+        android:text="@string/contact_min_sdk"
         android:textSize="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        android:text="Environment: Eclipse 2014"
+        android:text="@string/contact_environment"
         android:textSize="15dp" />
     
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        android:text="ProgramVersion: 1.0"
+        android:text="@string/contact_program_version"
         android:textSize="15dp" />
 
 </LinearLayout>
