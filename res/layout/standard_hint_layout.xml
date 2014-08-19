@@ -2,32 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/LayoutBackground"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
+        style="?attr/LayoutMarginSmall"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/st_hint_bt_select"
+            style="?attr/smallButtonStyle1"
             android:layout_width="0dp"
-            android:layout_height="40dp"
             android:layout_weight="0.5"
-            android:text="@string/select"
-            android:textSize="18dp" />
+            android:text="@string/select" />
 
         <Button
             android:id="@+id/st_hint_bt_figure"
+            style="?attr/smallButtonStyle3"
             android:layout_width="0dp"
-            android:layout_height="40dp"
             android:layout_weight="0.5"
-            android:text="@string/query"
-            android:textSize="18dp" />
+            android:layout_marginLeft="15dp"
+            android:text="@string/query" />
     </LinearLayout>
 
     <ListView

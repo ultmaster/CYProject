@@ -6,12 +6,9 @@
 
     <TextView
         android:id="@android:id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"
-        android:alpha="0.6"
-        android:textSize="30dp" />
+        style="@style/largeGreyText" />
 
 </LinearLayout>

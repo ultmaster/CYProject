@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="?attr/LayoutBackground" >
 
     <LinearLayout
+        style="?attr/LayoutMarginSmall"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical" >
@@ -21,19 +19,15 @@
 
             <EditText
                 android:id="@+id/qu_et_word"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/mediumBlackEditText"
                 android:layout_weight="1000"
-                android:hint="@string/please_type_in_the_word"
-                android:singleLine="true"
-                android:textSize="22dp" />
+                android:hint="@string/please_type_in_the_word" />
 
             <Button
                 android:id="@+id/qu_bt_ok"
+                style="?attr/smallButtonStyle1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/query"
-                android:textSize="18dp" />
+                android:text="@string/query" />
         </LinearLayout>
 
         <ScrollView
@@ -43,11 +37,8 @@
 
             <TextView
                 android:id="@+id/qu_tv_result"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lineSpacingMultiplier="1.3"
-                android:text="当前查询内容为空。"
-                android:textSize="18dp" />
+                style="@style/medium_smallBlackText"
+                android:text="@string/empty_query" />
         </ScrollView>
     </LinearLayout>
 

@@ -2,112 +2,109 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="?attr/LayoutBackground" >
 
-    <LinearLayout
+    <RelativeLayout
+        style="?attr/LayoutMarginBig"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_alignParentTop="true"
+            android:orientation="vertical" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.8"
-                android:text="@string/me_pointer"
-                android:textSize="22dp" />
-
-            <EditText
-                android:id="@+id/st_et_human"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/please_type_in_the_word"
-                android:singleLine="true"
-                android:textSize="22dp" />
-        </LinearLayout>
+                android:orientation="horizontal" >
 
-        <Button
-            style="?attr/bigButtonStyle1"
-            android:id="@+id/st_bt_ok"
-            android:layout_marginTop="20dp"
-            android:text="@string/ok" />
+                <TextView
+                    style="@style/mediumGreyText"
+                    android:text="@string/me_pointer" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:orientation="horizontal" >
+                <EditText
+                    android:id="@+id/st_et_human"
+                    style="@style/mediumBlackEditText"
+                    android:hint="@string/please_type_in_the_word" />
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.8"
-                android:text="@string/robot_pointer"
-                android:textSize="22dp" />
+            <Button
+                android:id="@+id/st_bt_ok"
+                style="?attr/bigButtonStyle1"
+                android:layout_marginTop="20dp"
+                android:text="@string/ok" />
 
-            <TextView
-                android:id="@+id/st_tv_robot"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="22dp" />
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/mediumGreyText"
+                    android:text="@string/robot_pointer" />
+
+                <TextView
+                    android:id="@+id/st_tv_robot"
+                    style="@style/mediumBlackText"
+                    android:layout_width="match_parent"
+                    android:text="" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="130dp"
-            android:orientation="horizontal" >
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/st_bt_restart"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="@string/restart"
-                android:textSize="18dp" />
+                android:layout_marginTop="130dp"
+                android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/st_bt_figure"
-                android:layout_width="0dp"
+                <Button
+                    android:id="@+id/st_bt_restart"
+                    style="?attr/smallButtonStyle1"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:text="@string/restart" />
+
+                <Button
+                    android:id="@+id/st_bt_figure"
+                    style="?attr/smallButtonStyle2"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="0.5"
+                    android:text="@string/query" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="0.5"
-                android:text="@string/query"
-                android:textSize="18dp" />
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/st_bt_hint"
+                    style="?attr/smallButtonStyle2"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:text="@string/hint" />
+
+                <Button
+                    android:id="@+id/st_bt_log"
+                    style="?attr/smallButtonStyle3"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="0.5"
+                    android:text="@string/log" />
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/st_bt_hint"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="@string/hint"
-                android:textSize="18dp" />
-
-            <Button
-                android:id="@+id/st_bt_log"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="0.5"
-                android:text="@string/log"
-                android:textSize="18dp" />
-        </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

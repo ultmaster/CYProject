@@ -9,18 +9,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:textSize="24dp" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        style="@style/mediumBlackText" />
 
     <TextView
         android:id="@android:id/summary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="0dp"
-        android:alpha="0.7"
-        android:textSize="20dp" />
+        style="@style/medium_smallGreyText" />
 
 </LinearLayout>

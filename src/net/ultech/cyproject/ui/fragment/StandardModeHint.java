@@ -8,6 +8,7 @@ import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
 import net.ultech.cyproject.ui.MainActivity;
+import net.ultech.cyproject.utils.BasicColorConstants;
 import net.ultech.cyproject.utils.Constants.FragmentList;
 import net.ultech.cyproject.utils.DatabaseHolder;
 import android.app.AlertDialog;
@@ -114,9 +115,9 @@ public class StandardModeHint extends Fragment implements OnClickListener {
             TextView tv = (TextView) view.findViewById(R.id.st_hint_tv);
             tv.setText(candidate.get(position).getName());
             if (shadowPosition == position)
-                view.setBackgroundColor(0x33000000);
+                view.setBackgroundColor(BasicColorConstants.colorFocused);
             else {
-                view.setBackgroundColor(0x00000000);
+                view.setBackgroundColor(BasicColorConstants.colorBackground);
             }
             return view;
         }

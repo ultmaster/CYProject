@@ -7,11 +7,10 @@
     <TextView
         android:id="@+id/st_hint_tv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="18dp"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
         android:layout_marginTop="18dp"
-        android:textSize="22dp" />
+        style="@style/largeBlackText" />
 
 </LinearLayout>

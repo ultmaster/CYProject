@@ -2,32 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/LayoutBackground"
     android:orientation="vertical" >
 
     <LinearLayout
+        style="?attr/LayoutMarginSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/re_bt_edit"
+            style="?attr/smallButtonStyle1"
             android:layout_width="0dp"
-            android:layout_height="40dp"
             android:layout_weight="0.5"
-            android:text="@string/edit"
-            android:textSize="18dp" />
+            android:text="@string/edit" />
 
         <Button
             android:id="@+id/re_bt_expand"
+            style="?attr/smallButtonStyle3"
+            android:layout_marginLeft="15dp"
             android:layout_width="0dp"
-            android:layout_height="40dp"
             android:layout_weight="0.5"
-            android:text="@string/expand"
-            android:textSize="18dp" />
+            android:text="@string/expand" />
     </LinearLayout>
 
     <ListView

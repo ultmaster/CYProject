@@ -5,24 +5,23 @@
 
     <TextView
         android:id="@+id/hp_tv_title"
+        style="@style/mediumBlackText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="20dp"
-        android:lineSpacingMultiplier="1.2"
-        android:textSize="21dp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/hp_tv_text"
+        style="@style/medium_smallBlackText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/hp_tv_title"
         android:layout_alignRight="@id/hp_tv_title"
         android:layout_below="@id/hp_tv_title"
         android:layout_marginBottom="20dp"
-        android:lineSpacingMultiplier="1.2"
-        android:textSize="19dp" />
+        android:textSize="21sp" />
 
 </RelativeLayout>

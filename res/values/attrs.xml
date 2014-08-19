@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <attr name="colorBlue" format="color" />
     <attr name="colorRed" format="color" />
+    <attr name="colorBlack" format="color" />
+    <attr name="colorGrey" format="color" />
+    <attr name="colorWhite" format="color" />
     <attr name="bigButtonStyle1" format="reference" />
+    <attr name="smallButtonStyle1" format="reference" />
+    <attr name="smallButtonStyle2" format="reference" />
+    <attr name="smallButtonStyle3" format="reference" />
     <attr name="buttonBackground1" format="reference" />
-    <attr name="buttonTextColor1" format="reference" />
+    <attr name="buttonBackground2" format="reference" />
+    <attr name="buttonBackground3" format="reference" />
+    <attr name="buttonTextColor" format="reference" />
+    <attr name="LayoutMarginBig" format="reference" />
+    <attr name="LayoutMarginSmall" format="reference" />
+    <attr name="LayoutBackground" format="reference" />
+
 </resources>

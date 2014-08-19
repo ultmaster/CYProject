@@ -13,6 +13,7 @@ import net.ultech.cyproject.R.id;
 import net.ultech.cyproject.R.layout;
 import net.ultech.cyproject.ui.MainActivity;
 import net.ultech.cyproject.utils.AbsActivity;
+import net.ultech.cyproject.utils.BasicColorConstants;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,11 +62,11 @@ public class StandardModeLog extends Fragment {
 				tv.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
 				tv.setLineSpacing(0, 1.5f);
 				if (wordList.get(i).type == Word.humanType) {
-					tv.setTextColor(0xff00d2ff);
+					tv.setTextColor(BasicColorConstants.colorBlue);
 					tv.setGravity(Gravity.LEFT);
 				} else {
 					tv.setGravity(Gravity.RIGHT);
-					tv.setTextColor(0xffe33c3c);
+					tv.setTextColor(BasicColorConstants.colorRed);
 				}
 				llRoot.addView(tv);
 			}

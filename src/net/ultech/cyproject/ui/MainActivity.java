@@ -117,9 +117,10 @@ public class MainActivity extends AbsActivity {
 		mFragments[FragmentList.HELP] = new Help();
 		mFragments[FragmentList.ABOUT_US] = new AboutUs();
 		mFragments[FragmentList.PERSONAL_SETTINGS] = new PersonalSettings();
-		mActivityStack.pushStack(null, mFragments[FragmentList.ABOUT_US], -1);
+		int lastFragment = sp.getInt(PreferenceName.INT_LAST_FRAGMENT,
+				FragmentList.ABOUT_US);
+		mActivityStack.pushStack(null, mFragments[lastFragment], -1);
 		updateFragment();
-		// 你应该做个主界面
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		initializeDrawer();
@@ -150,6 +151,22 @@ public class MainActivity extends AbsActivity {
 				mDrawerLayout.closeDrawers();
 			}
 		});
+	}
+
+	@Override
+	protected void onDestroy() {
+		while (mActivityStack.getCount() > 1)
+			mActivityStack.popBack();
+		Fragment fragment = mActivityStack.getBackFragment();
+		int id = getFragmentId(fragment);
+		if (id != -1)
+			sp.edit().putInt(PreferenceName.INT_LAST_FRAGMENT, id).commit();
+		else {
+			sp.edit()
+					.putInt(PreferenceName.INT_LAST_FRAGMENT,
+							FragmentList.ABOUT_US).commit();
+		}
+		super.onDestroy();
 	}
 
 	public void updateFragment() {
@@ -326,18 +343,9 @@ public class MainActivity extends AbsActivity {
 	}
 
 	public String getFragmentTitle(Fragment fragment) {
-		if (fragment instanceof StandardMode)
-			return mDrawerItemNames[FragmentList.STANDARD_MODE];
-		else if (fragment instanceof QueryMode)
-			return mDrawerItemNames[FragmentList.QUERY_MODE];
-		else if (fragment instanceof HighRecord)
-			return mDrawerItemNames[FragmentList.HIGH_RECORD];
-		else if (fragment instanceof PersonalSettings)
-			return mDrawerItemNames[FragmentList.PERSONAL_SETTINGS];
-		else if (fragment instanceof Help)
-			return mDrawerItemNames[FragmentList.HELP];
-		else if (fragment instanceof AboutUs)
-			return mDrawerItemNames[FragmentList.ABOUT_US];
+		int id = getFragmentId(fragment);
+		if (id != -1)
+			return mDrawerItemNames[id];
 		else {
 			if (fragment instanceof StandardModeHint)
 				return getResources().getString(R.string.st_hint_name);
@@ -345,5 +353,26 @@ public class MainActivity extends AbsActivity {
 				return getResources().getString(R.string.st_log_name);
 		}
 		throw new RuntimeException("Type cannot be identified.");
+	}
+
+	/*
+	 * get the value in Constants.FragmentList. If not exist, return -1
+	 */
+	public int getFragmentId(Fragment fragment) {
+		if (fragment instanceof StandardMode)
+			return FragmentList.STANDARD_MODE;
+		else if (fragment instanceof QueryMode)
+			return FragmentList.QUERY_MODE;
+		else if (fragment instanceof HighRecord)
+			return FragmentList.HIGH_RECORD;
+		else if (fragment instanceof PersonalSettings)
+			return FragmentList.PERSONAL_SETTINGS;
+		else if (fragment instanceof Help)
+			return FragmentList.HELP;
+		else if (fragment instanceof AboutUs)
+			return FragmentList.ABOUT_US;
+		else {
+			return -1;
+		}
 	}
 }

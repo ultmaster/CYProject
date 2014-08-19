@@ -1,84 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:layout_height="match_parent"
+    android:background="?attr/LayoutBackground" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="50dp"
-        android:text="@string/app_name"
-        android:textColor="#00d2ff"
-        android:textSize="50dp" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/developer_info"
-        android:textSize="25dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="50dp"
+            android:singleLine="true"
+            android:text="@string/app_name"
+            android:textColor="?attr/colorBlue"
+            android:textSize="50sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/e_mail_pointer"
-        android:textSize="18dp" />
+        <TextView
+            style="@style/largeBlackText"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/developer_info" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/contact_info"
-        android:textSize="18dp" />
+        <TextView
+            style="@style/medium_smallBlackText"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/e_mail_pointer" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/contact_developer"
-        android:textSize="15dp" />
+        <TextView
+            style="@style/medium_smallBlackText"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/contact_info" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:text="@string/contact_package_name"
-        android:textSize="15dp" />
+        <TextView
+            style="@style/smallBlackText"
+            android:layout_marginTop="5dp"
+            android:text="@string/contact_developer" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:text="@string/contact_build_target"
-        android:textSize="15dp" />
+        <TextView
+            style="@style/smallBlackText"
+            android:text="@string/contact_package_name" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:text="@string/contact_min_sdk"
-        android:textSize="15dp" />
+        <TextView
+            style="@style/smallBlackText"
+            android:text="@string/contact_build_target" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:text="@string/contact_environment"
-        android:textSize="15dp" />
-    
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:text="@string/contact_program_version"
-        android:textSize="15dp" />
+        <TextView
+            style="@style/smallBlackText"
+            android:text="@string/contact_min_sdk" />
 
-</LinearLayout>
+        <TextView
+            style="@style/smallBlackText"
+            android:text="@string/contact_environment" />
+
+        <TextView
+            style="@style/smallBlackText"
+            android:text="@string/contact_program_version" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </LinearLayout>
+
+</ScrollView>

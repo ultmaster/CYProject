@@ -30,8 +30,18 @@ public class AbsActivity extends Activity {
 				Constants.PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
 
 		String theme = sp.getString("appearance", "blueandgreen");
-		if (theme.equals("blueandgreen"))
+		if (theme.equals("blueandgreen")) {
 			setTheme(R.style.BlueAndGreenTheme);
+			BasicColorConstants.setColor(this, R.style.BlueAndGreenTheme);
+		} else if(theme.equals("yellowandorange")) {
+			setTheme(R.style.YellowAndOrangeTheme);
+			BasicColorConstants.setColor(this, R.style.YellowAndOrangeTheme);
+		} else if(theme.equals("darkocean")) {
+			setTheme(R.style.DarkOceanTheme);
+			BasicColorConstants.setColor(this, R.style.DarkOceanTheme);
+		} else {
+			throw new RuntimeException("Skin not found.");
+		}
 
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayHomeAsUpEnabled(true);

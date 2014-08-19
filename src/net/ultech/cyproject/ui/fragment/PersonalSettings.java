@@ -216,6 +216,12 @@ public class PersonalSettings extends PreferenceFragment implements
 		if (str.equals("blueandgreen")) {
 			return (mActivity.getString(R.string.pref_at_present) + mActivity
 					.getString(R.string.blue_and_green_skin));
+		} else if (str.equals("yellowandorange")) {
+			return (mActivity.getString(R.string.pref_at_present) + mActivity
+					.getString(R.string.yellow_and_orange_skin));
+		} else if(str.equals("darkocean")) {
+			return (mActivity.getString(R.string.pref_at_present) + mActivity
+					.getString(R.string.dark_ocean_skin));
 		}
 		throw new RuntimeException("Skin not found");
 	}

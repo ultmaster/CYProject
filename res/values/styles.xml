@@ -18,38 +18,262 @@
     </style>
 
     <!-- DefaultTheme -->
-    <style name="DefaultTheme" parent="AppBaseTheme"></style>
+    <style name="DefaultTheme" parent="AppBaseTheme">
+        <item name="LayoutMarginBig">@style/defLayoutMarginBig</item>
+        <item name="LayoutMarginSmall">@style/defLayoutMarginSmall</item>
+    </style>
 
-    <!-- Don't forget it's Blue and green theme -->
+    <style name="defLayoutMarginBig">
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="defLayoutMarginSmall">
+        <item name="android:layout_marginBottom">15dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+    </style>
+
+    <style name="mediumGreyText" parent="mediumBlackText">
+        <item name="android:textColor">?attr/colorGrey</item>
+    </style>
+
+    <style name="mediumRedText" parent="mediumBlackText">
+        <item name="android:textColor">?attr/colorRed</item>
+    </style>
+
+    <style name="mediumBlueText" parent="mediumBlackText">
+        <item name="android:textColor">?attr/colorBlue</item>
+    </style>
+
+    <style name="mediumBlackText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textColor">?attr/colorBlack</item>
+    </style>
+
+    <style name="mediumBlackEditText" parent="mediumBlackText">
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="medium_smallBlackText" parent="mediumBlackText">
+        <item name="android:textSize">19sp</item>
+    </style>
+
+    <style name="medium_smallGreyText" parent="mediumGreyText">
+        <item name="android:textSize">19sp</item>
+    </style>
+
+    <style name="smallBlueText" parent="mediumBlueText">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="smallBlackText" parent="mediumBlackText">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="largeBlackText" parent="mediumBlackText">
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <style name="largeGreyText" parent="mediumGreyText">
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <!-- Blue and green theme -->
     <style name="BlueAndGreenTheme" parent="DefaultTheme">
-        <item name="colorBlue">#00d2ff</item>
-        <item name="colorRed">#e33c3c</item>
+        <item name="android:windowBackground">@color/bg_background</item>
+        <item name="android:colorBackgroundCacheHint">#00000000</item>
+        <item name="colorBlue">@color/bg_color_blue</item>
+        <item name="colorRed">@color/bg_color_red</item>
+        <item name="colorBlack">@color/bg_black</item>
+        <item name="colorWhite">@color/bg_white</item>
+        <item name="colorGrey">@color/bg_grey</item>
+        <item name="LayoutBackground">@color/bg_background</item>
         <item name="buttonBackground1">@drawable/blue_button_style</item>
-        <item name="buttonTextColor1">@drawable/blue_button_text_style</item>
+        <item name="buttonBackground2">@drawable/aquamarine_button_style</item>
+        <item name="buttonBackground3">@drawable/green_button_style</item>
+        <item name="buttonTextColor">@drawable/blueandgreen_button_text_style</item>
         <item name="bigButtonStyle1">@style/bgBigBlueButton</item>
+        <item name="smallButtonStyle1">@style/bgSmallBlueButton</item>
+        <item name="smallButtonStyle2">@style/bgSmallAquamarineButton</item>
+        <item name="smallButtonStyle3">@style/bgSmallGreenButton</item>
     </style>
 
     <color name="bg_color_red">#e33c3c</color>
     <color name="bg_color_blue">#00d2ff</color>
-    <color name="bg_btn_color_pressed">#90d9ff</color>
-    <color name="bg_btn_color_default">#1088c6</color>
-    <color name="bg_btn_color_border">#0f3d55</color>
+    <color name="bg_btn_color_pressed_blue">#90d9ff</color>
+    <color name="bg_btn_color_default_blue">#1088c6</color>
+    <color name="bg_btn_color_pressed_aquamarine">#90ffe9</color>
+    <color name="bg_btn_color_default_aquamarine">#04b4ae</color>
+    <color name="bg_btn_color_pressed_green">#abffc7</color>
+    <color name="bg_btn_color_default_green">#10b944</color>
     <color name="bg_black">#000000</color>
+    <color name="bg_grey">#444444</color>
     <color name="bg_white">#ffffff</color>
-    
+    <color name="bg_background">#e8fbff</color>
+    <color name="bg_background_focused">#c1d7d7</color>
+
     <style name="bgBigBlueButton">
         <item name="android:layout_width">160dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">?attr/buttonBackground1</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:textColor">?attr/buttonTextColor1</item>
+        <item name="android:textColor">?attr/buttonTextColor</item>
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="bgSmallBlueButton">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/buttonBackground1</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">?attr/buttonTextColor</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="bgSmallAquamarineButton">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/buttonBackground2</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">?attr/buttonTextColor</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="bgSmallGreenButton">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/buttonBackground3</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">?attr/buttonTextColor</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <!-- Yellow And Orange Theme -->
-    <style name="YellowAndOrangeTheme" parent="DefaultTheme"></style>
+    <style name="YellowAndOrangeTheme" parent="DefaultTheme">
+        <item name="android:windowBackground">@color/yo_background</item>
+        <item name="android:colorBackgroundCacheHint">#00000000</item>
+        <item name="colorBlue">@color/yo_color_blue</item>
+        <item name="colorRed">@color/yo_color_red</item>
+        <item name="colorBlack">@color/yo_black</item>
+        <item name="colorWhite">@color/yo_white</item>
+        <item name="colorGrey">@color/yo_grey</item>
+        <item name="LayoutBackground">@color/yo_background</item>
+        <item name="buttonBackground1">@drawable/orange_button_style</item>
+        <item name="buttonBackground2">@drawable/lightorange_button_style</item>
+        <item name="buttonBackground3">@drawable/yellow_button_style</item>
+        <item name="buttonTextColor">@drawable/yellow_and_orange_button_text_style</item>
+        <item name="bigButtonStyle1">@style/yoBigOrangeButton</item>
+        <item name="smallButtonStyle1">@style/yoSmallOrangeButton</item>
+        <item name="smallButtonStyle2">@style/yoSmallLightOrangeButton</item>
+        <item name="smallButtonStyle3">@style/yoSmallYellowButton</item>
+    </style>
+
+    <color name="yo_color_red">#ab29f6</color>
+    <color name="yo_color_blue">#ffae00</color>
+    <color name="yo_btn_color_pressed_orange">#f0b8a0</color>
+    <color name="yo_btn_color_default_orange">#e4581b</color>
+    <color name="yo_btn_color_pressed_lightorange">#f8dfaf</color>
+    <color name="yo_btn_color_default_lightorange">#e48c1b</color>
+    <color name="yo_btn_color_pressed_yellow">#f8f7af</color>
+    <color name="yo_btn_color_default_yellow">#e6e300</color>
+    <color name="yo_black">#000000</color>
+    <color name="yo_grey">#433c31</color>
+    <color name="yo_white">#ffffff</color>
+    <color name="yo_background">#fff9e8</color>
+    <color name="yo_background_focused">#d7cdc1</color>
+
+    <style name="yoBigOrangeButton">
+        <item name="android:layout_width">160dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/buttonBackground1</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">?attr/buttonTextColor</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="yoSmallOrangeButton">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/buttonBackground1</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">?attr/buttonTextColor</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="yoSmallLightOrangeButton">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/buttonBackground2</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">?attr/buttonTextColor</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="yoSmallYellowButton">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/buttonBackground3</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">?attr/buttonTextColor</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 
     <!-- Dark Ocean Theme -->
-    <style name="DarkOceanTheme" parent="DefaultTheme"></style>
+    <style name="DarkOceanTheme" parent="android:style/Theme.Holo">
+        <item name="LayoutMarginBig">@style/defLayoutMarginBig</item>
+        <item name="LayoutMarginSmall">@style/defLayoutMarginSmall</item>
+        <item name="android:windowBackground">@color/dk_background</item>
+        <item name="android:colorBackgroundCacheHint">#00000000</item>
+        <item name="colorBlue">@color/dk_color_blue</item>
+        <item name="colorRed">@color/dk_color_red</item>
+        <item name="colorBlack">@color/dk_black</item>
+        <item name="colorWhite">@color/dk_white</item>
+        <item name="colorGrey">@color/dk_grey</item>
+        <item name="LayoutBackground">@color/dk_background</item>
+        <item name="buttonBackground1">@drawable/dark_button_style</item>
+        <item name="buttonBackground2">@drawable/dark_button_style</item>
+        <item name="buttonBackground3">@drawable/dark_button_style</item>
+        <item name="buttonTextColor">@drawable/dark_button_text_style</item>
+        <item name="bigButtonStyle1">@style/dkBigButton</item>
+        <item name="smallButtonStyle1">@style/dkSmallButton</item>
+        <item name="smallButtonStyle2">@style/dkSmallButton</item>
+        <item name="smallButtonStyle3">@style/dkSmallButton</item>
+    </style>
+
+    <color name="dk_color_red">#ceb8e6</color>
+    <color name="dk_color_blue">#b8d0e6</color>
+    <color name="dk_btn_color_pressed">#11143d</color>
+    <color name="dk_btn_color_default">#a5a6c2</color>
+    <color name="dk_black">#eeeff6</color>
+    <color name="dk_grey">#c2c4d3</color>
+    <color name="dk_white">#0e0f12</color>
+    <color name="dk_background">#101118</color>
+    <color name="dk_background_focused">#2c2e3c</color>
+
+    <style name="dkBigButton">
+        <item name="android:layout_width">160dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/buttonBackground1</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">?attr/buttonTextColor</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="dkSmallButton">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/buttonBackground1</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">?attr/buttonTextColor</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 
 </resources>

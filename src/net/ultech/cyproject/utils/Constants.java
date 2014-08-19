@@ -28,6 +28,7 @@ public final class Constants {
 		public static final String STRING_ST_TEXT_HUMAN = "st_savedTextHuman";
 		public static final String STRING_ST_TEXT_ROBOT = "st_savedTextRobot";
 		public static final String STRING_APPEARANCE = "appearance";
+		public static final String INT_LAST_FRAGMENT = "last_fragment";
 	}
 
 	public static enum DatabaseLocation {

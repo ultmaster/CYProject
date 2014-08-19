@@ -14,6 +14,7 @@ import net.ultech.cyproject.R.id;
 import net.ultech.cyproject.R.layout;
 import net.ultech.cyproject.bean.RecordInfo;
 import net.ultech.cyproject.utils.AbsActivity;
+import net.ultech.cyproject.utils.BasicColorConstants;
 import net.ultech.cyproject.utils.Constants;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -76,7 +77,8 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 			lvRecord.setAdapter(listAdapter);
 			lvRecord.setOnItemClickListener(this);
 		} catch (IOException e) {
-			Toast.makeText(getActivity(), R.string.empty_record_reminder, 1).show();
+			Toast.makeText(getActivity(), R.string.empty_record_reminder, 1)
+					.show();
 			e.printStackTrace();
 		}
 		return view;
@@ -144,12 +146,14 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 					.findViewById(R.id.re_tv_username);
 			TextView tvScore = (TextView) view.findViewById(R.id.re_tv_score);
 			tvRank.setText(Integer.toString(recordList.get(position).getRank()));
-			tvUsername.setText(Html.fromHtml("<b>"+getString(R.string.user_info)+"：</b>"
+			tvUsername.setText(Html.fromHtml("<b>"
+					+ getString(R.string.user_info) + "</b>"
 					+ recordList.get(position).getUsername()));
-			tvScore.setText(Html.fromHtml("<b>"+getString(R.string.score)+"：</b>"
+			tvScore.setText(Html.fromHtml("<b>" + getString(R.string.score)
+					+ "：</b>"
 					+ Integer.toString(recordList.get(position).getScore())));
 			if (!editState) {
-				tvRank.setTextColor(0xff000000);
+				tvRank.setTextColor(BasicColorConstants.colorGrey);
 			}
 			return view;
 		}
@@ -180,7 +184,8 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 				try {
 					updateFile();
 				} catch (IOException e) {
-					Toast.makeText(getActivity(), R.string.modify_record_failure, 1).show();
+					Toast.makeText(getActivity(),
+							R.string.modify_record_failure, 1).show();
 					e.printStackTrace();
 				}
 				maxDisplaySize = recordList.size();
@@ -209,10 +214,10 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 			TextView rank = (TextView) view.findViewById(R.id.re_tv_rank);
 			if (deleteSelection[position + 1]) {
 				deleteSelection[position + 1] = false;
-				rank.setTextColor(0xff000000);
+				rank.setTextColor(BasicColorConstants.colorDefault);
 			} else {
 				deleteSelection[position + 1] = true;
-				rank.setTextColor(0xff00d2ff);
+				rank.setTextColor(BasicColorConstants.colorBlue);
 			}
 		}
 	}

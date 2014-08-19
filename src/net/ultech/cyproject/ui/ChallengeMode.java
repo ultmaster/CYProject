@@ -18,6 +18,7 @@ import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
 import net.ultech.cyproject.utils.AbsActivity;
+import net.ultech.cyproject.utils.BasicColorConstants;
 import net.ultech.cyproject.utils.Constants;
 import net.ultech.cyproject.utils.DatabaseHolder;
 import net.ultech.cyproject.utils.Constants.PreferenceName;
@@ -82,7 +83,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 	private TimeThread timer;
 	private boolean alreadyIn = false;
 
-	// FIXME: 挑战模式按Item键退出的时候别忘了提醒
+	// FIXME: 挑战模式按Item键退出的时候别忘了提醒是否退出
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -354,8 +355,8 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 
 	public void setStatusAndLevel() {
 		tvStatus.setText(Html.fromHtml("<b>" + getString(R.string.score)
-				+ "：</b>" + "<font color=\"#"
-				+ "e33c3c"
+				+ "：</b>" + "<font color=\""
+				+ BasicColorConstants.stringColorBlue
 				+ "\">" + Integer.toString(scoreHuman) + "</font>"));
 		tvLevel.setText(Html.fromHtml("<b>" + getString(R.string.level)
 				+ "：</b>" + Integer.toString(level)

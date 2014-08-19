@@ -2,14 +2,16 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/st_sv_log"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="?attr/LayoutBackground" >
 
     <LinearLayout
         android:id="@+id/st_ll_log_root"
+        style="?attr/LayoutMarginBig"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
         android:orientation="vertical" >
 
         <View

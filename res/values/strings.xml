@@ -28,15 +28,19 @@
     
     <string-array name="appearance_entires">
         <item>@string/blue_and_green_skin</item>
+        <item>@string/yellow_and_orange_skin</item>
+        <item>@string/dark_ocean_skin</item>
     </string-array>
     <string-array name="appearance_value_entires">
         <item>blueandgreen</item>
+        <item>yellowandorange</item>
+        <item>darkocean</item>
     </string-array>
     
     <string-array name="drawer_items">
         <item>@string/mode_standard</item>
         <item>@string/mode_challenge</item>
-        <item>查询字典</item>
+        <item>查询词典</item>
         <item>高分记录</item>
         <item>个性设置</item>
         <item>请求帮助</item>
@@ -44,8 +48,17 @@
     </string-array>
 
     <string name="blue_and_green_skin">蓝绿</string>
+    <string name="yellow_and_orange_skin">橙黄</string>
+    <string name="dark_ocean_skin">深海</string>
     
+    <string name="bg_string_color_blue">#00d2ff</string>
+    <string name="bg_string_color_red">#e33c3c</string>
     
+    <string name="yo_string_color_blue">#ffae00</string>
+    <string name="yo_string_color_red">#ab29f6</string>
+    
+    <string name="dk_string_color_blue">#b8d0e6</string>
+    <string name="dk_string_color_red">#ceb8e6</string>
     
     <string name="st_hint_name">标准模式提示</string>
     <string name="st_log_name">标准模式日志</string>
@@ -122,5 +135,7 @@
     <string name="empty_record">清空记录</string>
     <string name="appearance">外观</string>
     <string name="is_going_to_restart">应用程序即将重启……</string>
+    <string name="exit_mode">退出模式</string>
+    <string name="empty_query">当前查询内容为空。</string>
 
 </resources>
