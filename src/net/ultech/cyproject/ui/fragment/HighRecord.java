@@ -194,6 +194,7 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 				Arrays.fill(deleteSelection, false);
 				btEdit.setText(R.string.edit);
 				listAdapter.notifyDataSetChanged();
+				System.out.println(recordList.size());
 			} else {
 				editState = true;
 				btEdit.setText(R.string.delete_selection);
