@@ -22,9 +22,11 @@ import net.ultech.cyproject.utils.BasicColorConstants;
 import net.ultech.cyproject.utils.Constants;
 import net.ultech.cyproject.utils.DatabaseHolder;
 import net.ultech.cyproject.utils.Constants.PreferenceName;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -174,6 +176,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			timerOn = false;
 			timer.interrupt();
 		}
+		setResult(Activity.RESULT_OK, new Intent());
 		super.onDestroy();
 	}
 

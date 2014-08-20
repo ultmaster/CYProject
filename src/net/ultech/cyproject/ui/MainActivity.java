@@ -21,6 +21,7 @@ import net.ultech.cyproject.utils.Constants.FragmentList;
 import net.ultech.cyproject.utils.Constants.PreferenceName;
 import net.ultech.cyproject.utils.DatabaseHolder;
 import net.ultech.cyproject.utils.MainActivityStack;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
@@ -93,53 +94,33 @@ public class MainActivity extends AbsActivity {
 				Context.MODE_PRIVATE);
 		boolean firstUse = sp.getBoolean(PreferenceName.BOOL_FIRSTUSE, true);
 		if (firstUse) {
-			new AlertDialog.Builder(this)
-					.setMessage(
-							getResources().getString(
-									R.string.first_use_welcome_text))
-					.setPositiveButton(
-							getResources().getString(
-									R.string.first_use_accepted_welcome_text),
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									Editor editor = sp.edit();
-									editor.putBoolean(
-											PreferenceName.BOOL_FIRSTUSE, false);
-									editor.commit();
-								}
-							}).show();
+			final Dialog dialog = new Dialog(this, R.style.fullscreenDialog);
 
+			View hintView = View.inflate(this, R.layout.main_hint_view, null);
+			ImageView imageView = (ImageView) hintView
+					.findViewById(R.id.main_hint_finger);
+			Animation animation = AnimationUtils.loadAnimation(this,
+					R.anim.finger_translate);
+			animation.setRepeatCount(Animation.INFINITE);
+			imageView.startAnimation(animation);
+			Button hintViewButton = (Button) hintView
+					.findViewById(R.id.main_hint_dismiss_button);
+			hintViewButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
+
+			dialog.setContentView(hintView);
+			Window dialogWindow = dialog.getWindow();
+			LayoutParams lp = dialogWindow.getAttributes();
+			lp.width = getWindowManager().getDefaultDisplay().getWidth();
+			lp.height = getWindowManager().getDefaultDisplay().getHeight();
+			dialogWindow.setAttributes(lp);
+			dialog.show();
 		}
-		// TODO: 测试完别忘了移到里面去
-		final Dialog dialog = new Dialog(this, R.style.fullscreenDialog);
-
-		View hintView = View.inflate(this, R.layout.main_hint_view, null);
-		ImageView imageView = (ImageView) hintView
-				.findViewById(R.id.main_hint_finger);
-		Animation animation = AnimationUtils.loadAnimation(this,
-				R.anim.finger_translate);
-		animation.setRepeatCount(Animation.INFINITE);
-		imageView.startAnimation(animation);
-		Button hintViewButton = (Button) hintView
-				.findViewById(R.id.main_hint_dismiss_button);
-		hintViewButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
-
-		dialog.setContentView(hintView);
-		Window dialogWindow = dialog.getWindow();
-		LayoutParams lp = dialogWindow.getAttributes();
-		lp.width = getWindowManager().getDefaultDisplay().getWidth();
-		lp.height = getWindowManager().getDefaultDisplay().getHeight();
-		dialogWindow.setAttributes(lp);
-
-		dialog.show();
 
 		databasePath = "/data/data/" + getPackageName() + "/databases/";
 		try {
@@ -185,7 +166,7 @@ public class MainActivity extends AbsActivity {
 				case FragmentList.CHALLENGE_MODE:
 					Intent intent_challenge = new Intent(MainActivity.this,
 							ChallengeMode.class);
-					startActivity(intent_challenge);
+					startActivityForResult(intent_challenge, 0);
 					break;
 				default:
 					throw new RuntimeException("你干了什么？");
@@ -193,6 +174,14 @@ public class MainActivity extends AbsActivity {
 				mDrawerLayout.closeDrawers();
 			}
 		});
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
+			this.updateFragment();
+		}
 	}
 
 	@Override

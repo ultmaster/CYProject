@@ -1,19 +1,15 @@
 package net.ultech.cyproject.ui.fragment;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.ultech.cyproject.R;
-import net.ultech.cyproject.R.id;
-import net.ultech.cyproject.R.layout;
 import net.ultech.cyproject.bean.RecordInfo;
-import net.ultech.cyproject.utils.AbsActivity;
 import net.ultech.cyproject.utils.BasicColorConstants;
 import net.ultech.cyproject.utils.Constants;
 import android.app.Fragment;
@@ -63,8 +59,7 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 			updateList();
 			maxDisplaySize = recordList.size();
 			deleteSelection = new boolean[maxDisplaySize + 1];
-			for (boolean b : deleteSelection)
-				b = false;
+			Arrays.fill(deleteSelection, false);
 
 			DisplaySize = 10;
 			if (maxDisplaySize < DisplaySize)
@@ -87,8 +82,6 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 	public void updateList() throws IOException {
 		recordList.clear();
 		inputStream = new FileInputStream(file);
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				inputStream));
 		byte[] buffer = new byte[8192];
 		int length = 0;
 		String rawResult = new String();
@@ -168,7 +161,8 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 				editState = false;
 				for (int i = 1; i <= DisplaySize; ++i) {
 					if (deleteSelection[i]) {
-						recordList.set(i, null);
+						// FIXME
+						recordList.set(i - 1, null);
 					}
 				}
 				List<RecordInfo> newRecordList = new ArrayList<RecordInfo>();
@@ -191,8 +185,7 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 				maxDisplaySize = recordList.size();
 				if (DisplaySize > maxDisplaySize)
 					DisplaySize = maxDisplaySize;
-				for (boolean b : deleteSelection)
-					b = false;
+				Arrays.fill(deleteSelection, false);
 				btEdit.setText(R.string.edit);
 				listAdapter.notifyDataSetChanged();
 			} else {
