@@ -168,6 +168,12 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 	@Override
 	protected void onDestroy() {
 		Log.d("ChallengeMode", "onDestroy");
+		super.onDestroy();
+	}
+	
+	@Override
+	protected void onStop() {
+		Log.d("ChallengeMode", "onStop");
 		if (alreadyIn) {
 			saveScore();
 			timerOn = false;
@@ -182,7 +188,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			Toast.makeText(this, R.string.empty_record_reminder, 1).show();
 			e.printStackTrace();
 		}
-		super.onDestroy();
+		super.onStop();
 	}
 
 	@Override
