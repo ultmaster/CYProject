@@ -2,7 +2,6 @@ package net.ultech.cyproject.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.ultech.cyproject.R;
 import net.ultech.cyproject.bean.WordInfoComplete;
 import net.ultech.cyproject.bean.WordInfoSpecial;
 import android.database.Cursor;

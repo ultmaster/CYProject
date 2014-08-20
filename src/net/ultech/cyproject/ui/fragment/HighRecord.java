@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.bean.RecordInfo;
 import net.ultech.cyproject.utils.BasicColorConstants;
 import net.ultech.cyproject.utils.Constants;
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Html;
@@ -28,12 +28,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@SuppressLint({ "ViewHolder", "InflateParams" })
 public class HighRecord extends Fragment implements OnItemClickListener,
 		OnClickListener {
 
 	private ListView lvRecord;
 	private File file;
-	private FileOutputStream outputStream;
+	//private FileOutputStream outputStream;
 	private FileInputStream inputStream;
 	private int DisplaySize;
 	private int maxDisplaySize;
@@ -72,7 +73,7 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 			lvRecord.setAdapter(listAdapter);
 			lvRecord.setOnItemClickListener(this);
 		} catch (IOException e) {
-			Toast.makeText(getActivity(), R.string.empty_record_reminder, 1)
+			Toast.makeText(getActivity(), R.string.empty_record_reminder, Toast.LENGTH_LONG)
 					.show();
 			e.printStackTrace();
 		}
@@ -83,9 +84,8 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 		recordList.clear();
 		inputStream = new FileInputStream(file);
 		byte[] buffer = new byte[8192];
-		int length = 0;
 		String rawResult = new String();
-		while ((length = inputStream.read(buffer)) != -1)
+		while ((inputStream.read(buffer)) != -1)
 			rawResult = rawResult + new String(buffer).trim();
 		inputStream.close();
 		if (!TextUtils.isEmpty(rawResult)) {
@@ -161,7 +161,6 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 				editState = false;
 				for (int i = 1; i <= DisplaySize; ++i) {
 					if (deleteSelection[i]) {
-						// FIXME
 						recordList.set(i - 1, null);
 					}
 				}
@@ -179,7 +178,7 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 					updateFile();
 				} catch (IOException e) {
 					Toast.makeText(getActivity(),
-							R.string.modify_record_failure, 1).show();
+							R.string.modify_record_failure, Toast.LENGTH_LONG).show();
 					e.printStackTrace();
 				}
 				maxDisplaySize = recordList.size();

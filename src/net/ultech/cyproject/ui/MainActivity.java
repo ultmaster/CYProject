@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
 import net.ultech.cyproject.ui.fragment.AboutUs;
@@ -21,18 +20,16 @@ import net.ultech.cyproject.utils.Constants.FragmentList;
 import net.ultech.cyproject.utils.Constants.PreferenceName;
 import net.ultech.cyproject.utils.DatabaseHolder;
 import net.ultech.cyproject.utils.MainActivityStack;
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -75,14 +72,19 @@ public class MainActivity extends AbsActivity {
 	public int fragmentIndicator;
 	private myListAdapter mAdapter;
 
-	public Handler handler = new Handler() {
+	@SuppressLint("HandlerLeak")
+	//FIXME Handler Leak
+	//FIXME 还有一处，我找不到了
+    public Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			if (msg.what == RECREATE_MSG)
 				recreate();
 		};
 	};
 
-	@Override
+	@SuppressLint("SdCardPath")
+    @SuppressWarnings("deprecation")
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -265,7 +267,8 @@ public class MainActivity extends AbsActivity {
 			return 0;
 		}
 
-		@Override
+		@SuppressLint("ViewHolder")
+        @Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View view = View.inflate(MainActivity.this,
 					R.layout.main_list_view, null);

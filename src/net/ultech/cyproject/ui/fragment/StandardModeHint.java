@@ -2,21 +2,19 @@ package net.ultech.cyproject.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
-import net.ultech.cyproject.dao.CYDbOpenHelper;
 import net.ultech.cyproject.ui.MainActivity;
 import net.ultech.cyproject.utils.BasicColorConstants;
 import net.ultech.cyproject.utils.Constants.FragmentList;
 import net.ultech.cyproject.utils.DatabaseHolder;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,7 +29,6 @@ import android.widget.TextView;
 public class StandardModeHint extends Fragment implements OnClickListener {
 
     private SQLiteDatabase db;
-    private CYDbOpenHelper helper;
     private ListView lv;
     private Button btSelect;
     private Button btFigure;
@@ -41,6 +38,7 @@ public class StandardModeHint extends Fragment implements OnClickListener {
     private String first;
     private MainActivity mActivity;
 
+    @SuppressLint("InflateParams")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -107,6 +105,7 @@ public class StandardModeHint extends Fragment implements OnClickListener {
             return 0;
         }
 
+        @SuppressLint("ViewHolder")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = View.inflate(mActivity,

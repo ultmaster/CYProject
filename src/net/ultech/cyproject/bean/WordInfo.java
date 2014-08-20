@@ -1,7 +1,5 @@
 package net.ultech.cyproject.bean;
 
-import net.ultech.cyproject.R;
-
 public class WordInfo {
 	public WordInfo(String name, String first, int count) {
 		this.name = name;
