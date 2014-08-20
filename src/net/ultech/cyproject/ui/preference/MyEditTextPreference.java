@@ -18,8 +18,6 @@ public class MyEditTextPreference extends DialogPreference {
 
 	public MyEditTextPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		mInput = new String();
-		mHint = new String();
 		setDialogLayoutResource(R.layout.pref_edittext);
 	}
 

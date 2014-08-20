@@ -3,6 +3,7 @@ package net.ultech.cyproject.ui;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.Inflater;
 
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
@@ -21,6 +22,7 @@ import net.ultech.cyproject.utils.Constants.PreferenceName;
 import net.ultech.cyproject.utils.DatabaseHolder;
 import net.ultech.cyproject.utils.MainActivityStack;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -38,6 +40,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,7 +104,12 @@ public class MainActivity extends AbsActivity {
 									editor.commit();
 								}
 							}).show();
+			
 		}
+		Dialog dialog = new Dialog(this, R.style.fullscreenDialog);
+		View hintView = View.inflate(this, R.layout.main_hint_view, null);
+		dialog.setContentView(hintView);
+		dialog.show();
 
 		try {
 			initializeDatabase();
@@ -206,11 +214,15 @@ public class MainActivity extends AbsActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (mActivityStack.getCount() == 1)
-				finish();
+			if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
+				mDrawerLayout.closeDrawers();
 			else {
-				mActivityStack.popBack();
-				updateFragment();
+				if (mActivityStack.getCount() == 1)
+					finish();
+				else {
+					mActivityStack.popBack();
+					updateFragment();
+				}
 			}
 		}
 		return true;
