@@ -64,10 +64,18 @@ public class MainActivityStack {
 		return mFragmentStack.get(mFragmentStack.size() - 1);
 	}
 
+	public Fragment getBottomFragment() {
+		return mFragmentStack.get(0);
+	}
+
+	public Fragment getFragment(int position) {
+		return mFragmentStack.get(position);
+	}
+
 	public void setBack(Bundle bundle) {
 		mBundleStack.set(mBundleStack.size() - 1, bundle);
 	}
-	
+
 	public int getCount() {
 		return mFragmentStack.size();
 	}

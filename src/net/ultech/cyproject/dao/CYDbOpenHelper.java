@@ -7,18 +7,18 @@ import net.ultech.cyproject.R;
 
 public class CYDbOpenHelper extends SQLiteOpenHelper {
 
-    public CYDbOpenHelper(Context context, String dir, String filename) {
-        super(context, dir + filename, null, 1);
-    }
+	public CYDbOpenHelper(Context context, String dir, String filename) {
+		super(context, dir + "/" + filename, null, 1);
+	}
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
+	@Override
+	public void onCreate(SQLiteDatabase db) {
 
-    }
+	}
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-    }
+	}
 
 }

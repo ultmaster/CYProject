@@ -83,7 +83,6 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 	private TimeThread timer;
 	private boolean alreadyIn = false;
 
-	// FIXME: 挑战模式按Item键退出的时候别忘了提醒是否退出
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,7 +93,6 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 				null);
 		AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
 		builder1.setTitle(R.string.reminder_info_title);
-		builder1.setIcon(android.R.drawable.ic_dialog_info);
 		builder1.setView(view);
 		builder1.setPositiveButton(R.string.start,
 				new DialogInterface.OnClickListener() {

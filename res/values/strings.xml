@@ -47,9 +47,9 @@
         <item>关于我们</item>
     </string-array>
 
-    <string name="blue_and_green_skin">蓝绿</string>
-    <string name="yellow_and_orange_skin">橙黄</string>
-    <string name="dark_ocean_skin">深海</string>
+    <string name="blue_and_green_skin">缤纷蓝绿</string>
+    <string name="yellow_and_orange_skin">绚丽橙黄</string>
+    <string name="dark_ocean_skin">夜间深海</string>
     
     <string name="bg_string_color_blue">#00d2ff</string>
     <string name="bg_string_color_red">#e33c3c</string>
@@ -137,5 +137,6 @@
     <string name="is_going_to_restart">应用程序即将重启……</string>
     <string name="exit_mode">退出模式</string>
     <string name="empty_query">当前查询内容为空。</string>
+    <string name="initializing">正在初始化</string>
 
 </resources>

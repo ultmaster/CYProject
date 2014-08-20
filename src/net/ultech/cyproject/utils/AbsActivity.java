@@ -2,6 +2,7 @@ package net.ultech.cyproject.utils;
 
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
+import net.ultech.cyproject.ui.ChallengeMode;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,7 +19,12 @@ public class AbsActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
-			this.finish();
+			if(this instanceof ChallengeMode) {
+				ChallengeMode cm = (ChallengeMode) this;
+				cm.exitDialog();
+			}
+			else
+				this.finish();
 		}
 		return super.onContextItemSelected(item);
 	}

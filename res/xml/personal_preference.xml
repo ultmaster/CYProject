@@ -7,12 +7,16 @@
             android:key="list_change_appearance"
             android:entries="@array/appearance_entires"
             android:entryValues="@array/appearance_value_entires"
+            android:negativeButtonText="@string/cancel"
+            android:positiveButtonText="@string/ok"
             android:title="更改外观" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/mode_standard" >
         <net.ultech.cyproject.ui.preference.NumberPickerPreference
             android:dialogTitle="请选择难度"
             android:key="@string/pref_key_level_picker"
+            android:negativeButtonText="@string/cancel"
+            android:positiveButtonText="@string/ok"
             android:title="难度" />
 
         <Preference
@@ -32,6 +36,8 @@
             android:entries="@array/time_or_life_entires"
             android:entryValues="@array/time_or_life_value_entires"
             android:key="@string/pref_key_list_timelife"
+            android:negativeButtonText="@string/cancel"
+            android:positiveButtonText="@string/ok"
             android:title="时间/生命值优先" />
 
         <Preference

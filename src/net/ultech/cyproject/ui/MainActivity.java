@@ -24,16 +24,14 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceFragment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -62,10 +60,12 @@ public class MainActivity extends AbsActivity {
 	private ActionBarDrawerToggle mDrawerToggle;
 	public Fragment[] mFragments;
 	public MainActivityStack mActivityStack;
+	public int fragmentIndicator;
+	private myListAdapter mAdapter;
 
 	public Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
-			if (msg.what == 0)
+			if (msg.what == RECREATE_MSG)
 				recreate();
 		};
 	};
@@ -120,12 +120,14 @@ public class MainActivity extends AbsActivity {
 		int lastFragment = sp.getInt(PreferenceName.INT_LAST_FRAGMENT,
 				FragmentList.ABOUT_US);
 		mActivityStack.pushStack(null, mFragments[lastFragment], -1);
+		fragmentIndicator = lastFragment;
 		updateFragment();
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		initializeDrawer();
 		mListView = (ListView) findViewById(R.id.lv_main);
-		mListView.setAdapter(new myListAdapter());
+		mAdapter = new myListAdapter();
+		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -178,6 +180,14 @@ public class MainActivity extends AbsActivity {
 				android.R.animator.fade_out);
 		mTransaction.replace(R.id.main_content_frame, fragment);
 		mTransaction.commit();
+		int j = mActivityStack.getCount();
+		int id = -1;
+		while (id == -1) {
+			id = getFragmentId(mActivityStack.getFragment(--j));
+		}
+		fragmentIndicator = id;
+		if (mAdapter != null)
+			mAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -216,23 +226,13 @@ public class MainActivity extends AbsActivity {
 					R.layout.main_list_view, null);
 			TextView tv_id = (TextView) view.findViewById(R.id.tv_show);
 			tv_id.setText(mDrawerItemNames[position]);
+			View view_indicator = (View) view.findViewById(R.id.view_indicator);
+			if (position == fragmentIndicator)
+				view_indicator.setVisibility(View.VISIBLE);
+			else {
+				view_indicator.setVisibility(View.INVISIBLE);
+			}
 			return view;
-		}
-	}
-
-	private boolean checkDatabaseAvailable(String dir) {
-		SQLiteDatabase db = null;
-		try {
-			db = SQLiteDatabase.openDatabase(dir + "cydb.db", null,
-					SQLiteDatabase.OPEN_READONLY);
-		} catch (SQLiteException e) {
-			e.printStackTrace();
-		}
-		if (db != null) {
-			db.close();
-			return true;
-		} else {
-			return false;
 		}
 	}
 
@@ -262,44 +262,66 @@ public class MainActivity extends AbsActivity {
 		if (!getFilesDir().exists()) {
 			getFilesDir().mkdir();
 		}
+		final ProgressDialog pDialog = new ProgressDialog(this);
+		pDialog.setTitle(getResources().getString(R.string.initializing));
+		pDialog.setIndeterminate(false);
+		pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		pDialog.setCancelable(false);
+		pDialog.show();
 
-		try {
-			InputStream is = getAssets().open(Constants.DATABASE_FILE_NAME);
-			FileOutputStream fos = new FileOutputStream(getExternalFilesDir(
-					null).getAbsolutePath()
-					+ Constants.DATABASE_FILE_NAME);
-			byte[] buffer = new byte[1024];
-			int count = 0;
-			while ((count = is.read(buffer)) > 0) {
-				fos.write(buffer, 0, count);
-			}
-			fos.flush();
-			fos.close();
-			is.close();
-			// 这个动作可能相当慢，不能在主线程进行，不然可能会造成程序ANR
-			// TODO:加个进度条
-		} catch (IOException e1) {
-			Log.e("Database", "Copy to External Storage Error");
-			e1.printStackTrace();
-			try {
-				InputStream is = getAssets().open(Constants.DATABASE_FILE_NAME);
-				FileOutputStream fos = new FileOutputStream(getFilesDir()
-						.getAbsolutePath() + Constants.DATABASE_FILE_NAME);
-				byte[] buffer = new byte[1024];
-				int count = 0;
-				while ((count = is.read(buffer)) > 0) {
-					fos.write(buffer, 0, count);
+		new Thread() {
+			public void run() {
+				try {
+					InputStream is = getAssets().open(
+							Constants.DATABASE_FILE_NAME);
+					int available = is.available();
+					pDialog.setMax(available);
+					FileOutputStream fos = new FileOutputStream(
+							getExternalFilesDir(null).getAbsolutePath() + "/"
+									+ Constants.DATABASE_FILE_NAME);
+					byte[] buffer = new byte[1024];
+					int read_length = 0;
+					int count = 0;
+					while ((count = is.read(buffer)) > 0) {
+						read_length += count;
+						pDialog.setProgress(read_length);
+						fos.write(buffer, 0, count);
+					}
+					fos.flush();
+					fos.close();
+					is.close();
+					pDialog.cancel();
+				} catch (IOException e1) {
+					Log.e("Database", "Copy to External Storage Error");
+					e1.printStackTrace();
+					try {
+						InputStream is = getAssets().open(
+								Constants.DATABASE_FILE_NAME);
+						FileOutputStream fos = new FileOutputStream(
+								getDatabasePath(null).getAbsolutePath() + "/"
+										+ Constants.DATABASE_FILE_NAME);
+						byte[] buffer = new byte[1024];
+						int read_length = 0;
+						int count = 0;
+						while ((count = is.read(buffer)) > 0) {
+							read_length += count;
+							pDialog.setProgress(read_length);
+							fos.write(buffer, 0, count);
+						}
+						fos.flush();
+						fos.close();
+						is.close();
+						pDialog.cancel();
+					} catch (IOException e2) {
+						Log.e("Database", "Copy to Internal Storage Error");
+						Log.wtf("Database", "Database copy all failes");
+						e2.printStackTrace();
+						throw new RuntimeException("ABORT");
+					}
 				}
-				fos.flush();
-				fos.close();
-				is.close();
-			} catch (IOException e2) {
-				Log.e("Database", "Copy to Internal Storage Error");
-				Log.wtf("Database", "Database copy all failes");
-				e2.printStackTrace();
-				throw new RuntimeException("ABORT");
-			}
-		}
+			};
+		}.start();
+
 	}
 
 	private void initializeDrawer() {
