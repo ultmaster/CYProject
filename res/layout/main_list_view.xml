@@ -21,11 +21,12 @@
             style="@style/largeBlackText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
-            android:textColor="#ffffff" />
+            android:layout_marginTop="20dp"
+            android:textColor="#ffffff"
+            android:lineSpacingMultiplier="1" />
     </LinearLayout>
 
 </LinearLayout>

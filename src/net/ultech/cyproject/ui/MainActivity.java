@@ -44,6 +44,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -112,6 +114,7 @@ public class MainActivity extends AbsActivity {
 		}
 		// TODO: 测试完别忘了移到里面去
 		final Dialog dialog = new Dialog(this, R.style.fullscreenDialog);
+
 		View hintView = View.inflate(this, R.layout.main_hint_view, null);
 		ImageView imageView = (ImageView) hintView
 				.findViewById(R.id.main_hint_finger);
@@ -128,7 +131,14 @@ public class MainActivity extends AbsActivity {
 				dialog.dismiss();
 			}
 		});
+
 		dialog.setContentView(hintView);
+		Window dialogWindow = dialog.getWindow();
+		LayoutParams lp = dialogWindow.getAttributes();
+		lp.width = getWindowManager().getDefaultDisplay().getWidth();
+		lp.height = getWindowManager().getDefaultDisplay().getHeight();
+		dialogWindow.setAttributes(lp);
+
 		dialog.show();
 
 		databasePath = "/data/data/" + getPackageName() + "/databases/";
@@ -304,13 +314,13 @@ public class MainActivity extends AbsActivity {
 		pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		pDialog.setCancelable(false);
 		pDialog.show();
-		
+
 		try {
 			InputStream is = getAssets().open(Constants.DATABASE_FILE_NAME);
 			int available = is.available();
 			pDialog.setMax(available);
-			FileOutputStream fos = new FileOutputStream(new File(
-					databasePath + Constants.DATABASE_FILE_NAME));
+			FileOutputStream fos = new FileOutputStream(new File(databasePath
+					+ Constants.DATABASE_FILE_NAME));
 			byte[] buffer = new byte[1024];
 			int read_length = 0;
 			int count = -1;

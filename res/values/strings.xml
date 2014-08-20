@@ -138,5 +138,6 @@
     <string name="exit_mode">退出模式</string>
     <string name="empty_query">当前查询内容为空。</string>
     <string name="initializing">正在初始化</string>
+    <string name="pull_drawer_hint">左侧拉出边栏</string>
 
 </resources>

@@ -63,9 +63,8 @@ public class StandardModeHint extends Fragment implements OnClickListener {
                                 @Override
                                 public void onClick(DialogInterface dialog,
                                         int which) {
-                                    getFragmentManager().beginTransaction()
-                                            .remove(StandardModeHint.this)
-                                            .commit();
+                                    mActivity.mActivityStack.popBack();
+                                    mActivity.updateFragment();
                                 }
                             }).show();
         } else {
@@ -76,7 +75,7 @@ public class StandardModeHint extends Fragment implements OnClickListener {
             btFigure.setOnClickListener(this);
             adapter = new myAdapter();
             lv.setAdapter(adapter);
-            shadowPosition = -1;
+            shadowPosition = mActivity.mActivityStack.getBackBundle().getInt("shadowPosition", -1);
             lv.setOnItemClickListener(new OnItemClickListener() {
 
                 @Override
@@ -160,6 +159,7 @@ public class StandardModeHint extends Fragment implements OnClickListener {
                                     }
                                 }).show();
             } else {
+            	mActivity.mActivityStack.getBackBundle().putInt("shadowPosition", shadowPosition);
             	Bundle bundleForQuery = new Bundle();
             	bundleForQuery.putString("word", candidate.get(shadowPosition).getName());
             	mActivity.mActivityStack.pushStack(bundleForQuery, mActivity.mFragments[FragmentList.QUERY_MODE]);
