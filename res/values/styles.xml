@@ -88,6 +88,7 @@
 
     <!-- Blue and green theme -->
     <style name="BlueAndGreenTheme" parent="DefaultTheme">
+        <item name="android:icon">@drawable/ic_launcher</item>
         <item name="android:windowBackground">@color/bg_background</item>
         <item name="android:colorBackgroundCacheHint">#00000000</item>
         <item name="colorBlue">@color/bg_color_blue</item>
@@ -158,6 +159,7 @@
 
     <!-- Yellow And Orange Theme -->
     <style name="YellowAndOrangeTheme" parent="DefaultTheme">
+        <item name="android:icon">@drawable/ic_launcher_orange</item>
         <item name="android:windowBackground">@color/yo_background</item>
         <item name="android:colorBackgroundCacheHint">#00000000</item>
         <item name="colorBlue">@color/yo_color_blue</item>
@@ -228,6 +230,7 @@
 
     <!-- Dark Ocean Theme -->
     <style name="DarkOceanTheme" parent="android:style/Theme.Holo">
+        <item name="android:icon">@drawable/ic_launcher</item>
         <item name="LayoutMarginBig">@style/defLayoutMarginBig</item>
         <item name="LayoutMarginSmall">@style/defLayoutMarginSmall</item>
         <item name="android:windowBackground">@color/dk_background</item>
