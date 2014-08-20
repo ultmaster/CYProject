@@ -271,7 +271,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			}
 			break;
 		case R.id.ch_bt_restart:
-			if (btRestart.getText().toString().equals(R.string.restart)) {
+			if (btRestart.getText().toString().equals(getString(R.string.restart))) {
 				new AlertDialog.Builder(this)
 						.setMessage(R.string.challenge_restart_reminder)
 						.setPositiveButton(R.string.ok,

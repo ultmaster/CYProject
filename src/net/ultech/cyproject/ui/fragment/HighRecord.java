@@ -42,7 +42,7 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 	private List<RecordInfo> recordList;
 	private boolean[] deleteSelection;
 	private boolean editState;
-	private myAdapter listAdapter;
+	public myAdapter listAdapter;
 	private String[] result;
 
 	@Override
@@ -113,7 +113,7 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 		fos.close();
 	}
 
-	private class myAdapter extends BaseAdapter {
+	public class myAdapter extends BaseAdapter {
 
 		@Override
 		public int getCount() {
@@ -147,6 +147,12 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 					+ Integer.toString(recordList.get(position).getScore())));
 			if (!editState) {
 				tvRank.setTextColor(BasicColorConstants.colorGrey);
+			} else {
+				if (deleteSelection[position + 1])
+					tvRank.setTextColor(BasicColorConstants.colorBlue);
+				else {
+					tvRank.setTextColor(BasicColorConstants.colorGrey);
+				}
 			}
 			return view;
 		}

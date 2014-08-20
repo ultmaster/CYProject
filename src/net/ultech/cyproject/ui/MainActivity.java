@@ -179,8 +179,14 @@ public class MainActivity extends AbsActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		Log.d("MainActivity", "CallBack");
 		if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
-			this.updateFragment();
+			System.out.println("I'm updating high record.");
+			Fragment fragment = this.mActivityStack.getBackFragment();
+			if (this.mActivityStack.getBackFragment() instanceof HighRecord) {
+				HighRecord highRecord = (HighRecord) fragment;
+				highRecord.listAdapter.notifyDataSetChanged();
+			}
 		}
 	}
 
