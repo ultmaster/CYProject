@@ -3,7 +3,6 @@ package net.ultech.cyproject.ui;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.zip.Inflater;
 
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
@@ -40,13 +39,17 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -106,8 +109,21 @@ public class MainActivity extends AbsActivity {
 							}).show();
 			
 		}
-		Dialog dialog = new Dialog(this, R.style.fullscreenDialog);
+		// TODO: 测试完别忘了移到里面去
+		final Dialog dialog = new Dialog(this, R.style.fullscreenDialog);
 		View hintView = View.inflate(this, R.layout.main_hint_view, null);
+		ImageView imageView = (ImageView) hintView.findViewById(R.id.main_hint_finger);
+		Animation animation = AnimationUtils.loadAnimation(this, R.anim.finger_translate);
+		animation.setRepeatCount(Animation.INFINITE);
+		imageView.startAnimation(animation);
+		Button hintViewButton = (Button) hintView.findViewById(R.id.main_hint_dismiss_button);
+		hintViewButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
 		dialog.setContentView(hintView);
 		dialog.show();
 

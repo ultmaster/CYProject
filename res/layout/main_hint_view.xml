@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/main_hint_finger"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_x="0dp"
+        android:layout_y="50dp"
         android:src="@drawable/finger" />
-    
+
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="62dp"
+        android:layout_x="20dp"
+        android:layout_y="180dp"
         android:src="@drawable/left_drawer_reminder" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/main_hint_dismiss_button"
+        style="?attr/bigButtonStyle1"
+        android:layout_width="200dp"
+        android:layout_x="50dp"
+        android:layout_y="300dp"
+        android:text="@string/first_use_accepted_welcome_text" />
+
+</AbsoluteLayout>
