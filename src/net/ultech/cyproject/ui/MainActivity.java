@@ -179,28 +179,6 @@ public class MainActivity extends AbsActivity {
 		});
 	}
 
-	// @Override
-	// protected void onActivityResult(int requestCode, int resultCode, Intent
-	// data) {
-	// super.onActivityResult(requestCode, resultCode, data);
-	// Log.d("MainActivity", "CallBack");
-	// if (requestCode == 0) {
-	// Fragment fragment = this.mActivityStack.getBackFragment();
-	// if (fragment instanceof HighRecord) {
-	// System.out.println("I'm updating high record.");
-	// HighRecord highRecord = (HighRecord) fragment;
-	// try {
-	// highRecord.updateList();
-	// highRecord.listAdapter.notifyDataSetChanged();
-	// } catch (IOException e) {
-	// Toast.makeText(this, R.string.empty_record_reminder, 1)
-	// .show();
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-	// }
-
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
