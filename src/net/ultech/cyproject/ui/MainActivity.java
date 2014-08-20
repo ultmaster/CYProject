@@ -1,5 +1,6 @@
 package net.ultech.cyproject.ui;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,6 +58,7 @@ public class MainActivity extends AbsActivity {
 
 	public static int RECREATE_MSG = 0;
 
+	private String databasePath;
 	private ListView mListView;
 	private String[] mDrawerItemNames;
 	private String mTitle;
@@ -89,7 +91,6 @@ public class MainActivity extends AbsActivity {
 				Context.MODE_PRIVATE);
 		boolean firstUse = sp.getBoolean(PreferenceName.BOOL_FIRSTUSE, true);
 		if (firstUse) {
-			copyDatabase();
 			new AlertDialog.Builder(this)
 					.setMessage(
 							getResources().getString(
@@ -107,18 +108,21 @@ public class MainActivity extends AbsActivity {
 									editor.commit();
 								}
 							}).show();
-			
+
 		}
 		// TODO: 测试完别忘了移到里面去
 		final Dialog dialog = new Dialog(this, R.style.fullscreenDialog);
 		View hintView = View.inflate(this, R.layout.main_hint_view, null);
-		ImageView imageView = (ImageView) hintView.findViewById(R.id.main_hint_finger);
-		Animation animation = AnimationUtils.loadAnimation(this, R.anim.finger_translate);
+		ImageView imageView = (ImageView) hintView
+				.findViewById(R.id.main_hint_finger);
+		Animation animation = AnimationUtils.loadAnimation(this,
+				R.anim.finger_translate);
 		animation.setRepeatCount(Animation.INFINITE);
 		imageView.startAnimation(animation);
-		Button hintViewButton = (Button) hintView.findViewById(R.id.main_hint_dismiss_button);
+		Button hintViewButton = (Button) hintView
+				.findViewById(R.id.main_hint_dismiss_button);
 		hintViewButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
@@ -127,6 +131,7 @@ public class MainActivity extends AbsActivity {
 		dialog.setContentView(hintView);
 		dialog.show();
 
+		databasePath = "/data/data/" + getPackageName() + "/databases/";
 		try {
 			initializeDatabase();
 		} catch (Exception e) {
@@ -278,90 +283,54 @@ public class MainActivity extends AbsActivity {
 	}
 
 	private void initializeDatabase() throws Exception {
-		try {
-			mHelper = new CYDbOpenHelper(this, this.getExternalFilesDir(null)
-					.getAbsolutePath(), Constants.DATABASE_FILE_NAME);
-		} catch (Exception e1) {
-			Log.e("Database", "External database open error");
-			e1.printStackTrace();
-			try {
-				mHelper = new CYDbOpenHelper(this, this.getFilesDir()
-						.getAbsolutePath(), Constants.DATABASE_FILE_NAME);
-			} catch (Exception e2) {
-				Log.e("Database", "Internal database open error");
-				e2.printStackTrace();
-			}
-			throw new Exception("Database not available");
+		String path = databasePath + Constants.DATABASE_FILE_NAME;
+		System.out.println(path);
+		File file = new File(path);
+		if (!file.exists()) {
+			copyDatabase();
 		}
+		mHelper = new CYDbOpenHelper(this, Constants.DATABASE_FILE_NAME);
 		DatabaseHolder.putDatabase(mHelper.getReadableDatabase());
 	}
 
 	private void copyDatabase() {
-		if (!getExternalFilesDir(null).exists()) {
-			getExternalFilesDir(null).mkdir();
+		File path = new File(databasePath);
+		if (!path.exists()) {
+			path.mkdir();
 		}
-		if (!getFilesDir().exists()) {
-			getFilesDir().mkdir();
-		}
-		final ProgressDialog pDialog = new ProgressDialog(this);
+		ProgressDialog pDialog = new ProgressDialog(this);
 		pDialog.setTitle(getResources().getString(R.string.initializing));
 		pDialog.setIndeterminate(false);
 		pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		pDialog.setCancelable(false);
 		pDialog.show();
-
-		new Thread() {
-			public void run() {
-				try {
-					InputStream is = getAssets().open(
-							Constants.DATABASE_FILE_NAME);
-					int available = is.available();
-					pDialog.setMax(available);
-					FileOutputStream fos = new FileOutputStream(
-							getExternalFilesDir(null).getAbsolutePath() + "/"
-									+ Constants.DATABASE_FILE_NAME);
-					byte[] buffer = new byte[1024];
-					int read_length = 0;
-					int count = 0;
-					while ((count = is.read(buffer)) > 0) {
-						read_length += count;
-						pDialog.setProgress(read_length);
-						fos.write(buffer, 0, count);
-					}
-					fos.flush();
-					fos.close();
-					is.close();
-					pDialog.cancel();
-				} catch (IOException e1) {
-					Log.e("Database", "Copy to External Storage Error");
-					e1.printStackTrace();
-					try {
-						InputStream is = getAssets().open(
-								Constants.DATABASE_FILE_NAME);
-						FileOutputStream fos = new FileOutputStream(
-								getDatabasePath(null).getAbsolutePath() + "/"
-										+ Constants.DATABASE_FILE_NAME);
-						byte[] buffer = new byte[1024];
-						int read_length = 0;
-						int count = 0;
-						while ((count = is.read(buffer)) > 0) {
-							read_length += count;
-							pDialog.setProgress(read_length);
-							fos.write(buffer, 0, count);
-						}
-						fos.flush();
-						fos.close();
-						is.close();
-						pDialog.cancel();
-					} catch (IOException e2) {
-						Log.e("Database", "Copy to Internal Storage Error");
-						Log.wtf("Database", "Database copy all failes");
-						e2.printStackTrace();
-						throw new RuntimeException("ABORT");
-					}
-				}
-			};
-		}.start();
+		
+		try {
+			InputStream is = getAssets().open(Constants.DATABASE_FILE_NAME);
+			int available = is.available();
+			pDialog.setMax(available);
+			FileOutputStream fos = new FileOutputStream(new File(
+					databasePath + Constants.DATABASE_FILE_NAME));
+			byte[] buffer = new byte[1024];
+			int read_length = 0;
+			int count = -1;
+			while ((count = is.read(buffer)) != -1) {
+				fos.flush();
+				read_length += count;
+				if (read_length < available)
+					pDialog.setProgress(read_length);
+				fos.write(buffer, 0, count);
+			}
+			fos.flush();
+			fos.close();
+			is.close();
+			pDialog.cancel();
+		} catch (IOException e) {
+			Log.e("Database", "Copy to Internal Storage Error");
+			Log.wtf("Database", "Database copy all failes");
+			e.printStackTrace();
+			throw new RuntimeException("ABORT");
+		}
 
 	}
 

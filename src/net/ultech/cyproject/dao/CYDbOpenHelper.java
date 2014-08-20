@@ -7,8 +7,8 @@ import net.ultech.cyproject.R;
 
 public class CYDbOpenHelper extends SQLiteOpenHelper {
 
-	public CYDbOpenHelper(Context context, String dir, String filename) {
-		super(context, dir + "/" + filename, null, 1);
+	public CYDbOpenHelper(Context context, String filename) {
+		super(context, filename, null, 1);
 	}
 
 	@Override
