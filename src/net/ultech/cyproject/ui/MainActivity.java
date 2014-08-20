@@ -56,10 +56,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AbsActivity {
 
 	public static int RECREATE_MSG = 0;
+	public static MainActivity mainActivity;
 
 	private String databasePath;
 	private ListView mListView;
@@ -89,6 +91,7 @@ public class MainActivity extends AbsActivity {
 		mManager = getFragmentManager();
 		mTitle = getString(R.string.app_name);
 		mActivityStack = new MainActivityStack();
+		mainActivity = this;
 
 		sp = getSharedPreferences(Constants.PREFERENCE_FILE_NAME,
 				Context.MODE_PRIVATE);
@@ -176,19 +179,27 @@ public class MainActivity extends AbsActivity {
 		});
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		Log.d("MainActivity", "CallBack");
-		if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
-			System.out.println("I'm updating high record.");
-			Fragment fragment = this.mActivityStack.getBackFragment();
-			if (this.mActivityStack.getBackFragment() instanceof HighRecord) {
-				HighRecord highRecord = (HighRecord) fragment;
-				highRecord.listAdapter.notifyDataSetChanged();
-			}
-		}
-	}
+	// @Override
+	// protected void onActivityResult(int requestCode, int resultCode, Intent
+	// data) {
+	// super.onActivityResult(requestCode, resultCode, data);
+	// Log.d("MainActivity", "CallBack");
+	// if (requestCode == 0) {
+	// Fragment fragment = this.mActivityStack.getBackFragment();
+	// if (fragment instanceof HighRecord) {
+	// System.out.println("I'm updating high record.");
+	// HighRecord highRecord = (HighRecord) fragment;
+	// try {
+	// highRecord.updateList();
+	// highRecord.listAdapter.notifyDataSetChanged();
+	// } catch (IOException e) {
+	// Toast.makeText(this, R.string.empty_record_reminder, 1)
+	// .show();
+	// e.printStackTrace();
+	// }
+	// }
+	// }
+	// }
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
@@ -411,5 +422,9 @@ public class MainActivity extends AbsActivity {
 		else {
 			return -1;
 		}
+	}
+
+	public Fragment getFragmentById(int id) {
+		return mFragments[id];
 	}
 }

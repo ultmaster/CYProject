@@ -12,21 +12,18 @@ import java.util.List;
 import java.util.Random;
 
 import net.ultech.cyproject.R;
-import net.ultech.cyproject.R.id;
-import net.ultech.cyproject.R.layout;
 import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
-import net.ultech.cyproject.dao.CYDbOpenHelper;
+import net.ultech.cyproject.ui.fragment.HighRecord;
 import net.ultech.cyproject.utils.AbsActivity;
 import net.ultech.cyproject.utils.BasicColorConstants;
 import net.ultech.cyproject.utils.Constants;
-import net.ultech.cyproject.utils.DatabaseHolder;
+import net.ultech.cyproject.utils.Constants.FragmentList;
 import net.ultech.cyproject.utils.Constants.PreferenceName;
-import android.app.Activity;
+import net.ultech.cyproject.utils.DatabaseHolder;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -176,7 +173,15 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			timerOn = false;
 			timer.interrupt();
 		}
-		setResult(Activity.RESULT_OK, new Intent());
+		try {
+			HighRecord highRecord = (HighRecord) MainActivity.mainActivity
+					.getFragmentById(FragmentList.HIGH_RECORD);
+			highRecord.updateList();
+			highRecord.listAdapter.notifyDataSetChanged();
+		} catch (IOException e) {
+			Toast.makeText(this, R.string.empty_record_reminder, 1).show();
+			e.printStackTrace();
+		}
 		super.onDestroy();
 	}
 
@@ -271,7 +276,8 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			}
 			break;
 		case R.id.ch_bt_restart:
-			if (btRestart.getText().toString().equals(getString(R.string.restart))) {
+			if (btRestart.getText().toString()
+					.equals(getString(R.string.restart))) {
 				new AlertDialog.Builder(this)
 						.setMessage(R.string.challenge_restart_reminder)
 						.setPositiveButton(R.string.ok,
@@ -357,8 +363,8 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 	public void setStatusAndLevel() {
 		tvStatus.setText(Html.fromHtml("<b>" + getString(R.string.score)
 				+ "：</b>" + "<font color=\""
-				+ BasicColorConstants.stringColorBlue
-				+ "\">" + Integer.toString(scoreHuman) + "</font>"));
+				+ BasicColorConstants.stringColorBlue + "\">"
+				+ Integer.toString(scoreHuman) + "</font>"));
 		tvLevel.setText(Html.fromHtml("<b>" + getString(R.string.level)
 				+ "：</b>" + Integer.toString(level)
 				+ getString(R.string.pref_level_unit) + "；"
