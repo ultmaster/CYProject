@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.bean.RecordInfo;
 import net.ultech.cyproject.utils.BasicColorConstants;
@@ -16,6 +17,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,7 +36,7 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 
 	private ListView lvRecord;
 	private File file;
-	//private FileOutputStream outputStream;
+	// private FileOutputStream outputStream;
 	private FileInputStream inputStream;
 	private int DisplaySize;
 	private int maxDisplaySize;
@@ -55,35 +57,42 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 		btExpand = (Button) view.findViewById(R.id.re_bt_expand);
 		file = new File(getActivity().getFilesDir(), Constants.RECORD_FILE_NAME);
 
+		recordList = new ArrayList<RecordInfo>();
+		editState = false;
+		btEdit.setOnClickListener(this);
+		btExpand.setOnClickListener(this);
+		listAdapter = new myAdapter();
+		lvRecord.setAdapter(listAdapter);
+		lvRecord.setOnItemClickListener(this);
+
+		return view;
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.d("HighRecord", "onResume");
+		super.onStart();
 		try {
-			recordList = new ArrayList<RecordInfo>();
 			updateList();
-			maxDisplaySize = recordList.size();
-			deleteSelection = new boolean[maxDisplaySize + 1];
-			Arrays.fill(deleteSelection, false);
-
-			DisplaySize = 10;
-			if (maxDisplaySize < DisplaySize)
-				DisplaySize = maxDisplaySize;
-
-			editState = false;
-			btEdit.setOnClickListener(this);
-			btExpand.setOnClickListener(this);
-			listAdapter = new myAdapter();
-			lvRecord.setAdapter(listAdapter);
-			lvRecord.setOnItemClickListener(this);
 		} catch (IOException e) {
-			Toast.makeText(getActivity(), R.string.empty_record_reminder, Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(getActivity(), R.string.empty_record_reminder,
+					Toast.LENGTH_LONG).show();
 			e.printStackTrace();
 		}
-		return view;
+		maxDisplaySize = recordList.size();
+		deleteSelection = new boolean[maxDisplaySize + 1];
+		Arrays.fill(deleteSelection, false);
+		DisplaySize = 10;
+		if (maxDisplaySize < DisplaySize)
+			DisplaySize = maxDisplaySize;
+		listAdapter.notifyDataSetChanged();
 	}
 
 	public void updateList() throws IOException {
 		recordList.clear();
 		inputStream = new FileInputStream(file);
-		byte[] buffer = new byte[8192];
+		byte[] buffer = new byte[1024];
 		String rawResult = new String();
 		while ((inputStream.read(buffer)) != -1)
 			rawResult = rawResult + new String(buffer).trim();
@@ -100,6 +109,7 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 			recordList.add(info);
 			++j;
 		}
+		System.out.println(recordList.size());
 	}
 
 	public void updateFile() throws IOException {
@@ -184,7 +194,8 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 					updateFile();
 				} catch (IOException e) {
 					Toast.makeText(getActivity(),
-							R.string.modify_record_failure, Toast.LENGTH_LONG).show();
+							R.string.modify_record_failure, Toast.LENGTH_LONG)
+							.show();
 					e.printStackTrace();
 				}
 				maxDisplaySize = recordList.size();
@@ -193,7 +204,6 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 				Arrays.fill(deleteSelection, false);
 				btEdit.setText(R.string.edit);
 				listAdapter.notifyDataSetChanged();
-				System.out.println(recordList.size());
 			} else {
 				editState = true;
 				btEdit.setText(R.string.delete_selection);

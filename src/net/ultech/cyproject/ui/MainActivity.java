@@ -58,7 +58,6 @@ import android.widget.Toast;
 public class MainActivity extends AbsActivity {
 
 	public static int RECREATE_MSG = 0;
-	public static MainActivity mainActivity;
 
 	private String databasePath;
 	private ListView mListView;
@@ -93,7 +92,6 @@ public class MainActivity extends AbsActivity {
 		mManager = getFragmentManager();
 		mTitle = getString(R.string.app_name);
 		mActivityStack = new MainActivityStack();
-		mainActivity = this;
 
 		sp = getSharedPreferences(Constants.PREFERENCE_FILE_NAME,
 				Context.MODE_PRIVATE);

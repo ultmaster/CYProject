@@ -1,0 +1,45 @@
+﻿Merge remote-tracking branch 'origin/master'
+
+Conflicts:
+	src/net/ultech/cyproject/ui/ChallengeMode.java
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 3 and 2 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#   (use "git commit" to conclude merge)
+#
+# Changes to be committed:
+#
+#	modified:   src/net/ultech/cyproject/bean/RecordInfo.java
+#	modified:   src/net/ultech/cyproject/bean/WordInfo.java
+#	modified:   src/net/ultech/cyproject/bean/WordInfoComplete.java
+#	modified:   src/net/ultech/cyproject/bean/WordInfoSpecial.java
+#	modified:   src/net/ultech/cyproject/dao/CYDbDAO.java
+#	modified:   src/net/ultech/cyproject/dao/CYDbOpenHelper.java
+#	modified:   src/net/ultech/cyproject/ui/ChallengeMode.java
+#	modified:   src/net/ultech/cyproject/ui/MainActivity.java
+#	modified:   src/net/ultech/cyproject/ui/fragment/AboutUs.java
+#	modified:   src/net/ultech/cyproject/ui/fragment/Help.java
+#	modified:   src/net/ultech/cyproject/ui/fragment/HighRecord.java
+#	modified:   src/net/ultech/cyproject/ui/fragment/PersonalSettings.java
+#	modified:   src/net/ultech/cyproject/ui/fragment/StandardMode.java
+#	modified:   src/net/ultech/cyproject/ui/fragment/StandardModeHint.java
+#	modified:   src/net/ultech/cyproject/ui/fragment/StandardModeLog.java
+#	modified:   src/net/ultech/cyproject/ui/preference/NumberPickerPreference.java
+#	modified:   src/net/ultech/cyproject/utils/AbsActivity.java
+#	modified:   src/net/ultech/cyproject/utils/Constants.java
+#	modified:   src/net/ultech/cyproject/utils/DatabaseHolder.java
+#	modified:   src/net/ultech/cyproject/utils/MainActivityStack.java
+#
+

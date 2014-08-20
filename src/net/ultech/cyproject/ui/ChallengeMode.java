@@ -170,25 +170,20 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 		Log.d("ChallengeMode", "onDestroy");
 		super.onDestroy();
 	}
-	
+
 	@Override
-	protected void onStop() {
-		Log.d("ChallengeMode", "onStop");
+	public void finish() {
+		/*
+		 * Android 的Activity切换可以概括为先开后关， 因此在关之前执行开的方法自然是无效的。
+		 * 但是finish方法不一样，重载一下就好了 ^ ^
+		 */
+		Log.d("ChallengeMode", "finish");
 		if (alreadyIn) {
 			saveScore();
 			timerOn = false;
 			timer.interrupt();
 		}
-		try {
-			HighRecord highRecord = (HighRecord) MainActivity.mainActivity
-					.getFragmentById(FragmentList.HIGH_RECORD);
-			highRecord.updateList();
-			highRecord.listAdapter.notifyDataSetChanged();
-		} catch (IOException e) {
-			Toast.makeText(this, R.string.empty_record_reminder, 1).show();
-			e.printStackTrace();
-		}
-		super.onStop();
+		super.finish();
 	}
 
 	@Override
@@ -198,24 +193,26 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			textHuman = etHuman.getText().toString().trim();
 			textRobot = tvRobot.getText().toString().trim();
 			if (TextUtils.isEmpty(textHuman)) {
-				Toast.makeText(this, R.string.please_type_in_the_word, Toast.LENGTH_LONG)
-						.show();
+				Toast.makeText(this, R.string.please_type_in_the_word,
+						Toast.LENGTH_LONG).show();
 			} else {
 				if (textHuman.charAt(0) != textRobot
 						.charAt(textRobot.length() - 1)) {
-					Toast.makeText(this, R.string.first_equal_last_error, Toast.LENGTH_LONG)
-							.show();
+					Toast.makeText(this, R.string.first_equal_last_error,
+							Toast.LENGTH_LONG).show();
 				} else if (textRobot.charAt(0) == textHuman.charAt(textHuman
 						.length() - 1)) {
-					Toast.makeText(this, R.string.last_diff_first_error, Toast.LENGTH_LONG)
-							.show();
+					Toast.makeText(this, R.string.last_diff_first_error,
+							Toast.LENGTH_LONG).show();
 				} else if (CYDbDAO.find(textHuman, mDatabase)) {
 					++scoreHuman;
 					++successAnswer;
-					Toast.makeText(this, R.string.plus_one, Toast.LENGTH_SHORT).show();
+					Toast.makeText(this, R.string.plus_one, Toast.LENGTH_SHORT)
+							.show();
 					if (score_update[level] <= successAnswer) {
 						++level;
-						Toast.makeText(this, R.string.plus_five, Toast.LENGTH_SHORT).show();
+						Toast.makeText(this, R.string.plus_five,
+								Toast.LENGTH_SHORT).show();
 					}
 					String first = new String(
 							new char[] { textHuman.charAt(textHuman.length() - 1) });
@@ -237,9 +234,10 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 						}
 						if (candidate2.isEmpty()) {
 							btRestart.setText(R.string.next_round);
-							Toast.makeText(this, "+" + success_plus, Toast.LENGTH_SHORT).show();
+							Toast.makeText(this, "+" + success_plus,
+									Toast.LENGTH_SHORT).show();
 							Toast.makeText(this, R.string.next_round_reminder,
-							        Toast.LENGTH_LONG).show();
+									Toast.LENGTH_LONG).show();
 							charged += success_charged;
 							if (charged > full_charged)
 								charged = full_charged;
@@ -263,9 +261,10 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 						}
 					} else {
 						btRestart.setText(R.string.next_round);
-						Toast.makeText(this, "+" + success_plus, Toast.LENGTH_SHORT).show();
-						Toast.makeText(this, R.string.next_round_reminder, Toast.LENGTH_LONG)
-								.show();
+						Toast.makeText(this, "+" + success_plus,
+								Toast.LENGTH_SHORT).show();
+						Toast.makeText(this, R.string.next_round_reminder,
+								Toast.LENGTH_LONG).show();
 						charged += success_charged;
 						if (charged > full_charged)
 							charged = full_charged;
@@ -277,7 +276,8 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 						updateProgressBar();
 					}
 				} else {
-					Toast.makeText(this, R.string.illegal_word_error, Toast.LENGTH_LONG).show();
+					Toast.makeText(this, R.string.illegal_word_error,
+							Toast.LENGTH_LONG).show();
 				}
 			}
 			break;
@@ -426,7 +426,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 	}
 
 	@SuppressLint("HandlerLeak")
-    private final Handler handler = new Handler() {
+	private final Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case timerReact:
@@ -439,7 +439,8 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 					if (charged != 0) {
 						btRestart.setText(R.string.next_round);
 						Toast.makeText(ChallengeMode.this,
-								R.string.round_lose_proceed_reminder, Toast.LENGTH_LONG).show();
+								R.string.round_lose_proceed_reminder,
+								Toast.LENGTH_LONG).show();
 						updateProgressBar();
 					} else {
 						btRestart.setText(R.string.restart);
@@ -546,7 +547,8 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			fos.write(doneResult.getBytes());
 			fos.close();
 		} catch (IOException e) {
-			Toast.makeText(this, R.string.save_failure, Toast.LENGTH_LONG).show();
+			Toast.makeText(this, R.string.save_failure, Toast.LENGTH_LONG)
+					.show();
 			e.printStackTrace();
 		}
 	}
