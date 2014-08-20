@@ -1,7 +1,5 @@
 package net.ultech.cyproject.utils;
 
-import net.ultech.cyproject.R;
-
 public final class Constants {
 
 	public final class FragmentList {

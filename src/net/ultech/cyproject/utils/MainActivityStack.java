@@ -1,7 +1,6 @@
 package net.ultech.cyproject.utils;
 
 import java.util.Stack;
-import net.ultech.cyproject.R;
 import android.app.Fragment;
 import android.os.Bundle;
 

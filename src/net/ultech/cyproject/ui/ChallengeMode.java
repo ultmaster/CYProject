@@ -1,16 +1,13 @@
 package net.ultech.cyproject.ui;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
@@ -21,6 +18,8 @@ import net.ultech.cyproject.utils.Constants;
 import net.ultech.cyproject.utils.Constants.FragmentList;
 import net.ultech.cyproject.utils.Constants.PreferenceName;
 import net.ultech.cyproject.utils.DatabaseHolder;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -43,6 +42,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@SuppressLint("InflateParams")
 public class ChallengeMode extends AbsActivity implements OnClickListener {
 
 	private SQLiteDatabase mDatabase;
@@ -198,24 +198,24 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			textHuman = etHuman.getText().toString().trim();
 			textRobot = tvRobot.getText().toString().trim();
 			if (TextUtils.isEmpty(textHuman)) {
-				Toast.makeText(this, R.string.please_type_in_the_word, 1)
+				Toast.makeText(this, R.string.please_type_in_the_word, Toast.LENGTH_LONG)
 						.show();
 			} else {
 				if (textHuman.charAt(0) != textRobot
 						.charAt(textRobot.length() - 1)) {
-					Toast.makeText(this, R.string.first_equal_last_error, 1)
+					Toast.makeText(this, R.string.first_equal_last_error, Toast.LENGTH_LONG)
 							.show();
 				} else if (textRobot.charAt(0) == textHuman.charAt(textHuman
 						.length() - 1)) {
-					Toast.makeText(this, R.string.last_diff_first_error, 1)
+					Toast.makeText(this, R.string.last_diff_first_error, Toast.LENGTH_LONG)
 							.show();
 				} else if (CYDbDAO.find(textHuman, mDatabase)) {
 					++scoreHuman;
 					++successAnswer;
-					Toast.makeText(this, R.string.plus_one, 0).show();
+					Toast.makeText(this, R.string.plus_one, Toast.LENGTH_SHORT).show();
 					if (score_update[level] <= successAnswer) {
 						++level;
-						Toast.makeText(this, R.string.plus_five, 0).show();
+						Toast.makeText(this, R.string.plus_five, Toast.LENGTH_SHORT).show();
 					}
 					String first = new String(
 							new char[] { textHuman.charAt(textHuman.length() - 1) });
@@ -237,9 +237,9 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 						}
 						if (candidate2.isEmpty()) {
 							btRestart.setText(R.string.next_round);
-							Toast.makeText(this, "+" + success_plus, 0).show();
+							Toast.makeText(this, "+" + success_plus, Toast.LENGTH_SHORT).show();
 							Toast.makeText(this, R.string.next_round_reminder,
-									1).show();
+							        Toast.LENGTH_LONG).show();
 							charged += success_charged;
 							if (charged > full_charged)
 								charged = full_charged;
@@ -263,8 +263,8 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 						}
 					} else {
 						btRestart.setText(R.string.next_round);
-						Toast.makeText(this, "+" + success_plus, 0).show();
-						Toast.makeText(this, R.string.next_round_reminder, 1)
+						Toast.makeText(this, "+" + success_plus, Toast.LENGTH_SHORT).show();
+						Toast.makeText(this, R.string.next_round_reminder, Toast.LENGTH_LONG)
 								.show();
 						charged += success_charged;
 						if (charged > full_charged)
@@ -277,7 +277,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 						updateProgressBar();
 					}
 				} else {
-					Toast.makeText(this, R.string.illegal_word_error, 1).show();
+					Toast.makeText(this, R.string.illegal_word_error, Toast.LENGTH_LONG).show();
 				}
 			}
 			break;
@@ -425,7 +425,8 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 						}).show();
 	}
 
-	private final Handler handler = new Handler() {
+	@SuppressLint("HandlerLeak")
+    private final Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case timerReact:
@@ -438,7 +439,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 					if (charged != 0) {
 						btRestart.setText(R.string.next_round);
 						Toast.makeText(ChallengeMode.this,
-								R.string.round_lose_proceed_reminder, 1).show();
+								R.string.round_lose_proceed_reminder, Toast.LENGTH_LONG).show();
 						updateProgressBar();
 					} else {
 						btRestart.setText(R.string.restart);
@@ -502,12 +503,9 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			String[] result;
 			if (file.exists()) {
 				FileInputStream fis = new FileInputStream(file);
-				BufferedReader br = new BufferedReader(new InputStreamReader(
-						fis));
 				byte[] buffer = new byte[8192];
-				int length = 0;
 				String rawResult = new String();
-				while ((length = fis.read(buffer)) != -1)
+				while ((fis.read(buffer)) != -1)
 					rawResult = rawResult + new String(buffer).trim();
 				fis.close();
 				if (!TextUtils.isEmpty(rawResult)) {
@@ -548,7 +546,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			fos.write(doneResult.getBytes());
 			fos.close();
 		} catch (IOException e) {
-			Toast.makeText(this, R.string.save_failure, 1).show();
+			Toast.makeText(this, R.string.save_failure, Toast.LENGTH_LONG).show();
 			e.printStackTrace();
 		}
 	}
