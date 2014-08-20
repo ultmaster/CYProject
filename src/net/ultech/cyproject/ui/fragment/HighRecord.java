@@ -72,7 +72,6 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 	public void onResume() {
 		super.onResume();
 		Log.d("HighRecord", "onResume");
-		super.onStart();
 		try {
 			updateList();
 		} catch (IOException e) {

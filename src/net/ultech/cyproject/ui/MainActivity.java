@@ -21,7 +21,6 @@ import net.ultech.cyproject.utils.Constants.PreferenceName;
 import net.ultech.cyproject.utils.DatabaseHolder;
 import net.ultech.cyproject.utils.MainActivityStack;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -53,7 +52,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AbsActivity {
 
