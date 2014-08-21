@@ -49,6 +49,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 	private EditText etHuman;
 	private TextView tvRobot;
 	private Button btOK;
+	private Button btCompromise;
 	private Button btRestart;
 	private Button btExit;
 	private TextView tvTime;
@@ -139,6 +140,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 		etHuman = (EditText) findViewById(R.id.ch_et_human);
 		tvRobot = (TextView) findViewById(R.id.ch_tv_robot);
 		btOK = (Button) findViewById(R.id.ch_bt_ok);
+		btCompromise = (Button) findViewById(R.id.ch_bt_compromise);
 		btRestart = (Button) findViewById(R.id.ch_bt_restart);
 		btExit = (Button) findViewById(R.id.ch_bt_exit);
 		tvTime = (TextView) findViewById(R.id.ch_tv_time);
@@ -147,6 +149,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 		tvUsername = (TextView) findViewById(R.id.ch_tv_username);
 		tvCharged = (TextView) findViewById(R.id.ch_tv_charged);
 		pbCharged = (ProgressBar) findViewById(R.id.ch_pb_charged);
+		btCompromise.setOnClickListener(this);
 		btOK.setOnClickListener(this);
 		btRestart.setOnClickListener(this);
 		btExit.setOnClickListener(this);
@@ -164,19 +167,19 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 		});
 
 		// TODO: Test
-		new Thread() {
-			public void run() {
-				try {
-					Thread.sleep(5000);
-					Message msg = new Message();
-					msg.what = 88888;
-					handler.sendMessage(msg);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			};
-		}.start();
+//		new Thread() {
+//			public void run() {
+//				try {
+//					Thread.sleep(5000);
+//					Message msg = new Message();
+//					msg.what = 88888;
+//					handler.sendMessage(msg);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			};
+//		}.start();
 	}
 
 	@Override
@@ -293,6 +296,14 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 							Toast.LENGTH_SHORT).show();
 				}
 			}
+			break;
+		case R.id.ch_bt_compromise:
+			timer.interrupt();
+			timeRemain = 0;
+			timerOn = true;
+			Message msg = new Message();
+			msg.what = timerReact;
+			handler.sendMessage(msg);
 			break;
 		case R.id.ch_bt_restart:
 			if (btRestart.getText().toString()
@@ -492,9 +503,9 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 				break;
 
 			// TODO
-			case 88888:
-				PressureTest();
-				break;
+//			case 88888:
+//				PressureTest();
+//				break;
 			}
 		};
 	};
@@ -572,36 +583,36 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 		}
 	}
 
-	public void PressureTest() {
-		int size = 10000;
-		int i = 0;
-		while (i < size && charged > 0) {
-			System.out.println(i);
-			++i;
-			if (btOK.isClickable()) {
-				String robot = tvRobot.getText().toString();
-				System.out.println(robot);
-				if (!TextUtils.isEmpty(robot)) {
-					String last = new String(new char[] { robot.charAt(robot
-							.length() - 1) });
-					List<WordInfoSpecial> candidate = CYDbDAO.findByFirst(last,
-							mDatabase);
-					String word = candidate.get(
-							random.nextInt(candidate.size())).getName();
-					System.out.println(word);
-					etHuman.setText(word);
-					btOK.performClick();
-					System.out.println("level " + level);
-					System.out.println("round " + round);
-					System.out.println("score " + scoreHuman);
-					System.out.println("charged " + charged);
-				} else {
-					throw new RuntimeException("Hello, unhandled Exception!");
-				}
-			} else {
-				System.out.println("restart");
-				btRestart.performClick();
-			}
-		}
-	}
+//	public void PressureTest() {
+//		int size = 10000;
+//		int i = 0;
+//		while (i < size && charged > 0) {
+//			System.out.println(i);
+//			++i;
+//			if (btOK.isClickable()) {
+//				String robot = tvRobot.getText().toString();
+//				System.out.println(robot);
+//				if (!TextUtils.isEmpty(robot)) {
+//					String last = new String(new char[] { robot.charAt(robot
+//							.length() - 1) });
+//					List<WordInfoSpecial> candidate = CYDbDAO.findByFirst(last,
+//							mDatabase);
+//					String word = candidate.get(
+//							random.nextInt(candidate.size())).getName();
+//					System.out.println(word);
+//					etHuman.setText(word);
+//					btOK.performClick();
+//					System.out.println("level " + level);
+//					System.out.println("round " + round);
+//					System.out.println("score " + scoreHuman);
+//					System.out.println("charged " + charged);
+//				} else {
+//					throw new RuntimeException("Hello, unhandled Exception!");
+//				}
+//			} else {
+//				System.out.println("restart");
+//				btRestart.performClick();
+//			}
+//		}
+//	}
 }

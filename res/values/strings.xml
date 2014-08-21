@@ -143,5 +143,6 @@
     <string name="maintenance">维护更新</string>
     <string name="update_software">更新软件</string>
     <string name="are_you_willing_to_update">您是否愿意更新？</string>
+    <string name="compromise">认输</string>
 
 </resources>

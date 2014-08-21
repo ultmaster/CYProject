@@ -129,18 +129,26 @@
                 android:orientation="horizontal" >
 
                 <Button
+                    android:id="@+id/ch_bt_compromise"
+                    style="?attr/smallButtonStyle1"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/compromise" />
+
+                <Button
                     android:id="@+id/ch_bt_restart"
                     style="?attr/smallButtonStyle2"
                     android:layout_width="0dp"
-                    android:layout_weight="0.5"
+                    android:layout_marginLeft="7dp"
+                    android:layout_weight="1"
                     android:text="@string/restart" />
 
                 <Button
                     android:id="@+id/ch_bt_exit"
                     style="?attr/smallButtonStyle3"
                     android:layout_width="0dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_weight="0.5"
+                    android:layout_marginLeft="7dp"
+                    android:layout_weight="1"
                     android:text="@string/exit_mode" />
             </LinearLayout>
         </LinearLayout>
