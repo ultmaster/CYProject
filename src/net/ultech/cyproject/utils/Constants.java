@@ -17,6 +17,8 @@ public final class Constants {
 	public final static String LOG_FILE_NAME = "st.log";
 	public final static String RECORD_FILE_NAME = "ch.record";
 
+	public final static String UPDATE_PATH = "http://www.baidu.com/";
+
 	public final class PreferenceName {
 		public static final String BOOL_FIRSTUSE = "firstUse";
 		public static final String STRING_DEFAULT_USERNAME = "ch_defaultUsername";

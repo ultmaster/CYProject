@@ -74,6 +74,7 @@
     <string name="pref_key_list_timelife">list_timelife</string>
     <string name="pref_key_empty_log">empty_log</string>
     <string name="pref_key_empty_record">empty_record</string>
+    <string name="pref_key_update">update_software</string>
     <string name="illegal_input">输入不合法</string>
     <string name="life">life</string>
     <string name="time">time</string>
@@ -139,5 +140,8 @@
     <string name="empty_query">当前查询内容为空。</string>
     <string name="initializing">正在初始化</string>
     <string name="pull_drawer_hint">左侧拉出边栏</string>
+    <string name="maintenance">维护更新</string>
+    <string name="update_software">更新软件</string>
+    <string name="are_you_willing_to_update">您是否愿意更新？</string>
 
 </resources>

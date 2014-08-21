@@ -219,47 +219,32 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 							new char[] { textHuman.charAt(textHuman.length() - 1) });
 					List<WordInfoSpecial> candidate = CYDbDAO.findByFirst(
 							first, mDatabase);
-					if (candidate.size() != 0) {
-						List<WordInfoSpecial> candidate2 = new ArrayList<WordInfoSpecial>();
-						Random random = new Random();
-						for (int i = 0; i < random_size; ++i) {
-							int r = random.nextInt(candidate.size());
-							WordInfoSpecial word = candidate.get(r);
-							String wordName = word.getName();
-							if (word.getCountOfLast() != 0
-									&& wordName.charAt(wordName.length() - 1) != textHuman
-											.charAt(0))
-								candidate2.add(candidate.get(r));
-							else
-								--i;
-						}
-						if (candidate2.isEmpty()) {
-							btRestart.setText(R.string.next_round);
-							Toast.makeText(this, "+" + success_plus,
-									Toast.LENGTH_SHORT).show();
-							Toast.makeText(this, R.string.next_round_reminder,
-									Toast.LENGTH_SHORT).show();
-							charged += success_charged;
-							if (charged > full_charged)
-								charged = full_charged;
-							timerOn = false;
-							btOK.setClickable(false);
-							scoreHuman += success_plus;
-							setStatusAndLevel();
-							updateTimeAppearance();
-							updateProgressBar();
-						} else {
-							sortByCountOfLastChar(candidate2);
-							WordInfoSpecial chosen = candidate2.get(level - 1);
-							textRobot = chosen.getName();
-							tvRobot.setText(textRobot);
-							timer.interrupt();
-							timer = new TimeThread();
-							timeRemain = time_limit;
-							updateTimeAppearance();
-							timer.start();
-							setStatusAndLevel();
-						}
+					List<WordInfoSpecial> candidate2 = new ArrayList<WordInfoSpecial>();
+					Random random = new Random();
+					for (int i = 0; i < random_size; ++i) {
+						int r = random.nextInt(candidate.size());
+						WordInfoSpecial word = candidate.get(r);
+						String wordName = word.getName();
+						if (word.getCountOfLast() != 0
+								&& wordName.charAt(wordName.length() - 1) != textHuman
+										.charAt(0))
+							candidate2.add(candidate.get(r));
+						else
+							--i;
+					}
+					if (!candidate2.isEmpty()) {
+						sortByCountOfLastChar(candidate2);
+						WordInfoSpecial chosen = candidate2.get(level - 1);
+						textHuman = "";
+						textRobot = chosen.getName();
+						tvRobot.setText(textRobot);
+						etHuman.setText(textHuman);
+						timer.interrupt();
+						timer = new TimeThread();
+						timeRemain = time_limit;
+						updateTimeAppearance();
+						timer.start();
+						setStatusAndLevel();
 					} else {
 						btRestart.setText(R.string.next_round);
 						Toast.makeText(this, "+" + success_plus,
