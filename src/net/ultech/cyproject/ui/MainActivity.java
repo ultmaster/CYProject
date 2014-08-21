@@ -223,6 +223,7 @@ public class MainActivity extends AbsActivity {
 		fragmentIndicator = id;
 		if (mAdapter != null)
 			mAdapter.notifyDataSetChanged();
+		getActionBar().setTitle(mTitle);
 	}
 
 	@Override

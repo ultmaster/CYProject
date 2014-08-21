@@ -57,11 +57,12 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 	private TextView tvUsername;
 	private TextView tvCharged;
 	private ProgressBar pbCharged;
+	private Random random = new Random();
 
 	private final int db_size = 31851;
 	private final int random_size = 12;
 	private final int[] score_update = { 0, 5, 12, 20, 30, 45, 60, 75, 95, 120,
-			150, 190, 250 };
+			150, 190, 250, 999999999 };
 	private int time_limit = 30;
 	private int full_charged = 7;
 	private final int success_plus = 10;
@@ -161,6 +162,21 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 				return false;
 			}
 		});
+
+		// TODO: Test
+		new Thread() {
+			public void run() {
+				try {
+					Thread.sleep(5000);
+					Message msg = new Message();
+					msg.what = 88888;
+					handler.sendMessage(msg);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			};
+		}.start();
 	}
 
 	@Override
@@ -220,17 +236,26 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 					List<WordInfoSpecial> candidate = CYDbDAO.findByFirst(
 							first, mDatabase);
 					List<WordInfoSpecial> candidate2 = new ArrayList<WordInfoSpecial>();
-					Random random = new Random();
-					for (int i = 0; i < random_size; ++i) {
-						int r = random.nextInt(candidate.size());
-						WordInfoSpecial word = candidate.get(r);
-						String wordName = word.getName();
-						if (word.getCountOfLast() != 0
-								&& wordName.charAt(wordName.length() - 1) != textHuman
-										.charAt(0))
-							candidate2.add(candidate.get(r));
-						else
-							--i;
+					if (!candidate.isEmpty()) {
+						// TODO: Duplicate
+						int j = 0;
+						for (int i = 0; i < random_size; ++i) {
+							int r = random.nextInt(candidate.size());
+							WordInfoSpecial word = candidate.get(r);
+							String wordName = word.getName();
+							int lastCount = word.getCountOfLast();
+							if (lastCount != 0
+									&& wordName.charAt(wordName.length() - 1) != textHuman
+											.charAt(0))
+								candidate2.add(candidate.get(r));
+							else {
+								--i;
+								if (j > random_size && candidate2.isEmpty())
+									break;
+							}
+							++j;
+						}
+
 					}
 					if (!candidate2.isEmpty()) {
 						sortByCountOfLastChar(candidate2);
@@ -246,6 +271,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 						timer.start();
 						setStatusAndLevel();
 					} else {
+						Log.d("ChallengeMode", "Robot cannot find a word");
 						btRestart.setText(R.string.next_round);
 						Toast.makeText(this, "+" + success_plus,
 								Toast.LENGTH_SHORT).show();
@@ -256,6 +282,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 							charged = full_charged;
 						timerOn = false;
 						btOK.setClickable(false);
+						Log.d("ChallengeMode", "Successfully set not clickable");
 						scoreHuman += success_plus;
 						updateTimeAppearance();
 						setStatusAndLevel();
@@ -462,6 +489,12 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 					--timeRemain;
 					updateTimeAppearance();
 				}
+				break;
+
+			// TODO
+			case 88888:
+				PressureTest();
+				break;
 			}
 		};
 	};
@@ -536,6 +569,39 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			Toast.makeText(this, R.string.save_failure, Toast.LENGTH_LONG)
 					.show();
 			e.printStackTrace();
+		}
+	}
+
+	public void PressureTest() {
+		int size = 10000;
+		int i = 0;
+		while (i < size && charged > 0) {
+			System.out.println(i);
+			++i;
+			if (btOK.isClickable()) {
+				String robot = tvRobot.getText().toString();
+				System.out.println(robot);
+				if (!TextUtils.isEmpty(robot)) {
+					String last = new String(new char[] { robot.charAt(robot
+							.length() - 1) });
+					List<WordInfoSpecial> candidate = CYDbDAO.findByFirst(last,
+							mDatabase);
+					String word = candidate.get(
+							random.nextInt(candidate.size())).getName();
+					System.out.println(word);
+					etHuman.setText(word);
+					btOK.performClick();
+					System.out.println("level " + level);
+					System.out.println("round " + round);
+					System.out.println("score " + scoreHuman);
+					System.out.println("charged " + charged);
+				} else {
+					throw new RuntimeException("Hello, unhandled Exception!");
+				}
+			} else {
+				System.out.println("restart");
+				btRestart.performClick();
+			}
 		}
 	}
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
@@ -53,9 +54,10 @@ public class StandardMode extends Fragment implements OnClickListener {
 	private String textHuman;
 	private String textRobot;
 	private int level; // 从1到12
-	File file;
-	FileOutputStream fos;
+	private File file;
+	private FileOutputStream fos;
 	private MainActivity mActivity;
+	private Random random = new Random();
 
 	public void setConfirmText(String text) {
 		textHuman = text;
@@ -166,17 +168,23 @@ public class StandardMode extends Fragment implements OnClickListener {
 					List<WordInfoSpecial> candidate = CYDbDAO.findByFirst(
 							first, mDatabase);
 					List<WordInfoSpecial> candidate2 = new ArrayList<WordInfoSpecial>();
-					Random random = new Random();
-					for (int i = 0; i < random_size; ++i) {
-						int r = random.nextInt(candidate.size());
-						WordInfoSpecial word = candidate.get(r);
-						String wordName = word.getName();
-						if (word.getCountOfLast() != 0
-								&& wordName.charAt(wordName.length() - 1) != textHuman
-										.charAt(0))
-							candidate2.add(candidate.get(r));
-						else {
-							--i;
+					if (!candidate.isEmpty()) {
+						int j = 0;
+						for (int i = 0; i < random_size; ++i) {
+							int r = random.nextInt(candidate.size());
+							WordInfoSpecial word = candidate.get(r);
+							String wordName = word.getName();
+							int lastCount = word.getCountOfLast();
+							if (lastCount != 0
+									&& wordName.charAt(wordName.length() - 1) != textHuman
+											.charAt(0))
+								candidate2.add(candidate.get(r));
+							else {
+								--i;
+								if (j > random_size && candidate2.isEmpty())
+									break;
+							}
+							++j;
 						}
 					}
 					if (!candidate2.isEmpty()) {
