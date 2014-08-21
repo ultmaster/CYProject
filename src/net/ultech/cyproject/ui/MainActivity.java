@@ -112,6 +112,7 @@ public class MainActivity extends AbsActivity {
 
 				@Override
 				public void onClick(View v) {
+					sp.edit().putBoolean(PreferenceName.BOOL_FIRSTUSE, false).commit();
 					dialog.dismiss();
 				}
 			});

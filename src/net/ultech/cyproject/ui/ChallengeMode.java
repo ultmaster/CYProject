@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
@@ -194,16 +195,21 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			textRobot = tvRobot.getText().toString().trim();
 			if (TextUtils.isEmpty(textHuman)) {
 				Toast.makeText(this, R.string.please_type_in_the_word,
-						Toast.LENGTH_LONG).show();
+						Toast.LENGTH_SHORT).show();
+			} else if (TextUtils.isEmpty(textRobot)) {
+				// FIXME: Monkey bug
+				System.out.println(textHuman);
+				System.out.println(textRobot);
+				throw new RuntimeException("How can it be empty?");
 			} else {
 				if (textHuman.charAt(0) != textRobot
 						.charAt(textRobot.length() - 1)) {
 					Toast.makeText(this, R.string.first_equal_last_error,
-							Toast.LENGTH_LONG).show();
+							Toast.LENGTH_SHORT).show();
 				} else if (textRobot.charAt(0) == textHuman.charAt(textHuman
 						.length() - 1)) {
 					Toast.makeText(this, R.string.last_diff_first_error,
-							Toast.LENGTH_LONG).show();
+							Toast.LENGTH_SHORT).show();
 				} else if (CYDbDAO.find(textHuman, mDatabase)) {
 					++scoreHuman;
 					++successAnswer;
@@ -237,7 +243,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 							Toast.makeText(this, "+" + success_plus,
 									Toast.LENGTH_SHORT).show();
 							Toast.makeText(this, R.string.next_round_reminder,
-									Toast.LENGTH_LONG).show();
+									Toast.LENGTH_SHORT).show();
 							charged += success_charged;
 							if (charged > full_charged)
 								charged = full_charged;
@@ -264,7 +270,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 						Toast.makeText(this, "+" + success_plus,
 								Toast.LENGTH_SHORT).show();
 						Toast.makeText(this, R.string.next_round_reminder,
-								Toast.LENGTH_LONG).show();
+								Toast.LENGTH_SHORT).show();
 						charged += success_charged;
 						if (charged > full_charged)
 							charged = full_charged;
@@ -277,7 +283,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 					}
 				} else {
 					Toast.makeText(this, R.string.illegal_word_error,
-							Toast.LENGTH_LONG).show();
+							Toast.LENGTH_SHORT).show();
 				}
 			}
 			break;
@@ -337,6 +343,9 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 		WordInfoSpecial chosen = wordlist.get(level - 1);
 		textRobot = chosen.getName();
 		textHuman = "";
+		// FIXME
+		if (TextUtils.isEmpty(textRobot))
+			throw new RuntimeException("Match not found. Strange...");
 		tvRobot.setText(textRobot);
 		etHuman.setText(textHuman);
 		setStatusAndLevel();
