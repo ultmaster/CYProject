@@ -240,7 +240,6 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 							first, mDatabase);
 					List<WordInfoSpecial> candidate2 = new ArrayList<WordInfoSpecial>();
 					if (!candidate.isEmpty()) {
-						// TODO: Duplicate
 						int j = 0;
 						for (int i = 0; i < random_size; ++i) {
 							int r = random.nextInt(candidate.size());
