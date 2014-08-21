@@ -194,10 +194,8 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 				Toast.makeText(this, R.string.please_type_in_the_word,
 						Toast.LENGTH_SHORT).show();
 			} else if (TextUtils.isEmpty(textRobot)) {
-				// FIXME: Monkey bug
-				System.out.println(textHuman);
-				System.out.println(textRobot);
-				throw new RuntimeException("How can it be empty?");
+				Toast.makeText(this, R.string.robot_query_failure,
+						Toast.LENGTH_LONG).show();
 			} else {
 				if (textHuman.charAt(0) != textRobot
 						.charAt(textRobot.length() - 1)) {
@@ -340,9 +338,6 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 		WordInfoSpecial chosen = wordlist.get(level - 1);
 		textRobot = chosen.getName();
 		textHuman = "";
-		// FIXME
-		if (TextUtils.isEmpty(textRobot))
-			throw new RuntimeException("Match not found. Strange...");
 		tvRobot.setText(textRobot);
 		etHuman.setText(textHuman);
 		setStatusAndLevel();
