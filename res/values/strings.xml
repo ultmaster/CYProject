@@ -62,7 +62,7 @@
     
     <string name="st_hint_name">标准模式提示</string>
     <string name="st_log_name">标准模式日志</string>
-    <string name="first_use_welcome_text">您好，欢迎使用成语接龙1.0测试版。希望您能使用愉快，并提出宝贵意见。联系方式请参见“关于我们”。谢谢。</string>
+    <string name="first_use_welcome_text">您好，欢迎使用成语接龙。希望您能使用愉快，并提出宝贵意见。联系方式请参见“关于我们”。谢谢。</string>
     <string name="first_use_accepted_welcome_text">好的，立即开始！</string>
 
     <string name="null_username">无名氏</string>
