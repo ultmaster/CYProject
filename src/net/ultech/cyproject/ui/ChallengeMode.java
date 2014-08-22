@@ -300,6 +300,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 			timer.interrupt();
 			timeRemain = 0;
 			timerOn = true;
+			btCompromise.setClickable(false);
 			Message msg = new Message();
 			msg.what = timerReact;
 			handler.sendMessage(msg);
@@ -365,6 +366,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 		setStatusAndLevel();
 		btRestart.setText(R.string.restart);
 		btOK.setClickable(true);
+		btCompromise.setClickable(true);
 		updateProgressBar();
 		timeRemain = time_limit;
 		updateTimeAppearance();
@@ -470,9 +472,9 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 						updateProgressBar();
 						new AlertDialog.Builder(ChallengeMode.this)
 								.setMessage(
-										R.string.your_score_is
+										getString(R.string.your_score_is)
 												+ Integer.toString(scoreHuman)
-												+ R.string.challenge_game_over_reminder)
+												+ getString(R.string.challenge_game_over_reminder))
 								.setPositiveButton(R.string.restart,
 										new DialogInterface.OnClickListener() {
 
