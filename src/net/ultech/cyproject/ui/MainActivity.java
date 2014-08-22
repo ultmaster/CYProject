@@ -33,7 +33,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -155,14 +154,20 @@ public class MainActivity extends AbsActivity {
 							stringBuffer = new String(buffer);
 							stringResult = stringResult + stringBuffer;
 						}
-						stringResult = stringResult.trim();
-						int newVersionCode = Integer.parseInt(stringResult);
-						sp.edit().putInt(PreferenceName.INT_LATEST_VERSION, newVersionCode).commit();
-						int versionCode = getPackageManager().getPackageInfo(
-								getPackageName(), 0).versionCode;
-						if (versionCode < newVersionCode) {
-							Message msg = new Message();
-							msg.what = UPDATE_REMINDER;
+                        stringResult = stringResult.trim();
+                        int newVersionCode = Integer.parseInt(stringResult);
+                        Log.d("UpdateChecker", "New version code: "
+                                + newVersionCode);
+                        sp.edit()
+                                .putInt(PreferenceName.INT_LATEST_VERSION,
+                                        newVersionCode).commit();
+                        int versionCode = getPackageManager().getPackageInfo(
+                                getPackageName(), 0).versionCode;
+                        Log.d("UpdateChecker", "Old version code: "
+                                + versionCode);
+                        if (versionCode < newVersionCode) {
+                            Message msg = new Message();
+                            msg.what = UPDATE_REMINDER;
 							handler.sendMessage(msg);
 						}
 					} catch (IOException e1) {

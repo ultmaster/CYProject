@@ -12,8 +12,9 @@
     <string name="contact_package_name">PackageName: net.ultech.cyproject</string>
     <string name="contact_build_target">BuildTarget: API 19</string>
     <string name="contact_min_sdk">minSDK: API 14</string>
-    <string name="contact_environment">Environment: Eclipse 2014</string>
-    <string name="contact_program_version">ProgramVersion: 1.0</string>
+    <string name="contact_environment">Environment: Eclipse 2014 (Luna)</string>
+    <string name="contact_program_version">App Version: </string>
+    <string name="contact_release_date">Release Date: </string>
     <string name="cancel">取消</string>
     <string name="ok">确定</string>
 

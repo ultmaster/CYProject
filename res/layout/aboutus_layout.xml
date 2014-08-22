@@ -60,8 +60,12 @@
             android:text="@string/contact_environment" />
 
         <TextView
-            style="@style/smallBlackText"
-            android:text="@string/contact_program_version" />
+            android:id="@+id/text_version"
+            style="@style/smallBlackText" />
+
+        <TextView
+            android:id="@+id/text_release"
+            style="@style/smallBlackText" />
 
         <View
             android:layout_width="match_parent"
