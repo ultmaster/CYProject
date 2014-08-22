@@ -104,7 +104,7 @@
     <string name="challenge_quit_reminder">您的成绩将被存档。是否真的要退出？</string>
     <string name="round_lose_proceed_reminder">抱歉，您输了，点击下一回合继续</string>
     <string name="your_score_is">你的得分为</string>
-    <string name="challenge_game_over_reminder">，此成绩将被存档。点击重新开始开始新的一轮，点击返回返回主界面。</string>
+    <string name="challenge_game_over_reminder">，此成绩将被存档。点击重新开始开始新的一轮，点击返回返回前一界面。</string>
     <string name="save_failure">存储失败</string>
     <string name="hint_no_match_found">无法找到匹配，点击确定返回标准模式。</string>
     <string name="no_word_chosen">没有选择成语。</string>
