@@ -144,5 +144,6 @@
     <string name="update_software">更新软件</string>
     <string name="are_you_willing_to_update">您是否愿意更新？</string>
     <string name="compromise">认输</string>
+    <string name="update_reminder">有新版本，请到个性设置中更新</string>
 
 </resources>

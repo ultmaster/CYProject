@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
 import net.ultech.cyproject.ui.fragment.AboutUs;
@@ -18,6 +21,7 @@ import net.ultech.cyproject.utils.AbsActivity;
 import net.ultech.cyproject.utils.Constants;
 import net.ultech.cyproject.utils.Constants.FragmentList;
 import net.ultech.cyproject.utils.Constants.PreferenceName;
+import net.ultech.cyproject.utils.Constants.UpdateRelated;
 import net.ultech.cyproject.utils.DatabaseHolder;
 import net.ultech.cyproject.utils.MainActivityStack;
 import android.annotation.SuppressLint;
@@ -29,9 +33,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -52,10 +59,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AbsActivity {
 
 	public static int RECREATE_MSG = 0;
+	public static int UPDATE_REMINDER = 1;
 
 	private String databasePath;
 	private ListView mListView;
@@ -72,18 +81,21 @@ public class MainActivity extends AbsActivity {
 	private myListAdapter mAdapter;
 
 	@SuppressLint("HandlerLeak")
-	//FIXME Handler Leak
-	//FIXME 还有一处，我找不到了
-    public Handler handler = new Handler() {
+	// FIXME Handler Leak
+	// FIXME 还有一处，我找不到了
+	public Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			if (msg.what == RECREATE_MSG)
 				recreate();
+			else if (msg.what == UPDATE_REMINDER)
+				Toast.makeText(MainActivity.this, R.string.update_reminder,
+						Toast.LENGTH_LONG).show();
 		};
 	};
 
 	@SuppressLint("SdCardPath")
-    @SuppressWarnings("deprecation")
-    @Override
+	@SuppressWarnings("deprecation")
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -110,7 +122,8 @@ public class MainActivity extends AbsActivity {
 
 				@Override
 				public void onClick(View v) {
-					sp.edit().putBoolean(PreferenceName.BOOL_FIRSTUSE, false).commit();
+					sp.edit().putBoolean(PreferenceName.BOOL_FIRSTUSE, false)
+							.commit();
 					dialog.dismiss();
 				}
 			});
@@ -122,6 +135,52 @@ public class MainActivity extends AbsActivity {
 			lp.height = getWindowManager().getDefaultDisplay().getHeight();
 			dialogWindow.setAttributes(lp);
 			dialog.show();
+		} else {
+			new Thread() {
+				public void run() {
+					InputStream is = null;
+					HttpURLConnection connection = null;
+					try {
+						// Connect Web
+						URL url = new URL(UpdateRelated.VERSION_CODE_PATH);
+						connection = (HttpURLConnection) url.openConnection();
+						connection.setReadTimeout(5000);
+						connection.setRequestMethod("GET");
+						connection.setConnectTimeout(3000);
+						is = connection.getInputStream();
+						byte[] buffer = new byte[1024];
+						String stringBuffer, stringResult;
+						stringResult = new String();
+						while (is.read(buffer) > 0) {
+							stringBuffer = new String(buffer);
+							stringResult = stringResult + stringBuffer;
+						}
+						stringResult = stringResult.trim();
+						int newVersionCode = Integer.parseInt(stringResult);
+						int versionCode = getPackageManager().getPackageInfo(
+								getPackageName(), 0).versionCode;
+						if (versionCode < newVersionCode) {
+							Message msg = new Message();
+							msg.what = UPDATE_REMINDER;
+							handler.sendMessage(msg);
+						}
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					} catch (NameNotFoundException e2) {
+						e2.printStackTrace();
+					} finally {
+						if (connection != null)
+							connection.disconnect();
+						if (is != null) {
+							try {
+								is.close();
+							} catch (IOException e3) {
+								e3.printStackTrace();
+							}
+						}
+					}
+				};
+			}.start();
 		}
 
 		databasePath = "/data/data/" + getPackageName() + "/databases/";
@@ -261,7 +320,7 @@ public class MainActivity extends AbsActivity {
 		}
 
 		@SuppressLint("ViewHolder")
-        @Override
+		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View view = View.inflate(MainActivity.this,
 					R.layout.main_list_view, null);

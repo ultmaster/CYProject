@@ -8,6 +8,7 @@ import net.ultech.cyproject.ui.preference.MyEditTextPreference;
 import net.ultech.cyproject.ui.preference.NumberPickerPreference;
 import net.ultech.cyproject.utils.Constants;
 import net.ultech.cyproject.utils.Constants.PreferenceName;
+import net.ultech.cyproject.utils.Constants.UpdateRelated;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -298,7 +299,7 @@ public class PersonalSettings extends PreferenceFragment implements
 										int which) {
 									Intent intent = new Intent(
 											"android.intent.action.VIEW",
-											Uri.parse(Constants.UPDATE_PATH));
+											Uri.parse(UpdateRelated.UPDATE_PATH));
 									startActivity(intent);
 								}
 							})
