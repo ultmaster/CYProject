@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
@@ -289,28 +290,52 @@ public class PersonalSettings extends PreferenceFragment implements
 								}
 							}).show();
 		} else if (preference == mPrefUpdateSoftware) {
-			new AlertDialog.Builder(mActivity)
-					.setMessage(R.string.are_you_willing_to_update)
-					.setPositiveButton(R.string.ok,
-							new DialogInterface.OnClickListener() {
+			int versionCode, latestVersion;
+			try {
+				versionCode = mActivity.getPackageManager().getPackageInfo(
+						mActivity.getPackageName(), 0).versionCode;
+				latestVersion = mSharedPref.getInt(
+						PreferenceName.INT_LATEST_VERSION, versionCode);
+			} catch (NameNotFoundException e) {
+				versionCode = 0;
+				latestVersion = 0;
+				e.printStackTrace();
+			}
+			if (versionCode < latestVersion) {
+				new AlertDialog.Builder(mActivity)
+						.setMessage(R.string.are_you_willing_to_update)
+						.setPositiveButton(R.string.ok,
+								new DialogInterface.OnClickListener() {
 
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									Intent intent = new Intent(
-											"android.intent.action.VIEW",
-											Uri.parse(UpdateRelated.UPDATE_PATH));
-									startActivity(intent);
-								}
-							})
-					.setNegativeButton(R.string.cancel,
-							new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										Intent intent = new Intent(
+												"android.intent.action.VIEW",
+												Uri.parse(UpdateRelated.UPDATE_PATH));
+										startActivity(intent);
+									}
+								})
+						.setNegativeButton(R.string.cancel,
+								new DialogInterface.OnClickListener() {
 
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-								}
-							}).show();
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+									}
+								}).show();
+			} else {
+				new AlertDialog.Builder(mActivity)
+						.setMessage(R.string.already_uptodate)
+						.setPositiveButton(R.string.ok,
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+									}
+								}).show();
+			}
 		}
 		return true;
 	}

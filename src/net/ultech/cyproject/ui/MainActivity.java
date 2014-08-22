@@ -157,6 +157,7 @@ public class MainActivity extends AbsActivity {
 						}
 						stringResult = stringResult.trim();
 						int newVersionCode = Integer.parseInt(stringResult);
+						sp.edit().putInt(PreferenceName.INT_LATEST_VERSION, newVersionCode).commit();
 						int versionCode = getPackageManager().getPackageInfo(
 								getPackageName(), 0).versionCode;
 						if (versionCode < newVersionCode) {
