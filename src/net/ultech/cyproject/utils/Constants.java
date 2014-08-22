@@ -30,7 +30,7 @@ public final class Constants {
 	}
 	
 	public final class UpdateRelated {
-		public final static String UPDATE_PATH = "http://www.baidu.com/";
+		public final static String UPDATE_PATH = "http://ultech.tk/cy/update.php";
 		public final static String VERSION_CODE_PATH = "http://ultech.tk/cy/version.php";
 	}
 
