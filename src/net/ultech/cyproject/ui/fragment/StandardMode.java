@@ -196,6 +196,7 @@ public class StandardMode extends Fragment implements OnClickListener {
                         textRobot = chosen.getName();
                         tvRobot.setText(textRobot);
                         etHuman.setText(textHuman);
+                        mActivity.playSound("bell");
                         writeFile("$" + "r" + "$" + textRobot + "$");
                     } else {
                         locked = true;

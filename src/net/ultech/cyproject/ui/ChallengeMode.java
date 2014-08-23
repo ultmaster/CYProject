@@ -267,6 +267,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
                         tvRobot.setText(textRobot);
                         etHuman.setText(textHuman);
                         timer.interrupt();
+                        playSound("bell");
                         timer = new TimeThread();
                         timeRemain = time_limit;
                         updateTimeAppearance();
@@ -470,6 +471,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
                     } else {
                         btRestart.setText(R.string.restart);
                         updateProgressBar();
+                        playSound("congratulations");
                         new AlertDialog.Builder(ChallengeMode.this)
                                 .setMessage(
                                         getString(R.string.your_score_is)
