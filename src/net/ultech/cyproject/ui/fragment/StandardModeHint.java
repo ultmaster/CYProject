@@ -2,12 +2,14 @@ package net.ultech.cyproject.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.bean.WordInfoSpecial;
 import net.ultech.cyproject.dao.CYDbDAO;
 import net.ultech.cyproject.ui.MainActivity;
 import net.ultech.cyproject.utils.BasicColorConstants;
 import net.ultech.cyproject.utils.Constants.FragmentList;
+import net.ultech.cyproject.utils.Constants.Mode;
 import net.ultech.cyproject.utils.DatabaseHolder;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -32,11 +34,12 @@ public class StandardModeHint extends Fragment implements OnClickListener {
     private ListView lv;
     private Button btSelect;
     private Button btFigure;
-    private List<WordInfoSpecial> candidate;
+    private List<String> candidate;
     private int shadowPosition;
     private myAdapter adapter;
-    private String first;
+    private String first, query;
     private MainActivity mActivity;
+    private int mMode;
 
     @SuppressLint("InflateParams")
     @Override
@@ -46,11 +49,23 @@ public class StandardModeHint extends Fragment implements OnClickListener {
         db = DatabaseHolder.getDatabase();
         mActivity = (MainActivity) getActivity();
         Bundle bundle = mActivity.mActivityStack.getBackBundle();
-        first = bundle.getString("first");
-        if (first != null) {
-            candidate = CYDbDAO.findByFirst(first, db);
-        } else {
-            candidate = new ArrayList<WordInfoSpecial>();
+        if (mMode == Mode.MODE_STANDARD) {
+            first = bundle.getString("first");
+            candidate = new ArrayList<String>();
+            if (first != null) {
+                for (WordInfoSpecial word : CYDbDAO.findByFirst(first, db)) {
+                    candidate.add(word.getName());
+                }
+            }
+        }
+        if (mMode == Mode.MODE_QUERY) {
+            query = bundle.getString("query");
+            if (query == null) {
+                candidate = new ArrayList<String>();
+            } else {
+                candidate = CYDbDAO.inCompleteFind(query, db);
+            }
+            getActivity().getActionBar().setTitle(R.string.query_more);
         }
         if (candidate.isEmpty()) {
             new AlertDialog.Builder(mActivity)
@@ -71,9 +86,12 @@ public class StandardModeHint extends Fragment implements OnClickListener {
             btFigure = (Button) view.findViewById(R.id.st_hint_bt_figure);
             btSelect.setOnClickListener(this);
             btFigure.setOnClickListener(this);
+            if (mMode == Mode.MODE_QUERY)
+                btFigure.setVisibility(View.GONE);
             adapter = new myAdapter();
             lv.setAdapter(adapter);
-            shadowPosition = mActivity.mActivityStack.getBackBundle().getInt("shadowPosition", -1);
+            shadowPosition = mActivity.mActivityStack.getBackBundle().getInt(
+                    "shadowPosition", -1);
             lv.setOnItemClickListener(new OnItemClickListener() {
 
                 @Override
@@ -88,7 +106,12 @@ public class StandardModeHint extends Fragment implements OnClickListener {
         return view;
     }
 
-	private class myAdapter extends BaseAdapter {
+    public StandardModeHint(int mode) {
+        super();
+        mMode = mode;
+    }
+
+    private class myAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
@@ -111,7 +134,7 @@ public class StandardModeHint extends Fragment implements OnClickListener {
             View view = View.inflate(mActivity,
                     R.layout.standard_hint_list_view, null);
             TextView tv = (TextView) view.findViewById(R.id.st_hint_tv);
-            tv.setText(candidate.get(position).getName());
+            tv.setText(candidate.get(position));
             if (shadowPosition == position)
                 view.setBackgroundColor(BasicColorConstants.colorFocused);
             else {
@@ -138,11 +161,20 @@ public class StandardModeHint extends Fragment implements OnClickListener {
                                     }
                                 }).show();
             } else {
-            	mActivity.mActivityStack.popBack();
-            	Bundle bundle = new Bundle();
-            	bundle.putString("textHuman", candidate.get(shadowPosition).getName());
-            	mActivity.mActivityStack.setBack(bundle);
-                mActivity.updateFragment();
+                if (mMode == Mode.MODE_STANDARD) {
+                    mActivity.mActivityStack.popBack();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("textHuman", candidate.get(shadowPosition));
+                    mActivity.mActivityStack.setBack(bundle);
+                    mActivity.updateFragment();
+                }
+                if (mMode == Mode.MODE_QUERY) {
+                    mActivity.mActivityStack.popBack();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("word", candidate.get(shadowPosition));
+                    mActivity.mActivityStack.setBack(bundle);
+                    mActivity.updateFragment();
+                }
             }
             break;
         case R.id.st_hint_bt_figure:
@@ -158,11 +190,13 @@ public class StandardModeHint extends Fragment implements OnClickListener {
                                     }
                                 }).show();
             } else {
-            	mActivity.mActivityStack.getBackBundle().putInt("shadowPosition", shadowPosition);
-            	Bundle bundleForQuery = new Bundle();
-            	bundleForQuery.putString("word", candidate.get(shadowPosition).getName());
-            	mActivity.mActivityStack.pushStack(bundleForQuery, mActivity.mFragments[FragmentList.QUERY_MODE]);
-            	mActivity.updateFragment();
+                mActivity.mActivityStack.getBackBundle().putInt(
+                        "shadowPosition", shadowPosition);
+                Bundle bundleForQuery = new Bundle();
+                bundleForQuery.putString("word", candidate.get(shadowPosition));
+                mActivity.mActivityStack.pushStack(bundleForQuery,
+                        mActivity.mFragments[FragmentList.QUERY_MODE]);
+                mActivity.updateFragment();
             }
             break;
         }

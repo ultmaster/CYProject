@@ -63,6 +63,7 @@
     
     <string name="st_hint_name">标准模式提示</string>
     <string name="st_log_name">标准模式日志</string>
+    <string name="query_more">请选择一个</string>
     <string name="first_use_welcome_text">您好，欢迎使用成语接龙。希望您能使用愉快，并提出宝贵意见。联系方式请参见“关于我们”。谢谢。</string>
     <string name="first_use_accepted_welcome_text">好的，立即开始！</string>
 
@@ -106,7 +107,7 @@
     <string name="your_score_is">你的得分为</string>
     <string name="challenge_game_over_reminder">，此成绩将被存档。点击重新开始开始新的一轮，点击返回返回前一界面。</string>
     <string name="save_failure">存储失败</string>
-    <string name="hint_no_match_found">无法找到匹配，点击确定返回标准模式。</string>
+    <string name="hint_no_match_found">无法找到匹配，点击确定返回。</string>
     <string name="no_word_chosen">没有选择成语。</string>
     <string name="helpfile_open_failure">帮助文档打开失败。</string>
     <string name="empty_record_reminder">记录为空</string>

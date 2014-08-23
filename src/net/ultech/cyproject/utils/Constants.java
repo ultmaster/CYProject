@@ -43,5 +43,10 @@ public final class Constants {
         public static final int ICON_ORIGINAL = 0;
         public static final int ICON_ORANGE = 1;
     }
+    
+    public final class Mode {
+        public static final int MODE_STANDARD = 0;
+        public static final int MODE_QUERY = 1;
+    }
 
 }
