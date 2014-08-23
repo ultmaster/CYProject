@@ -102,7 +102,7 @@ public class QueryMode extends Fragment implements OnClickListener {
             } else {
                 Bundle bundleHint = new Bundle();
                 bundleHint.putString("query", text);
-                StandardModeHint fragmentHint = new StandardModeHint(
+                ResultList fragmentHint = new ResultList(
                         Mode.MODE_QUERY);
                 mActivity.mActivityStack.pushStack(bundleHint, fragmentHint);
                 mActivity.updateFragment();

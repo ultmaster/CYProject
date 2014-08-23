@@ -28,7 +28,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class StandardModeHint extends Fragment implements OnClickListener {
+public class ResultList extends Fragment implements OnClickListener {
 
     private SQLiteDatabase db;
     private ListView lv;
@@ -106,7 +106,7 @@ public class StandardModeHint extends Fragment implements OnClickListener {
         return view;
     }
 
-    public StandardModeHint(int mode) {
+    public ResultList(int mode) {
         super();
         mMode = mode;
     }

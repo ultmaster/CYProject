@@ -16,7 +16,7 @@ import net.ultech.cyproject.ui.fragment.HighRecord;
 import net.ultech.cyproject.ui.fragment.PersonalSettings;
 import net.ultech.cyproject.ui.fragment.QueryMode;
 import net.ultech.cyproject.ui.fragment.StandardMode;
-import net.ultech.cyproject.ui.fragment.StandardModeHint;
+import net.ultech.cyproject.ui.fragment.ResultList;
 import net.ultech.cyproject.ui.fragment.StandardModeLog;
 import net.ultech.cyproject.utils.AbsActivity;
 import net.ultech.cyproject.utils.Constants;
@@ -476,7 +476,7 @@ public class MainActivity extends AbsActivity {
         if (id != -1)
             return mDrawerItemNames[id];
         else {
-            if (fragment instanceof StandardModeHint)
+            if (fragment instanceof ResultList)
                 return getResources().getString(R.string.st_hint_name);
             if (fragment instanceof StandardModeLog)
                 return getResources().getString(R.string.st_log_name);

@@ -229,7 +229,7 @@ public class StandardMode extends Fragment implements OnClickListener {
                         "first",
                         new String(new char[] { textRobot.charAt(textRobot
                                 .length() - 1) }));
-                StandardModeHint fragmentHint = new StandardModeHint(
+                ResultList fragmentHint = new ResultList(
                         Mode.MODE_STANDARD);
                 mActivity.mActivityStack.pushStack(bundleHint, fragmentHint);
                 mActivity.updateFragment();
