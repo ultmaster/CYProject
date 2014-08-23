@@ -16,6 +16,19 @@
             android:key="check_system_ui"
             android:title="@string/pref_system_ui" />
     </PreferenceCategory>
+    
+    <PreferenceCategory android:title="@string/sound" >
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="check_close_sfx"
+            android:title="@string/pref_close_sfx" />
+        
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="check_close_music"
+            android:title="@string/pref_close_music" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/mode_standard" >
         <net.ultech.cyproject.ui.preference.NumberPickerPreference
             android:dialogTitle="请选择难度"

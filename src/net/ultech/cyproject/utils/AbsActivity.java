@@ -6,6 +6,7 @@ import java.util.HashMap;
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.dao.CYDbOpenHelper;
 import net.ultech.cyproject.ui.ChallengeMode;
+import net.ultech.cyproject.utils.Constants.PreferenceName;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,7 +24,10 @@ public class AbsActivity extends Activity {
 	protected static CYDbOpenHelper mHelper;
 	protected static SoundPool soundPool;
 	protected static HashMap<String, Integer> soundPoolHashMap;
-	protected MediaPlayer mPlayer;
+	public MediaPlayer mPlayer;
+	public boolean isPrepared = true;
+	public boolean mUseMediaPlayer;
+	public boolean mUseSfx;
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -48,7 +52,6 @@ public class AbsActivity extends Activity {
 		soundPoolHashMap.put("congratulations",
 				soundPool.load(this, R.raw.congratulations, 1));
 		soundPoolHashMap.put("click", soundPool.load(this, R.raw.click, 1));
-		mPlayer = MediaPlayer.create(this, R.raw.bgm);
 		String theme = sp.getString("appearance", "blueandgreen");
 		if (theme.equals("blueandgreen")) {
 			setTheme(R.style.BlueAndGreenTheme);
@@ -62,34 +65,51 @@ public class AbsActivity extends Activity {
 		} else {
 			throw new IllegalStateException("Skin not found.");
 		}
+		mUseMediaPlayer = sp.getBoolean(PreferenceName.BOOL_CLOSE_MUSIC, false) ? false
+				: true;
+		mUseSfx = sp.getBoolean(PreferenceName.BOOL_CLOSE_SFX, false) ? false
+				: true;
+		if (mUseMediaPlayer) {
+			mPlayer = MediaPlayer.create(this, R.raw.bgm);
+		}
 
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
-		try {
-			mPlayer.prepare();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (mUseMediaPlayer) {
+			if (!isPrepared) {
+				try {
+					mPlayer.prepare();
+					isPrepared = true;
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			mPlayer.start();
 		}
-		mPlayer.start();
 	}
-	
+
 	@Override
 	protected void onStop() {
 		super.onStop();
-		mPlayer.stop();
+		if (mUseMediaPlayer) {
+			mPlayer.stop();
+			isPrepared = false;
+		}
 	}
 
 	public void playSound(String id) {
-		AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-		soundPool.play(soundPoolHashMap.get(id),
-				am.getStreamVolume(AudioManager.STREAM_ALARM),
-				am.getStreamVolume(AudioManager.STREAM_ALARM), 1, 0, 1.0f);
+		if (mUseSfx) {
+			AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+			soundPool.play(soundPoolHashMap.get(id),
+					am.getStreamVolume(AudioManager.STREAM_ALARM),
+					am.getStreamVolume(AudioManager.STREAM_ALARM), 1, 0, 1.0f);
+		}
 	}
 }

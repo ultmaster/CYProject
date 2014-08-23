@@ -166,6 +166,7 @@ public class StandardMode extends Fragment implements OnClickListener {
                             .show();
                 } else if (CYDbDAO.find(textHuman, mDatabase)) {
                     writeFile("$" + "h" + "$" + textHuman + "$");
+                    mActivity.playSound("bell");
                     String first = new String(
                             new char[] { textHuman.charAt(textHuman.length() - 1) });
                     List<WordInfoSpecial> candidate = CYDbDAO.findByFirst(
@@ -197,7 +198,6 @@ public class StandardMode extends Fragment implements OnClickListener {
                         textRobot = chosen.getName();
                         tvRobot.setText(textRobot);
                         etHuman.setText(textHuman);
-                        mActivity.playSound("bell");
                         writeFile("$" + "r" + "$" + textRobot + "$");
                     } else {
                         locked = true;

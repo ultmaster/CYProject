@@ -226,6 +226,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
                     Toast.makeText(this, R.string.last_diff_first_error,
                             Toast.LENGTH_SHORT).show();
                 } else if (CYDbDAO.find(textHuman, mDatabase)) {
+                	playSound("bell");
                     ++scoreHuman;
                     ++successAnswer;
                     Toast.makeText(this, R.string.plus_one, Toast.LENGTH_SHORT)
@@ -268,7 +269,6 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
                         tvRobot.setText(textRobot);
                         etHuman.setText(textHuman);
                         timer.interrupt();
-                        playSound("bell");
                         timer = new TimeThread();
                         timeRemain = time_limit;
                         updateTimeAppearance();

@@ -149,5 +149,8 @@
     <string name="update_reminder">有新版本，请到个性设置中更新</string>
     <string name="already_uptodate">应用程序已是最新。</string>
     <string name="pref_system_ui">使用原生设置界面</string>
+    <string name="sound">声音</string>
+    <string name="pref_close_sfx">关闭音效</string>
+    <string name="pref_close_music">关闭音乐</string>
 
 </resources>

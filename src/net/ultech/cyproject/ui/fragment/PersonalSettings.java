@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
@@ -42,6 +43,8 @@ public class PersonalSettings extends PreferenceFragment implements
 	private String mTimeOrLife;
 	private String mAppearance;
 	private boolean mUseSystemUi;
+	private boolean mCloseSfx;
+	private boolean mCloseMusic;
 
 	private SharedPreferences mSharedPref;
 	private MyEditTextPreference mPrefUsername;
@@ -52,6 +55,8 @@ public class PersonalSettings extends PreferenceFragment implements
 	private Preference mPrefEmptyRecord;
 	private Preference mPrefUpdateSoftware;
 	private CheckBoxPreference mPrefSystemUi;
+	private CheckBoxPreference mPrefCloseSfx;
+	private CheckBoxPreference mPrefCloseMusic;
 	private MainActivity mActivity;
 
 	@Override
@@ -109,6 +114,18 @@ public class PersonalSettings extends PreferenceFragment implements
 		mPrefSystemUi = (CheckBoxPreference) findPreference("check_system_ui");
 		mPrefSystemUi.setOnPreferenceChangeListener(this);
 		Log.d("Settings", "use_system_ui成功加载");
+
+		mCloseSfx = mSharedPref
+				.getBoolean(PreferenceName.BOOL_CLOSE_SFX, false);
+		mPrefCloseSfx = (CheckBoxPreference) findPreference("check_close_sfx");
+		mPrefCloseSfx.setOnPreferenceChangeListener(this);
+		Log.d("Settings", "close_sfx成功加载");
+
+		mCloseMusic = mSharedPref.getBoolean(PreferenceName.BOOL_CLOSE_MUSIC,
+				false);
+		mPrefCloseMusic = (CheckBoxPreference) findPreference("check_close_music");
+		mPrefCloseMusic.setOnPreferenceChangeListener(this);
+		Log.d("Settings", "close_music成功加载");
 
 		mPrefEmptyLog = (Preference) findPreference(mActivity
 				.getString(R.string.pref_key_empty_log));
@@ -223,7 +240,39 @@ public class PersonalSettings extends PreferenceFragment implements
 				msg.what = MainActivity.THEME_CHANGE;
 				mActivity.handler.sendMessageDelayed(msg, 1000);
 			}
-
+		} else if (preference == mPrefCloseSfx) {
+			mCloseSfx = (Boolean) newValue;
+			mSharedPref.edit()
+					.putBoolean(PreferenceName.BOOL_CLOSE_SFX, mCloseSfx)
+					.commit();
+			mActivity.mUseSfx = mCloseSfx ? false : true;
+		} else if (preference == mPrefCloseMusic) {
+			mCloseMusic = (Boolean) newValue;
+			mSharedPref.edit()
+					.putBoolean(PreferenceName.BOOL_CLOSE_MUSIC, mCloseMusic)
+					.commit();
+			mActivity.mUseMediaPlayer = mCloseMusic ? false : true;
+			if (mCloseMusic) {
+				try {
+					mActivity.mPlayer.stop();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					mActivity.mPlayer = MediaPlayer
+							.create(mActivity, R.raw.bgm);
+					mActivity.isPrepared = true;
+					mActivity.mPlayer.start();
+				} catch (Exception e) {
+					e.printStackTrace();
+					Toast.makeText(mActivity, R.string.is_going_to_restart,
+							Toast.LENGTH_LONG).show();
+					Message msg = new Message();
+					msg.what = MainActivity.RECREATE;
+					mActivity.handler.sendMessageDelayed(msg, 1000);
+				}
+			}
 		}
 		return true;
 	}
