@@ -67,6 +67,7 @@ public class QueryMode extends Fragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+    	mActivity.playSound("click");
         switch (v.getId()) {
         case R.id.qu_bt_ok:
             String text = etWord.getText().toString().trim();

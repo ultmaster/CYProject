@@ -205,6 +205,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+    	playSound("click");
         switch (v.getId()) {
         case R.id.ch_bt_ok:
             textHuman = etHuman.getText().toString().trim();

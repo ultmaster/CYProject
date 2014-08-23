@@ -257,6 +257,7 @@ public class MainActivity extends AbsActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                     int position, long id) {
+            	playSound("click");
                 switch (position) {
                 case FragmentList.STANDARD_MODE:
                 case FragmentList.QUERY_MODE:
@@ -330,6 +331,7 @@ public class MainActivity extends AbsActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	playSound("click");
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
                 mDrawerLayout.closeDrawers();

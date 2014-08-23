@@ -147,6 +147,7 @@ public class ResultList extends Fragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+    	mActivity.playSound("click");
         switch (v.getId()) {
         case R.id.st_hint_bt_select:
             if (shadowPosition == -1) {

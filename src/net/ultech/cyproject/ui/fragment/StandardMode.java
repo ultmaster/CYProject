@@ -143,6 +143,7 @@ public class StandardMode extends Fragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+    	mActivity.playSound("click");
         switch (v.getId()) {
         case R.id.st_bt_ok:
             textHuman = etHuman.getText().toString().trim();

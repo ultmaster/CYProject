@@ -44,6 +44,7 @@ public class AbsActivity extends Activity {
 		soundPoolHashMap.put("bell", soundPool.load(this, R.raw.bell, 1));
 		soundPoolHashMap.put("congratulations",
 				soundPool.load(this, R.raw.congratulations, 1));
+		soundPoolHashMap.put("click", soundPool.load(this, R.raw.click, 1));
 		String theme = sp.getString("appearance", "blueandgreen");
 		if (theme.equals("blueandgreen")) {
 			setTheme(R.style.BlueAndGreenTheme);

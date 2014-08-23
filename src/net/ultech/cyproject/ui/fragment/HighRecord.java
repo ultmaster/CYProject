@@ -10,6 +10,7 @@ import java.util.List;
 
 import net.ultech.cyproject.R;
 import net.ultech.cyproject.bean.RecordInfo;
+import net.ultech.cyproject.ui.MainActivity;
 import net.ultech.cyproject.utils.BasicColorConstants;
 import net.ultech.cyproject.utils.Constants;
 import android.annotation.SuppressLint;
@@ -170,6 +171,7 @@ public class HighRecord extends Fragment implements OnItemClickListener,
 
 	@Override
 	public void onClick(View v) {
+		((MainActivity) getActivity()).playSound("click");
 		switch (v.getId()) {
 		case R.id.re_bt_edit:
 			if (editState) {
