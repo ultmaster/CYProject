@@ -19,6 +19,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -40,6 +41,7 @@ public class PersonalSettings extends PreferenceFragment implements
     private String mUsername;
     private String mTimeOrLife;
     private String mAppearance;
+    private boolean mUseSystemUi;
 
     private SharedPreferences mSharedPref;
     private MyEditTextPreference mPrefUsername;
@@ -49,6 +51,7 @@ public class PersonalSettings extends PreferenceFragment implements
     private Preference mPrefEmptyLog;
     private Preference mPrefEmptyRecord;
     private Preference mPrefUpdateSoftware;
+    private CheckBoxPreference mPrefSystemUi;
     private MainActivity mActivity;
 
     @Override
@@ -101,6 +104,12 @@ public class PersonalSettings extends PreferenceFragment implements
         mPrefAppearance.setSummary(convertAppearance(mAppearance));
         Log.d("Settings", "appearance成功加载");
 
+        mUseSystemUi = mSharedPref.getBoolean(PreferenceName.BOOL_SYSTEM_UI,
+                true);
+        mPrefSystemUi = (CheckBoxPreference) findPreference("check_system_ui");
+        mPrefSystemUi.setOnPreferenceChangeListener(this);
+        Log.d("Settings", "use_system_ui成功加载");
+
         mPrefEmptyLog = (Preference) findPreference(mActivity
                 .getString(R.string.pref_key_empty_log));
         mPrefEmptyLog.setOnPreferenceClickListener(this);
@@ -116,8 +125,10 @@ public class PersonalSettings extends PreferenceFragment implements
         mPrefUpdateSoftware.setOnPreferenceClickListener(this);
         Log.d("Settings", "updatesoftware成功加载");
 
-        PreferenceScreen ps = getPreferenceScreen();
-        // setLayoutResource(ps);
+        if (!mSharedPref.getBoolean(PreferenceName.BOOL_SYSTEM_UI, true)) {
+            PreferenceScreen ps = getPreferenceScreen();
+            setLayoutResource(ps);
+        }
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -183,31 +194,32 @@ public class PersonalSettings extends PreferenceFragment implements
                     .putString(PreferenceName.STRING_TIME_OR_LIFE, mTimeOrLife)
                     .commit();
             preference.setSummary(convertTimeOrLife(mTimeOrLife));
+        } else if (preference == mPrefSystemUi) {
+            mUseSystemUi = (Boolean) newValue;
+            mSharedPref.edit()
+                    .putBoolean(PreferenceName.BOOL_SYSTEM_UI, mUseSystemUi)
+                    .commit();
+            mActivity.handler.sendEmptyMessage(MainActivity.RELOAD_SETTINGS);
         } else if (preference == mPrefAppearance) {
             mAppearance = (String) newValue;
             System.out.println(mAppearance);
-            mSharedPref.edit()
-                    .putString(PreferenceName.STRING_APPEARANCE, mAppearance)
-                    .commit();
-            preference.setSummary(convertAppearance(mAppearance));
-            Toast.makeText(mActivity,
-                    mActivity.getString(R.string.is_going_to_restart),
-                    Toast.LENGTH_LONG).show();
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(1000);
-                        Message msg = new Message();
-                        msg.arg1 = newValue.equals("") ? Icons.ICON_ORANGE
-                                : Icons.ICON_ORIGINAL;
-                        msg.what = MainActivity.THEME_CHANGE;
-                        mActivity.handler.sendMessage(msg);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }.start();
+            if (!mAppearance.equals(mSharedPref.getString(
+                    PreferenceName.STRING_APPEARANCE, null))) {
+                mSharedPref
+                        .edit()
+                        .putString(PreferenceName.STRING_APPEARANCE,
+                                mAppearance).commit();
+                preference.setSummary(convertAppearance(mAppearance));
+                Toast.makeText(mActivity,
+                        mActivity.getString(R.string.is_going_to_restart),
+                        Toast.LENGTH_LONG).show();
+                Message msg = new Message();
+                msg.arg1 = mAppearance.equals("yellowandorange") ? Icons.ICON_ORANGE
+                        : Icons.ICON_ORIGINAL;
+                msg.what = MainActivity.THEME_CHANGE;
+                mActivity.handler.sendMessageDelayed(msg, 1000);
+            }
+
         }
         return true;
     }
@@ -232,7 +244,7 @@ public class PersonalSettings extends PreferenceFragment implements
             return (mActivity.getString(R.string.pref_at_present) + mActivity
                     .getString(R.string.dark_ocean_skin));
         }
-        throw new RuntimeException("Skin not found");
+        throw new IllegalStateException("Skin not found");
     }
 
     @Override
@@ -301,9 +313,7 @@ public class PersonalSettings extends PreferenceFragment implements
                 latestVersion = mSharedPref.getInt(
                         PreferenceName.INT_LATEST_VERSION, versionCode);
             } catch (NameNotFoundException e) {
-                versionCode = 0;
-                latestVersion = 0;
-                e.printStackTrace();
+                throw new AssertionError("Alien attack detected.");
             }
             if (versionCode < latestVersion) {
                 new AlertDialog.Builder(mActivity)

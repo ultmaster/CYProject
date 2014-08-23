@@ -4,12 +4,17 @@
     <PreferenceCategory android:title="@string/appearance" >
         <ListPreference
             android:dialogTitle="更改外观"
-            android:key="list_change_appearance"
             android:entries="@array/appearance_entires"
             android:entryValues="@array/appearance_value_entires"
+            android:key="list_change_appearance"
             android:negativeButtonText="@string/cancel"
             android:positiveButtonText="@string/ok"
             android:title="更改外观" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="check_system_ui"
+            android:title="@string/pref_system_ui" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/mode_standard" >
         <net.ultech.cyproject.ui.preference.NumberPickerPreference

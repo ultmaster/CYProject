@@ -70,6 +70,7 @@ public class MainActivity extends AbsActivity {
 
     public static int THEME_CHANGE = 0;
     public static int UPDATE_REMINDER = 1;
+    public static int RELOAD_SETTINGS = 2;
 
     private String databasePath;
     private ListView mListView;
@@ -103,7 +104,7 @@ public class MainActivity extends AbsActivity {
                 pm.setComponentEnabledSetting(
                         new ComponentName(MainActivity.this,
                                 Icons.ICON_ORANGE_ACTIVITY_NAME),
-                        icon == Icons.ICON_ORIGINAL ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                        icon == Icons.ICON_ORANGE ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
                                 : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                         PackageManager.DONT_KILL_APP);
                 Intent i = new Intent(Intent.ACTION_MAIN);
@@ -116,9 +117,15 @@ public class MainActivity extends AbsActivity {
                     }
                 }
                 recreate();
-            } else if (msg.what == UPDATE_REMINDER)
+            } else if (msg.what == UPDATE_REMINDER) {
                 Toast.makeText(MainActivity.this, R.string.update_reminder,
                         Toast.LENGTH_LONG).show();
+            } else if (msg.what == RELOAD_SETTINGS) {
+                PersonalSettings settings = new PersonalSettings();
+                mFragments[FragmentList.PERSONAL_SETTINGS] = settings;
+                mManager.beginTransaction()
+                        .replace(R.id.main_content_frame, settings).commit();
+            }
         };
     };
 
@@ -236,7 +243,7 @@ public class MainActivity extends AbsActivity {
         mFragments[FragmentList.ABOUT_US] = new AboutUs();
         mFragments[FragmentList.PERSONAL_SETTINGS] = new PersonalSettings();
         int lastFragment = sp.getInt(PreferenceName.INT_LAST_FRAGMENT,
-                FragmentList.ABOUT_US);
+                FragmentList.HELP);
         mActivityStack.pushStack(null, mFragments[lastFragment], -1);
         fragmentIndicator = lastFragment;
         updateFragment();

@@ -28,6 +28,7 @@ public final class Constants {
         public static final String STRING_APPEARANCE = "appearance";
         public static final String INT_LAST_FRAGMENT = "last_fragment";
         public static final String INT_LATEST_VERSION = "latest_version";
+        public static final String BOOL_SYSTEM_UI = "use_system_ui";
     }
 
     public final class UpdateRelated {
