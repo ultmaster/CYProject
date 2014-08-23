@@ -7,7 +7,9 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="21" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 
     <application
         android:allowBackup="true"
@@ -15,17 +17,41 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="net.ultech.cyproject.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity-alias
+            android:name=".ui.MainActivity-Original"
+            android:enabled="true"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:targetActivity=".ui.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
+        <activity-alias
+            android:name=".ui.MainActivity-Orange"
+            android:enabled="false"
+            android:icon="@drawable/ic_launcher_orange"
+            android:label="@string/app_name"
+            android:targetActivity=".ui.MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
         <activity
-            android:name="net.ultech.cyproject.ui.ChallengeMode"
+            android:name=".ui.ChallengeMode"
             android:label="@string/challenge_mode_name"
             android:screenOrientation="portrait" >
         </activity>
