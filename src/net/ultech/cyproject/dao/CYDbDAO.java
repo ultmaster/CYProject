@@ -50,13 +50,26 @@ public class CYDbDAO {
     }
 
     public static List<String> inCompleteFind(String text, SQLiteDatabase db) {
-        Cursor cursor = db.rawQuery("SELECT name FROM CY where name LIKE '"
-                + text + "%'", null);
-        List<String> result = new ArrayList<String>();
-        while (cursor.moveToNext()) {
-            result.add(cursor.getString(0));
+        StringBuilder sb = new StringBuilder("'%");
+        for (char c : text.toCharArray()) {
+            sb.append(c).append('%');
         }
-        cursor.close();
+        sb.append('\'');
+        Cursor cursor1 = db.rawQuery("SELECT name FROM CY where name LIKE '"
+                + text + "%'", null);
+        Cursor cursor2 = db.rawQuery("SELECT name FROM CY where name LIKE "
+                + sb.toString(), null);
+        List<String> result = new ArrayList<String>();
+        while (cursor1.moveToNext()) {
+            result.add(cursor1.getString(0));
+        }
+        while (cursor2.moveToNext()) {
+            String temp = cursor2.getString(0);
+            if (!result.contains(temp)) {
+                result.add(temp);
+            }
+        }
+        cursor2.close();
         return result;
     }
 
