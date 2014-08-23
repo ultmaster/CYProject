@@ -1,5 +1,6 @@
 package net.ultech.cyproject.utils;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import net.ultech.cyproject.R;
@@ -10,6 +11,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ public class AbsActivity extends Activity {
 	protected static CYDbOpenHelper mHelper;
 	protected static SoundPool soundPool;
 	protected static HashMap<String, Integer> soundPoolHashMap;
+	protected MediaPlayer mPlayer;
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -45,6 +48,7 @@ public class AbsActivity extends Activity {
 		soundPoolHashMap.put("congratulations",
 				soundPool.load(this, R.raw.congratulations, 1));
 		soundPoolHashMap.put("click", soundPool.load(this, R.raw.click, 1));
+		mPlayer = MediaPlayer.create(this, R.raw.bgm);
 		String theme = sp.getString("appearance", "blueandgreen");
 		if (theme.equals("blueandgreen")) {
 			setTheme(R.style.BlueAndGreenTheme);
@@ -61,6 +65,25 @@ public class AbsActivity extends Activity {
 
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		try {
+			mPlayer.prepare();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		mPlayer.start();
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		mPlayer.stop();
 	}
 
 	public void playSound(String id) {
