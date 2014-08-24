@@ -15,6 +15,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 public class AbsActivity extends Activity {
@@ -25,7 +26,7 @@ public class AbsActivity extends Activity {
 	protected static SoundPool soundPool;
 	protected static HashMap<String, Integer> soundPoolHashMap;
 	public MediaPlayer mPlayer;
-	public boolean isPrepared = true;
+	public boolean isPrepared;
 	public boolean mUseMediaPlayer;
 	public boolean mUseSfx;
 
@@ -69,9 +70,7 @@ public class AbsActivity extends Activity {
 				: true;
 		mUseSfx = sp.getBoolean(PreferenceName.BOOL_CLOSE_SFX, false) ? false
 				: true;
-		if (mUseMediaPlayer) {
-			mPlayer = MediaPlayer.create(this, R.raw.bgm);
-		}
+		initializeBgm();
 
 		getActionBar().setHomeButtonEnabled(true);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,28 +79,13 @@ public class AbsActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		if (mUseMediaPlayer) {
-			if (!isPrepared) {
-				try {
-					mPlayer.prepare();
-					isPrepared = true;
-				} catch (IllegalStateException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			mPlayer.start();
-		}
+		playBgm();
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		if (mUseMediaPlayer) {
-			mPlayer.stop();
-			isPrepared = false;
-		}
+		stopBgm();
 	}
 
 	public void playSound(String id) {
@@ -111,5 +95,42 @@ public class AbsActivity extends Activity {
 					am.getStreamVolume(AudioManager.STREAM_ALARM),
 					am.getStreamVolume(AudioManager.STREAM_ALARM), 1, 0, 1.0f);
 		}
+	}
+
+	public void initializeBgm() {
+		if (mUseMediaPlayer) {
+			mPlayer = MediaPlayer.create(this, R.raw.bgm);
+			mPlayer.setLooping(true);
+			isPrepared = true;
+		}
+	}
+
+	public void playBgm() {
+		if (mUseMediaPlayer) {
+			Log.i("MediaPlayer", "START PLAYING");
+			if (!isPrepared) {
+				try {
+					isPrepared = true;
+					mPlayer.prepare();
+				} catch (Exception e) {
+					initializeBgm();
+					try {
+						mPlayer.prepare();
+					} catch (IllegalStateException e1) {
+					} catch (IOException e1) {
+					}
+				}
+			}
+			mPlayer.start();
+		}
+	}
+
+	public void stopBgm() {
+		try {
+			Log.i("MediaPlayer", "STOP PLAYING");
+			mPlayer.stop();
+		} catch (Exception e) {
+		}
+		isPrepared = false;
 	}
 }

@@ -16,7 +16,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
@@ -168,7 +167,10 @@ public class PersonalSettings extends PreferenceFragment implements
 		} else {
 			if (preference.getKey().contains("empty")) {
 				preference.setLayoutResource(R.layout.pref_item_highlight);
-			} else {
+			}/* FIXME: Why does the new style does not work?
+			 * else if (preference instanceof CheckBoxPreference) {
+			 * preference.setLayoutResource(R.layout.pref_item_checkbox); }
+			 */else {
 				preference.setLayoutResource(R.layout.pref_item);
 			}
 		}
@@ -253,17 +255,11 @@ public class PersonalSettings extends PreferenceFragment implements
 					.commit();
 			mActivity.mUseMediaPlayer = mCloseMusic ? false : true;
 			if (mCloseMusic) {
-				try {
-					mActivity.mPlayer.stop();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				mActivity.stopBgm();
 			} else {
 				try {
-					mActivity.mPlayer = MediaPlayer
-							.create(mActivity, R.raw.bgm);
-					mActivity.isPrepared = true;
-					mActivity.mPlayer.start();
+					mActivity.initializeBgm();
+					mActivity.playBgm();
 				} catch (Exception e) {
 					e.printStackTrace();
 					Toast.makeText(mActivity, R.string.is_going_to_restart,
