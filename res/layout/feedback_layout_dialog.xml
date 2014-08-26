@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <LinearLayout
+        style="?attr/LayoutMarginSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/medium_smallBlackText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.9"
+            android:text="@string/feedback_hint" />
+
+        <EditText
+            android:id="@+id/fb_message"
+            style="@style/mediumBlackEditText"
+            android:singleLine="false"
+            android:maxLines="5" />
+    </LinearLayout>
+
+</RelativeLayout>

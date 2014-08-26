@@ -15,8 +15,8 @@ import net.ultech.cyproject.ui.fragment.Help;
 import net.ultech.cyproject.ui.fragment.HighRecord;
 import net.ultech.cyproject.ui.fragment.PersonalSettings;
 import net.ultech.cyproject.ui.fragment.QueryMode;
-import net.ultech.cyproject.ui.fragment.StandardMode;
 import net.ultech.cyproject.ui.fragment.ResultList;
+import net.ultech.cyproject.ui.fragment.StandardMode;
 import net.ultech.cyproject.ui.fragment.StandardModeLog;
 import net.ultech.cyproject.utils.AbsActivity;
 import net.ultech.cyproject.utils.Constants;
@@ -28,6 +28,7 @@ import net.ultech.cyproject.utils.DatabaseHolder;
 import net.ultech.cyproject.utils.MainActivityStack;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -35,6 +36,7 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -47,6 +49,7 @@ import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -63,6 +66,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -482,6 +486,45 @@ public class MainActivity extends AbsActivity {
 			return true;
 		}
 		// Handle action buttons
+		if (item.getItemId() == R.id.menu_fb) {
+			View view = View.inflate(this, R.layout.feedback_layout_dialog,
+					null);
+			final EditText etMessage = (EditText) view
+					.findViewById(R.id.fb_message);
+			if (mActivityStack.getBackFragment() instanceof StandardMode) {
+				StandardMode sMode = (StandardMode) mActivityStack
+						.getBackFragment();
+				etMessage.setText(sMode.getHumanText());
+			}
+			new AlertDialog.Builder(this)
+					.setTitle(R.string.reminder_info_title)
+					.setView(view)
+					.setPositiveButton(R.string.ok,
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									String message = etMessage.getText()
+											.toString();
+									if (TextUtils.isEmpty(message)) {
+										Toast.makeText(getApplicationContext(),
+												R.string.empty_feedback,
+												Toast.LENGTH_SHORT).show();
+									} else {
+										// TODO: HANDLE MESSAGE
+									}
+								}
+							})
+					.setNegativeButton(R.string.back,
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+								}
+							}).show();
+		}
 		return super.onOptionsItemSelected(item);
 	}
 

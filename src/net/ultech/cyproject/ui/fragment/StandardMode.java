@@ -27,8 +27,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
@@ -64,6 +62,10 @@ public class StandardMode extends Fragment implements OnClickListener {
 
 	public void setConfirmText(String text) {
 		textHuman = text;
+	}
+	
+	public String getHumanText() {
+		return etHuman.getText().toString();
 	}
 
 	@SuppressLint("InflateParams")

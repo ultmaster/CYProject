@@ -153,5 +153,7 @@
     <string name="pref_close_sfx">关闭音效</string>
     <string name="pref_close_music">关闭音乐</string>
     <string name="feedback">反馈</string>
+    <string name="feedback_hint">请输入反馈信息：</string>
+    <string name="empty_feedback">反馈信息为空</string>
 
 </resources>
