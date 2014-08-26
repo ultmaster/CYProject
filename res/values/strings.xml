@@ -152,5 +152,6 @@
     <string name="sound">声音</string>
     <string name="pref_close_sfx">关闭音效</string>
     <string name="pref_close_music">关闭音乐</string>
+    <string name="feedback">反馈</string>
 
 </resources>
