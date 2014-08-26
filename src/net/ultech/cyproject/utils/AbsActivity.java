@@ -66,7 +66,7 @@ public class AbsActivity extends Activity {
 		} else {
 			throw new IllegalStateException("Skin not found.");
 		}
-		mUseMediaPlayer = sp.getBoolean(PreferenceName.BOOL_CLOSE_MUSIC, false) ? false
+		mUseMediaPlayer = sp.getBoolean(PreferenceName.BOOL_CLOSE_MUSIC, true) ? false
 				: true;
 		mUseSfx = sp.getBoolean(PreferenceName.BOOL_CLOSE_SFX, false) ? false
 				: true;
