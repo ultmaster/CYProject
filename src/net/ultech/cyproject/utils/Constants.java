@@ -38,7 +38,7 @@ public final class Constants {
 		public final static String UPDATE_PATH = "http://ultech.tk/cy/update.php";
 		public final static String VERSION_CODE_PATH = "http://ultech.tk/cy/version.php";
 		public final static String FEEDBACK_PATH = "http://ultech.tk/cy/feedback.php";
-		public final static String RELEASE_DATE = "2014/8/22";
+		public final static String RELEASE_DATE = "2014/8/27";
 	}
 
 	public final class Icons {

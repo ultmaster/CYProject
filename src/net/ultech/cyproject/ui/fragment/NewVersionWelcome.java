@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.AnimationSet;
 import android.widget.TextView;
 
 public class NewVersionWelcome extends Fragment implements OnTouchListener {
