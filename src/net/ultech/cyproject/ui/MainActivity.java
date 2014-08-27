@@ -584,6 +584,7 @@ public class MainActivity extends AbsActivity {
         // XXX 在我手机上略恶心，永远是那个样子。模拟器就没问题。
         new Thread() {
             public void run() {
+                boolean success = false;
                 try {
                     HttpPost post = new HttpPost(UpdateRelated.FEEDBACK_PATH);
                     params.add(new BasicNameValuePair("content",
@@ -596,21 +597,37 @@ public class MainActivity extends AbsActivity {
                         Log.v("Feedback", "Feedback succeed");
                         Log.v("Feedback",
                                 EntityUtils.toString(response.getEntity()));
+                        success = true;
                     } else {
                         Log.e("Feedback", "Status code: "
                                 + response.getStatusLine().getStatusCode());
-                        throw new RuntimeException("Network errors");
+                        throw new RuntimeException("Wrong response code.");
                         // TODO 错误处理
-                        // TODO Bump to version 4
+                        // TODO Bump to version 1.3
                     }
 
                 } catch (Exception e) {
                     Log.e("Feedback", "Feedback failed, due to:");
                     e.printStackTrace();
+                } finally {
+                    showToastOnUiThread(success);
                 }
 
             }
         }.start();
+    }
+
+    private void showToastOnUiThread(final boolean success) {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(
+                        MainActivity.this,
+                        success ? R.string.feedback_succeed
+                                : R.string.feedback_fail, Toast.LENGTH_LONG)
+                        .show();
+            }
+        });
     }
 
     private void initiallizeVersionCode() {

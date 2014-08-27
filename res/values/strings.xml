@@ -26,7 +26,6 @@
         <item>@string/time</item>
         <item>@string/life</item>
     </string-array>
-    
     <string-array name="appearance_entires">
         <item>@string/blue_and_green_skin</item>
         <item>@string/yellow_and_orange_skin</item>
@@ -37,7 +36,6 @@
         <item>yellowandorange</item>
         <item>darkocean</item>
     </string-array>
-    
     <string-array name="drawer_items">
         <item>@string/mode_standard</item>
         <item>@string/mode_challenge</item>
@@ -47,26 +45,26 @@
         <item>请求帮助</item>
         <item>关于我们</item>
     </string-array>
+    <string-array name="new_version_features">
+        <item>本版本新增反馈功能，遇到程序崩溃或者成语库的问题可以点击右上角反馈按钮告诉我们！</item>
+        <item>本版本亦自带背景音乐及点击音效（默认关闭），可以在设置中自由开关。</item>
+    </string-array>
 
     <string name="blue_and_green_skin">缤纷蓝绿</string>
     <string name="yellow_and_orange_skin">绚丽橙黄</string>
     <string name="dark_ocean_skin">夜间深海</string>
-    
     <string name="bg_string_color_blue">#00d2ff</string>
     <string name="bg_string_color_red">#e33c3c</string>
-    
     <string name="yo_string_color_blue">#ffae00</string>
     <string name="yo_string_color_red">#ab29f6</string>
-    
     <string name="dk_string_color_blue">#b8d0e6</string>
     <string name="dk_string_color_red">#ceb8e6</string>
-    
     <string name="st_hint_name">标准模式提示</string>
     <string name="st_log_name">标准模式日志</string>
     <string name="query_more">请选择一个</string>
+    <string name="new_version_welcome_title">新增功能</string>
     <string name="first_use_welcome_text">您好，欢迎使用成语接龙。希望您能使用愉快，并提出宝贵意见。联系方式请参见“关于我们”。谢谢。</string>
     <string name="first_use_accepted_welcome_text">好的，立即开始！</string>
-
     <string name="null_username">无名氏</string>
     <string name="pref_username_dialog_hint">请输入默认用户名：（不能为空，不能含有$字符）</string>
     <string name="pref_at_present">目前：</string>
@@ -159,5 +157,7 @@
     <string name="feedback_contact_hint">Email/QQ/Tel</string>
     <string name="empty_feedback">反馈信息为空</string>
     <string name="click_to_continue">触摸以继续</string>
+    <string name="feedback_succeed">反馈成功！感谢您的支持</string>
+    <string name="feedback_fail">抱歉，反馈失败，请稍后再尝试</string>
 
 </resources>
