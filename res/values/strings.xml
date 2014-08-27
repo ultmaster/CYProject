@@ -97,6 +97,7 @@
     <string name="next_round">下一回合</string>
     <string name="next_round_reminder">您赢了，点下一回合</string>
     <string name="illegal_word_error">该成语不在词典中</string>
+    <string name="illegal_word_error_plus_feedback">该成语不在词典中，如有误报请反馈</string>
     <string name="restart">重新开始</string>
     <string name="challenge_restart_reminder">您的成绩将被存档。是否真的要重新开始挑战模式？</string>
     <string name="round">回合</string>
@@ -157,5 +158,6 @@
     <string name="feedback_contact">联系方式（可选）：</string>
     <string name="feedback_contact_hint">Email/QQ/Tel</string>
     <string name="empty_feedback">反馈信息为空</string>
+    <string name="click_to_continue">触摸以继续</string>
 
 </resources>

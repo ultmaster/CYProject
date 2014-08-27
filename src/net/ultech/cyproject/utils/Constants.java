@@ -31,6 +31,7 @@ public final class Constants {
 		public static final String BOOL_SYSTEM_UI = "use_system_ui";
 		public static final String BOOL_CLOSE_SFX = "close_sfx";
 		public static final String BOOL_CLOSE_MUSIC = "close_music";
+		public static final String INT_SAVED_VERSION = "last_version";
 	}
 
 	public final class UpdateRelated {

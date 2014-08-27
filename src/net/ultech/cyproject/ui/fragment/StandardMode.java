@@ -210,7 +210,7 @@ public class StandardMode extends Fragment implements OnClickListener {
 								.show();
 					}
 				} else {
-					Toast.makeText(getActivity(), R.string.illegal_word_error,
+					Toast.makeText(getActivity(), R.string.illegal_word_error_plus_feedback,
 							Toast.LENGTH_LONG).show();
 				}
 			}

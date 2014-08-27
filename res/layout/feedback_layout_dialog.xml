@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content" >
 
-    <LinearLayout
-        style="?attr/LayoutMarginSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+	<LinearLayout
+		style="?attr/LayoutMarginSmall"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical" >
 
-        <TextView
-            style="@style/medium_smallBlackText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0.9"
-            android:text="@string/feedback_hint" />
+		<TextView
+			style="@style/medium_smallBlackText"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:alpha="0.9"
+			android:text="@string/feedback_hint" />
 
-        <EditText
-            android:id="@+id/fb_message"
-            style="@style/mediumBlackEditText"
-            android:maxLines="5"
-            android:singleLine="false" />
+		<EditText
+			android:id="@+id/fb_message"
+			style="@style/mediumBlackEditText"
+			android:maxLines="5"
+			android:singleLine="false" />
 
-        <TextView
-            style="@style/medium_smallBlackText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0.9"
-            android:text="@string/feedback_contact" />
+		<TextView
+			style="@style/medium_smallBlackText"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="15dp"
+			android:alpha="0.9"
+			android:text="@string/feedback_contact" />
 
-        <EditText
-            android:id="@+id/fb_contact"
-            style="@style/mediumBlackEditText"
-            android:hint="@string/feedback_contact_hint"
-            android:singleLine="true" />
-    </LinearLayout>
+		<EditText
+			android:id="@+id/fb_contact"
+			style="@style/mediumBlackEditText"
+			android:hint="@string/feedback_contact_hint"
+			android:singleLine="true" />
+	</LinearLayout>
 
 </RelativeLayout>
