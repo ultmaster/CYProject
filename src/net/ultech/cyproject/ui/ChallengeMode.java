@@ -463,7 +463,7 @@ public class ChallengeMode extends AbsActivity implements OnClickListener {
                     textRobot = tvRobot.getText().toString().trim();
                     charged--;
                     btOK.setClickable(false);
-                    if (charged != 0) {
+                    if (charged > 0) {
                         btRestart.setText(R.string.next_round);
                         Toast.makeText(ChallengeMode.this,
                                 R.string.round_lose_proceed_reminder,
